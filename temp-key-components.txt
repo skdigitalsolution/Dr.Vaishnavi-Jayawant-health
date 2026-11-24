@@ -1,0 +1,828 @@
+﻿import { motion } from 'framer-motion'
+import { CalendarDays, CircleCheck, Clock, Hourglass, Languages, MonitorPlay } from 'lucide-react'
+import { bonusResources } from '../../config/bonuses'
+import { registrationPoliciesReady } from '../../config/legal'
+import webinarConfig from '../../config/webinar'
+import useWebinarRegistration from '../../hooks/useWebinarRegistration'
+import CountdownTimer from './CountdownTimer'
+import PaymentTrust from './PaymentTrust'
+import RegistrationButton from './RegistrationButton'
+
+const { instructorName, webinar, registration, displayOriginalPrice } = webinarConfig
+const approvedBonuses = bonusResources.filter(({ isApproved, isAvailable, isPlaceholder }) =>
+  isApproved && isAvailable && !isPlaceholder,
+)
+const benefits = [
+  `Live Masterclass With ${instructorName}`,
+  'Understanding PCOS & Hormonal Health',
+  'Practical Indian Nutrition Guidance',
+  'Sustainable Lifestyle Strategies',
+  ...approvedBonuses.map(({ title }) => title),
+  'Interactive Live Q&A',
+]
+
+const details = [
+  { label: 'Webinar Date', value: webinar.date, Icon: CalendarDays },
+  { label: 'Webinar Time', value: webinar.time, Icon: Clock },
+  { label: 'Duration', value: webinarConfig.duration, Icon: Hourglass },
+  { label: 'Platform', value: webinarConfig.platform, Icon: MonitorPlay },
+  { label: 'Language', value: webinarConfig.language, Icon: Languages },
+].filter(({ value }) => value && value !== 'To be announced')
+
+export default function PricingCard({ entrance, onCheckout }) {
+  const { eventStatus, closed, canReserve } = useWebinarRegistration()
+  const checkoutReady = canReserve &&
+    registrationPoliciesReady &&
+    webinarConfig.paymentEnabled && webinarConfig.paymentVerified &&
+    Boolean(webinarConfig.taxDisclosure) && typeof onCheckout === 'function'
+
+  return (
+    <motion.div className="pricing-card" {...entrance(0, 12)}>
+      <p className="pricing-label">Live PCOS &amp; PCOD Masterclass</p>
+      <p className="pricing-instructor">With {instructorName}</p>
+
+      <div className="pricing-benefits">
+        <h3>Here's Everything You'll Get</h3>
+        <ul>
+          {benefits.map((benefit, index) => (
+            <motion.li key={benefit} {...entrance((index % 4) * 0.045, 5)}>
+              <CircleCheck size={20} strokeWidth={1.75} aria-hidden="true" />{benefit}
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+
+      <motion.div className="pricing-amount" {...entrance(0, 8)}>
+        <p className="pricing-price-label">Get Complete Access For Just</p>
+        {displayOriginalPrice && <p className="pricing-original"><span className="sr-only">Original price </span><s>{displayOriginalPrice}</s></p>}
+        <p className="pricing-price">{registration.displayPrice}</p>
+        <p className="pricing-fee">One-Time Registration Fee</p>
+        {webinarConfig.taxDisclosure && <p className="pricing-fee">{webinarConfig.taxDisclosure}</p>}
+      </motion.div>
+
+      {details.length > 0 && (
+        <dl className="pricing-details">
+          {details.map(({ label, value, Icon }) => (
+            <div key={label}>
+              <dt><Icon size={18} strokeWidth={1.7} aria-hidden="true" />{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+
+      <motion.div className="pricing-timer-slot" {...entrance(0.04, 6)}>
+        <CountdownTimer startAt={webinarConfig.webinarStartAt} eventStatus={eventStatus} />
+      </motion.div>
+
+      <motion.div className="pricing-actions" {...entrance(0.06, 8)}>
+        <RegistrationButton
+          className="pricing-registration"
+          text={closed ? 'Registration Closed' : `Yes! Reserve My Seat â€“ ${registration.displayPrice}`}
+          showArrow={!closed}
+          disabled={closed || !checkoutReady}
+          onClick={onCheckout}
+        />
+        {!closed && !checkoutReady && (
+          <p className="pricing-checkout-status">
+            {import.meta.env.DEV ? 'Development preview Â· Checkout is not available yet.' : 'Online checkout is not available yet.'}
+          </p>
+        )}
+        <PaymentTrust enabled={webinarConfig.paymentEnabled} verified={webinarConfig.paymentVerified} methods={webinarConfig.paymentMethods} />
+      </motion.div>
+    </motion.div>
+  )
+}
+
+import useCountdown from '../../hooks/useCountdown'
+
+export default function CountdownTimer({ startAt, eventStatus }) {
+  const remaining = useCountdown(eventStatus === 'ended' || eventStatus === 'cancelled' || eventStatus === 'live' ? null : startAt)
+  if (eventStatus === 'cancelled') return <p className="pricing-countdown-status">The Masterclass Has Been Cancelled</p>
+  if (eventStatus === 'ended') return <p className="pricing-countdown-status">The Masterclass Has Ended</p>
+  if (eventStatus === 'live' || remaining === 0) {
+    return <p className="pricing-countdown-status">The Masterclass Is Now Live</p>
+  }
+  if (remaining === null) {
+    return <p className="pricing-countdown-status">Webinar Date To Be Announced</p>
+  }
+
+  const units = [
+    ['Days', Math.floor(remaining / 86400)],
+    ['Hours', Math.floor(remaining / 3600) % 24],
+    ['Minutes', Math.floor(remaining / 60) % 60],
+    ['Seconds', remaining % 60],
+  ]
+
+  return (
+    <div className="pricing-countdown" role="timer" aria-label="Time until the masterclass starts">
+      <p className="pricing-label">Masterclass Starts In</p>
+      <dl>
+        {units.map(([label, value]) => (
+          <div key={label}>
+            <dt>{label}</dt>
+            <dd>{String(value).padStart(2, '0')}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+}
+
+import { motion, useReducedMotion } from 'framer-motion'
+import { Minus, Plus } from 'lucide-react'
+import { useId, useRef, useState } from 'react'
+
+export default function FAQAccordion({ items, entrance }) {
+  const id = useId()
+  const buttons = useRef([])
+  const [openIndex, setOpenIndex] = useState(0)
+  const reducedMotion = useReducedMotion()
+
+  function moveFocus(event, index) {
+    const last = items.length - 1
+    const positions = {
+      ArrowDown: index === last ? 0 : index + 1,
+      ArrowUp: index === 0 ? last : index - 1,
+      Home: 0,
+      End: last,
+    }
+    if (!Object.hasOwn(positions, event.key)) return
+
+    event.preventDefault()
+    buttons.current[positions[event.key]]?.focus()
+  }
+
+  return (
+    <div className="faq-accordion">
+      {items.map(({ question, answer }, index) => {
+        const expanded = openIndex === index
+        const triggerId = `${id}-question-${index}`
+        const panelId = `${id}-answer-${index}`
+        const Icon = expanded ? Minus : Plus
+
+        return (
+          <motion.div className="faq-item" key={question} data-open={expanded} {...entrance((index % 4) * 0.045, 6)}>
+            <h3>
+              <button
+                id={triggerId}
+                type="button"
+                ref={(button) => { buttons.current[index] = button }}
+                aria-expanded={expanded}
+                aria-controls={panelId}
+                onClick={() => setOpenIndex(expanded ? null : index)}
+                onKeyDown={(event) => moveFocus(event, index)}
+              >
+                {question}<Icon size={21} aria-hidden="true" strokeWidth={1.8} />
+              </button>
+            </h3>
+            <motion.div
+              id={panelId}
+              role="region"
+              aria-labelledby={triggerId}
+              inert={!expanded}
+              className="faq-answer"
+              initial={false}
+              animate={{ height: expanded ? 'auto' : 0, opacity: expanded ? 1 : 0 }}
+              transition={{ duration: reducedMotion ? 0 : 0.24, ease: 'easeInOut' }}
+            >
+              <p>{answer}</p>
+            </motion.div>
+          </motion.div>
+        )
+      })}
+    </div>
+  )
+}
+
+import { animate, useInView, useReducedMotion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+
+const numberFormat = new Intl.NumberFormat('en-IN')
+
+export default function AnimatedCounter({ value, suffix = '' }) {
+  const counter = useRef(null)
+  const inView = useInView(counter, { once: true })
+  const reducedMotion = useReducedMotion()
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    if (!inView || reducedMotion) return
+
+    const animation = animate(0, value, {
+      duration: 1.5,
+      ease: 'easeOut',
+      onUpdate: (current) => setCount(Math.round(current)),
+    })
+
+    return () => animation.stop()
+  }, [inView, reducedMotion, value])
+
+  return (
+    <span ref={counter}>
+      <span aria-hidden="true">{numberFormat.format(reducedMotion ? value : count)}{suffix}</span>
+      <span className="sr-only">{numberFormat.format(value)}{suffix}</span>
+    </span>
+  )
+}
+
+import { Star } from 'lucide-react'
+
+const dateFormat = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' })
+
+function GoogleMark() {
+  return (
+    <svg viewBox="0 0 48 48" width="20" height="20" role="img" aria-label="Google">
+      <path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5h6.7c3.9-3.6 6-8.8 6-14.9Z" />
+      <path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.6l-6.7-5c-1.8 1.2-4.1 1.9-6.8 1.9-5.3 0-9.8-3.6-11.4-8.4H5.7v5.2A20 20 0 0 0 24 44Z" />
+      <path fill="#FBBC05" d="M12.6 27.9a12 12 0 0 1 0-7.8v-5.2H5.7a20 20 0 0 0 0 18.2l6.9-5.2Z" />
+      <path fill="#EA4335" d="M24 11.7c3 0 5.7 1 7.8 3l5.8-5.7C34.1 5.8 29.5 4 24 4A20 20 0 0 0 5.7 14.9l6.9 5.2c1.6-4.8 6.1-8.4 11.4-8.4Z" />
+    </svg>
+  )
+}
+
+export default function ReviewCard({ review }) {
+  if (!review) {
+    return (
+      <article className="testimonial-review testimonial-review-preview">
+        <p>Development preview</p>
+        <p>Authorized Google review pending</p>
+      </article>
+    )
+  }
+
+  const { reviewerName, profileImage, rating, reviewText, reviewDate, sourceUrl } = review
+  const date = reviewDate ? new Date(reviewDate) : null
+
+  return (
+    <article className="testimonial-review">
+      <div className="testimonial-review-rating">
+        <span className="testimonial-stars" role="img" aria-label={`Rated ${rating} out of 5 stars`}>
+          {Array.from({ length: 5 }, (_, index) => (
+            <Star key={index} size={16} fill={index < rating ? 'currentColor' : 'none'} aria-hidden="true" />
+          ))}
+        </span>
+        <GoogleMark />
+      </div>
+      <blockquote>{reviewText}</blockquote>
+      <div className="testimonial-review-author">
+        {profileImage && <img src={profileImage} alt="" width={38} height={38} loading="lazy" decoding="async" />}
+        <div>
+          <p>{reviewerName}</p>
+          {date && !Number.isNaN(date.getTime()) && <time dateTime={reviewDate}>{dateFormat.format(date)}</time>}
+        </div>
+      </div>
+      {sourceUrl && <a href={sourceUrl}>Read original Google review<span className="sr-only"> by {reviewerName}</span></a>}
+    </article>
+  )
+}
+
+import { motion, useReducedMotion } from 'framer-motion'
+import { Film, Play } from 'lucide-react'
+
+export default function TestimonialVideoCard({ entry, onPlay }) {
+  const reducedMotion = useReducedMotion()
+  const { title, poster, clientName, location, duration, isPlaceholder } = entry
+
+  return (
+    <article className="testimonial-video-card">
+      {poster && <img src={poster} alt="" loading="lazy" decoding="async" width={360} height={640} />}
+      <div className="testimonial-video-overlay">
+        {duration && <span className="testimonial-duration">{duration}</span>}
+        {isPlaceholder ? (
+          <>
+            <span className="testimonial-preview-tag">Development preview</span>
+            <Film className="testimonial-placeholder-icon" aria-hidden="true" size={36} strokeWidth={1.4} />
+          </>
+        ) : (
+          <motion.button
+            className="testimonial-play"
+            type="button"
+            aria-label={`Play ${title}${clientName ? ` from ${clientName}` : ''}`}
+            onClick={(event) => onPlay(entry, event.currentTarget)}
+            whileInView={reducedMotion ? undefined : { boxShadow: [
+              '0 0 0 0 rgba(255, 112, 67, 0.35)',
+              '0 0 0 12px rgba(255, 112, 67, 0)',
+            ] }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 1.3, repeat: 1 }}
+          >
+            <Play size={26} fill="currentColor" aria-hidden="true" />
+          </motion.button>
+        )}
+        <div className="testimonial-video-caption">
+          <h3>{title}</h3>
+          {isPlaceholder && <p>Authorized video pending</p>}
+          {(clientName || location) && <p>{[clientName, location].filter(Boolean).join(' Â· ')}</p>}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+import { motion, useReducedMotion } from 'framer-motion'
+import { ShieldCheck, UserRoundCheck, Video, Volume2 } from 'lucide-react'
+import RegistrationButton from '../components/common/RegistrationButton'
+import VideoPlayer from '../components/common/VideoPlayer'
+import webinarConfig from '../config/webinar'
+import './intro-video.css'
+
+const trustItems = [
+  { Icon: ShieldCheck, label: 'Secure Payment' },
+  { Icon: Video, label: 'Live Masterclass' },
+  { Icon: UserRoundCheck, label: 'Expert Guidance' },
+]
+const videoHintId = 'intro-video-hint'
+
+export default function IntroVideo() {
+  const reducedMotion = useReducedMotion()
+  const introduction = webinarConfig.introduction
+
+  function entrance(delay = 0, y = 0) {
+    return reducedMotion ? {} : {
+      initial: { opacity: 0, y },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, amount: 0.15 },
+      transition: { duration: 0.42, delay, ease: 'easeOut' },
+    }
+  }
+
+  return (
+    <section className="intro-video-section" aria-labelledby="intro-video-title">
+      <div className="intro-video-content">
+        <motion.p className="intro-video-label" {...entrance()}>
+          A personal message from {webinarConfig.instructorName}
+        </motion.p>
+        <motion.h2 id="intro-video-title" className="intro-video-title" {...entrance(0.05, 12)}>
+          Before You Take the First Step,{' '}
+          <span>Watch This Video.</span>
+        </motion.h2>
+        <motion.p className="intro-video-description" {...entrance(0.1)}>
+          Discover why understanding your body is the first step towards a more informed wellness journey.
+        </motion.p>
+        <motion.div className="intro-video-media" {...entrance(0.05, 14)}>
+          <VideoPlayer {...introduction} descriptionId={introduction.video ? videoHintId : undefined} />
+          {introduction.video && (
+            <p className="intro-video-hint" id={videoHintId}>
+              <Volume2 aria-hidden="true" size={17} />
+              Tap to play the video with sound.
+            </p>
+          )}
+        </motion.div>
+        <motion.div className="intro-video-actions" {...entrance(0.05, 10)}>
+          <RegistrationButton
+            className="intro-registration-button"
+            text={`Yes! Reserve My Seat â€“ ${webinarConfig.registration.displayPrice}`}
+            showArrow
+          />
+          <ul className="intro-trust">
+            {trustItems.map(({ Icon, label }) => (
+              <li key={label}><Icon aria-hidden="true" size={15} />{label}</li>
+            ))}
+          </ul>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+import { motion, useReducedMotion } from 'framer-motion'
+import PricingCard from '../components/common/PricingCard'
+import webinarConfig from '../config/webinar'
+import './pricing.css'
+
+const policies = [
+  ['Privacy Policy', webinarConfig.privacyPolicyUrl],
+  ['Terms & Conditions', webinarConfig.termsUrl],
+  ['Refund Policy', webinarConfig.refundPolicyUrl],
+].filter(([, url]) => url)
+
+export default function Pricing() {
+  const reducedMotion = useReducedMotion()
+
+  function entrance(delay = 0, y = 0) {
+    if (reducedMotion) return {}
+    return {
+      initial: { opacity: 0, y },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, amount: 0.12 },
+      transition: { duration: 0.42, delay, ease: 'easeOut' },
+    }
+  }
+
+  return (
+    <section className="webinar-pricing" id="registration" tabIndex={-1} aria-labelledby="pricing-title">
+      <div className="pricing-content">
+        <motion.p className="pricing-label" {...entrance()}>Your Wellness Journey Starts Here</motion.p>
+        <motion.h2 id="pricing-title" className="pricing-title" {...entrance(0.06, 12)}>
+          One Masterclass.{' '}<span>A Clearer Direction.</span>
+        </motion.h2>
+        <p className="pricing-description">
+          Everything you need to take a more informed approach towards your health, nutrition and everyday wellness.
+        </p>
+        <PricingCard entrance={entrance} />
+        <div className="pricing-privacy">
+          <h3>Your Privacy Matters</h3>
+          <p>Your registration information will be handled in accordance with our privacy policy.</p>
+          {policies.length > 0 && (
+            <ul aria-label="Registration policies">
+              {policies.map(([label, url]) => <li key={label}><a href={url}>{label}</a></li>)}
+            </ul>
+          )}
+          {webinarConfig.refundGuaranteeEnabled && webinarConfig.refundGuaranteeTerms && (
+            <p>{webinarConfig.refundGuaranteeTerms}</p>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+import { motion, useReducedMotion } from 'framer-motion'
+import { Award, HeartHandshake, Languages, UsersRound } from 'lucide-react'
+import AnimatedCounter from '../components/common/AnimatedCounter'
+import FeaturedIn from '../components/common/FeaturedIn'
+import webinarConfig from '../config/webinar'
+import './trust-stats.css'
+
+const icons = {
+  'women-supported': UsersRound,
+  experience: Award,
+  languages: Languages,
+  'pcod-journey': HeartHandshake,
+}
+
+const { statistics, recognition } = webinarConfig.credibility
+const visibleStats = statistics.filter(({ verified }) => verified || import.meta.env.DEV)
+const showPreviewLabel = visibleStats.some(({ verified }) => !verified)
+const showSupportingCopy = ['experience', 'pcod-journey'].every(
+  (id) => visibleStats.some((stat) => stat.id === id),
+)
+
+function TrustStatGrid() {
+  const reducedMotion = useReducedMotion()
+
+  function entrance(delay = 0, y = 0) {
+    if (reducedMotion) return {}
+
+    return {
+      initial: { opacity: 0, y },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, amount: 0.15 },
+      transition: { duration: 0.42, delay, ease: 'easeOut' },
+    }
+  }
+
+  return (
+    <div className="trust-statistics">
+      <motion.p className="trust-stats-label" {...entrance()}>
+        Experience That Makes a Difference
+      </motion.p>
+      <motion.h2 className="trust-stats-title" id="trust-stats-title" {...entrance(0.06, 12)}>
+        Expert Guidance.{' '}
+        <span>Real Understanding.</span>
+      </motion.h2>
+      {showSupportingCopy && (
+        <p className="trust-stats-description">
+          Years of experience, personal understanding and a compassionate approach to women's wellness.
+        </p>
+      )}
+      {showPreviewLabel && (
+        <p className="trust-stats-preview">Development preview Â· Some credibility details are pending confirmation.</p>
+      )}
+      <ul className="trust-stat-grid" data-count={visibleStats.length}>
+        {visibleStats.map(({ id, value, suffix, heading, description }, index) => {
+          const Icon = icons[id]
+
+          return (
+            <motion.li key={id} className="trust-stat" {...entrance(index * 0.07, 10)}>
+              <Icon className="trust-stat-icon" aria-hidden="true" size={28} strokeWidth={1.7} />
+              <p className="trust-stat-value">
+                {typeof value === 'number' ? <AnimatedCounter value={value} suffix={suffix} /> : value}
+              </p>
+              <h3>{heading}</h3>
+              <p className="trust-stat-description">{description}</p>
+            </motion.li>
+          )
+        })}
+      </ul>
+      {showSupportingCopy && (
+        <p className="trust-stats-footer">Professional Experience. Personal Understanding. Practical Guidance.</p>
+      )}
+    </div>
+  )
+}
+
+export default function TrustStats() {
+  const hasRecognition = recognition.some(({ verified, name, logo }) => verified && name && logo)
+  if (!visibleStats.length && !hasRecognition) return null
+
+  return (
+    <section
+      className="trust-stats-section"
+      aria-labelledby={visibleStats.length ? 'trust-stats-title' : 'trust-recognition-title'}
+    >
+      <div className="trust-stats-content">
+        <FeaturedIn entries={recognition} />
+        {visibleStats.length > 0 && <TrustStatGrid />}
+      </div>
+    </section>
+  )
+}
+
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import RegistrationButton from '../components/common/RegistrationButton'
+import ReviewCard from '../components/common/ReviewCard'
+import TestimonialVideoCard from '../components/common/TestimonialVideoCard'
+import VideoModal from '../components/common/VideoModal'
+import { testimonials } from '../config/testimonials'
+import './testimonials.css'
+
+const { videos, reviews, previewVideos, previewReviews } = testimonials
+const videoEntries = videos.length ? videos : previewVideos
+const reviewEntries = reviews.length ? reviews : previewReviews
+const isPreview = (!videos.length && previewVideos.length > 0) ||
+  (!reviews.length && previewReviews.length > 0)
+
+function VideoCarousel({ onPlay, reducedMotion, entrance }) {
+  const track = useRef(null)
+  const [positions, setPositions] = useState([0])
+  const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    const element = track.current
+    const observer = new ResizeObserver(() => {
+      const limit = element.scrollWidth - element.clientWidth
+      const start = element.firstElementChild.offsetLeft
+      const offsets = Array.from(element.children, (child) => Math.min(limit, child.offsetLeft - start))
+      setPositions([...new Set(offsets)])
+    })
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
+
+  function scrollTo(index) {
+    const left = positions[index]
+    if (left === undefined) return
+
+    track.current.scrollTo({ left, behavior: reducedMotion ? 'instant' : 'smooth' })
+  }
+
+  function updateActive() {
+    const left = track.current.scrollLeft
+    setActive(positions.reduce((closest, position, index) =>
+      Math.abs(position - left) < Math.abs(positions[closest] - left) ? index : closest, 0))
+  }
+
+  useEffect(updateActive, [positions])
+
+  function onKeyDown(event) {
+    if (event.target !== track.current && !event.target.matches('.testimonial-play')) return
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+
+    event.preventDefault()
+    scrollTo(active + (event.key === 'ArrowRight' ? 1 : -1))
+  }
+
+  return (
+    <div className="testimonial-carousel" role="region" aria-label="Video testimonials" aria-roledescription="carousel">
+      <ul
+        id="testimonial-video-track"
+        className="testimonial-track"
+        ref={track}
+        tabIndex={positions.length > 1 ? 0 : undefined}
+        onKeyDown={onKeyDown}
+        onScroll={updateActive}
+      >
+        {videoEntries.map((entry, index) => (
+          <motion.li key={entry.id} {...entrance((index % 3) * 0.07)}>
+            <TestimonialVideoCard entry={entry} onPlay={onPlay} />
+          </motion.li>
+        ))}
+      </ul>
+      {positions.length > 1 && (
+        <div className="testimonial-navigation">
+          <button type="button" aria-label="Previous testimonials" aria-controls="testimonial-video-track" disabled={active === 0} onClick={() => scrollTo(active - 1)}>
+            <ChevronLeft size={19} aria-hidden="true" />
+          </button>
+          {positions.map((position, index) => (
+            <button
+              key={position}
+              type="button"
+              className="testimonial-page-dot"
+              aria-label={`Go to testimonial position ${index + 1}`}
+              aria-current={active === index ? 'true' : undefined}
+              aria-controls="testimonial-video-track"
+              onClick={() => scrollTo(index)}
+            />
+          ))}
+          <button type="button" aria-label="Next testimonials" aria-controls="testimonial-video-track" disabled={active === positions.length - 1} onClick={() => scrollTo(active + 1)}>
+            <ChevronRight size={19} aria-hidden="true" />
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function Testimonials() {
+  const reducedMotion = useReducedMotion()
+  const [selected, setSelected] = useState(null)
+
+  if (!videoEntries.length && !reviewEntries.length) return null
+
+  function entrance(delay = 0) {
+    return reducedMotion ? {} : {
+      initial: { opacity: 0, y: 10 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, amount: 0.1 },
+      transition: { duration: 0.38, delay },
+    }
+  }
+
+  return (
+    <section className="testimonials-section section-light" aria-labelledby="testimonials-title">
+      <div className="testimonials-content">
+        <motion.div className="testimonials-heading" {...entrance()}>
+          <p className="testimonials-label">Real Women Â· Real Experiences</p>
+          <h2 id="testimonials-title">Every Woman Has a Story.{' '}<span>Every Journey Matters.</span></h2>
+          <p className="testimonials-description">
+            Discover the experiences of women who have received guidance from Dr. Vaishnavi on their health, nutrition and lifestyle journeys.
+          </p>
+          {isPreview && <p className="testimonials-preview-note">Development preview Â· Client stories and reviews will appear with consent.</p>}
+        </motion.div>
+        {videoEntries.length > 0 && (
+          <VideoCarousel onPlay={(entry, trigger) => setSelected({ entry, trigger })} reducedMotion={reducedMotion} entrance={entrance} />
+        )}
+        {reviewEntries.length > 0 && (
+          <div className="testimonials-reviews">
+            <motion.h3 {...entrance()}>What Women Say About Us</motion.h3>
+            <ul className="testimonial-review-grid">
+              {reviewEntries.map((entry, index) => (
+                <motion.li key={entry.id || entry} {...entrance((index % 3) * 0.07)}>
+                  <ReviewCard review={typeof entry === 'string' ? null : entry} />
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <div className="testimonials-footer">
+          <p className="testimonials-disclaimer">Every body responds differently. Individual experiences and outcomes may vary.</p>
+          <p>Take the first step towards understanding your body better.</p>
+          <RegistrationButton className="testimonials-registration" showArrow />
+        </div>
+      </div>
+      <AnimatePresence>
+        {selected && <VideoModal {...selected} onClose={() => setSelected(null)} />}
+      </AnimatePresence>
+    </section>
+  )
+}
+
+import { motion, useReducedMotion } from 'framer-motion'
+import ProblemCard from '../components/common/ProblemCard'
+import RegistrationButton from '../components/common/RegistrationButton'
+import { problems } from '../config/problems'
+import './problems.css'
+
+const benefits = ['Live Expert-Led Masterclass', 'Practical Guidance', 'Interactive Q&A']
+
+export default function Problems() {
+  const reducedMotion = useReducedMotion()
+
+  function entrance(delay = 0, y = 0) {
+    if (reducedMotion) return {}
+
+    return {
+      initial: { opacity: 0, y },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, amount: 0.15 },
+      transition: { duration: 0.42, delay, ease: 'easeOut' },
+    }
+  }
+
+  return (
+    <section className="problems-section" aria-labelledby="problems-title">
+      <div className="problems-content">
+        <motion.p className="problems-label" {...entrance()}>
+          Let's Talk About the Real Problem
+        </motion.p>
+        <motion.h2 className="problems-title" id="problems-title" {...entrance(0.06, 12)}>
+          Making an Effort, But Still{' '}
+          <span>Looking for Answers?</span>
+        </motion.h2>
+        <p className="problems-description">
+          Living with PCOS can bring unique challenges. Does any of this feel familiar?
+        </p>
+        <ul className="problems-grid">
+          {problems.map((problem, index) => (
+            <motion.li key={problem.id} {...entrance((index % 3) * 0.065, 10)}>
+              <ProblemCard problem={problem} reducedMotion={reducedMotion} />
+            </motion.li>
+          ))}
+        </ul>
+        <motion.div className="problems-support" {...entrance()}>
+          <h3>If Any of These Feel Familiar, You're Not Alone.</h3>
+          <p>It's time to move beyond confusing advice and understand your body's individual needs.</p>
+          <p>PCOS is a complex condition, and an informed approach to nutrition, lifestyle and appropriate healthcare can help you make better decisions about your wellness.</p>
+          <p className="problems-takeaway">Understanding Your Body Comes First.</p>
+        </motion.div>
+        <motion.div className="problems-actions" {...entrance(0.05, 8)}>
+          <RegistrationButton className="problems-registration" />
+          <ul className="problems-benefits" aria-label="Masterclass benefits">
+            {benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
+          </ul>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+import { motion, useReducedMotion } from 'framer-motion'
+import ComparisonCard from '../components/common/ComparisonCard'
+import LimitationCard from '../components/common/LimitationCard'
+import RegistrationButton from '../components/common/RegistrationButton'
+import { approaches, limitations } from '../config/comparison'
+import webinarConfig from '../config/webinar'
+import './comparison.css'
+
+const benefits = ['Live Expert-Led Masterclass', 'Interactive Q&A', 'Practical Guidance']
+
+export default function Comparison() {
+  const reducedMotion = useReducedMotion()
+
+  function entrance(delay = 0, offset = {}) {
+    if (reducedMotion) return {}
+
+    return {
+      initial: { opacity: 0, ...offset },
+      whileInView: { opacity: 1, x: 0, y: 0 },
+      viewport: { once: true, amount: 0.15 },
+      transition: { duration: 0.42, delay, ease: 'easeOut' },
+    }
+  }
+
+  return (
+    <section className="wellness-comparison" aria-labelledby="comparison-title">
+      <div className="comparison-content">
+        <motion.p className="comparison-label" {...entrance()}>The Problem With Quick Fixes</motion.p>
+        <motion.h2 className="comparison-title" id="comparison-title" {...entrance(0.06, { y: 12 })}>
+          It's Not About Trying Harder.{' '}
+          <span>It's About Understanding Better.</span>
+        </motion.h2>
+        <p className="comparison-description">
+          Every woman's body is different. Generic solutions may not address individual health and lifestyle needs.
+        </p>
+        <ul className="limitation-grid">
+          {limitations.map((limitation, index) => (
+            <motion.li key={limitation.category} {...entrance((index % 3) * 0.06, { y: 10 })}>
+              <LimitationCard limitation={limitation} reducedMotion={reducedMotion} />
+            </motion.li>
+          ))}
+        </ul>
+
+        <div className="comparison-approaches">
+          <motion.h3 {...entrance(0, { y: 10 })}>A Different Approach to Wellness</motion.h3>
+          <p className="comparison-description">
+            Move beyond generic restrictions and discover a more informed approach to your health.
+          </p>
+          <div className="comparison-columns">
+            {approaches.map((approach, index) => (
+              <motion.div key={approach.id} {...entrance(index * 0.06, { x: index === 0 ? -12 : 12 })}>
+                <ComparisonCard approach={approach} />
+              </motion.div>
+            ))}
+            <span className="comparison-versus" aria-hidden="true">VS</span>
+          </div>
+          <div className="comparison-images">
+            {approaches.map((approach, index) => (
+              <motion.div key={approach.id} {...entrance(index * 0.08)}>
+                <img src={approach.image} alt={approach.imageAlt} width={960} height={540} loading="lazy" decoding="async" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <motion.div className="comparison-conclusion" {...entrance(0, { y: 10 })}>
+          <h3>
+            Your Body Deserves Understanding,{' '}
+            <span>Not Endless Restrictions.</span>
+          </h3>
+          <p className="comparison-description">
+            Discover a more informed approach to nutrition, hormonal health and everyday wellness with {webinarConfig.instructorName}.
+          </p>
+          <p className="comparison-takeaway">Practical Knowledge. Balanced Nutrition. Sustainable Habits.</p>
+        </motion.div>
+        <motion.div className="comparison-actions" {...entrance(0.05, { y: 8 })}>
+          <RegistrationButton className="comparison-registration" showArrow />
+          <ul className="comparison-benefits" aria-label="Masterclass benefits">
+            {benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
+          </ul>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+

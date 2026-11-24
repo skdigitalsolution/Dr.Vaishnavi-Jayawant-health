@@ -1,0 +1,94 @@
+.sticky-registration {
+  position: fixed;
+  z-index: 10;
+  inset: auto 0 0;
+  padding-block-end: env(safe-area-inset-bottom, 0px);
+  border-block-start: 1px solid rgb(255 99 63 / 28%);
+  background: rgba(20, 20, 20, 0.97);
+  box-shadow: 0 -10px 30px rgb(0 0 0 / 38%);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+}
+
+.sticky-registration[data-suspended='true'] { visibility: hidden; pointer-events: none; }
+.sticky-registration[data-cta-visible='true'] { pointer-events: none; }
+
+.sticky-registration-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem clamp(0.75rem, 2vw, 1.5rem);
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 0.625rem max(1rem, env(safe-area-inset-right)) 0.625rem max(1rem, env(safe-area-inset-left));
+}
+
+.sticky-registration-offer {
+  min-width: 0;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+}
+
+.sticky-registration-fee { color: #d6d3d1; font-size: 0.75rem; }
+.sticky-mobile-label { display: none; }
+
+.sticky-registration-amount {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+}
+
+.sticky-registration-amount > s { color: #d6d3d1; }
+
+.sticky-registration-amount strong {
+  background: linear-gradient(110deg, #ff633f 0%, #ff8554 50%, #ffad70 100%);
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.sticky-registration-timer { text-align: center; }
+.sticky-registration-timer .pricing-label { color: #d6d3d1; font-size: 0.625rem; letter-spacing: 0.1em; }
+.sticky-registration-timer .pricing-countdown-status { color: #ffad70; font-size: 0.8125rem; }
+
+.sticky-registration-timer .pricing-countdown dl {
+  gap: 0.25rem;
+  margin-block-start: 0.25rem;
+}
+
+.sticky-registration-timer .pricing-countdown dl > div {
+  min-width: 2.875rem;
+  min-height: 2.45rem;
+  gap: 0.1rem;
+  padding: 0.2rem 0.15rem;
+  border: 1px solid #393939;
+  border-radius: 7px;
+  background: #222222;
+}
+
+.sticky-registration-timer .pricing-countdown dd { color: #ffffff; font-size: 1.05rem; }
+.sticky-registration-timer .pricing-countdown dt { color: #d6d3d1; font-size: 0.5625rem; }
+.sticky-registration-actions { justify-self: end; }
+.sticky-registration .sticky-registration-button { min-height: 52px; font-size: 1rem; }
+.sticky-registration .sticky-registration-button:disabled { cursor: not-allowed; filter: grayscale(0.1) saturate(0.7); transform: none; opacity: 0.72; }
+
+@media (max-width: 639px) {
+  .sticky-registration-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    padding-inline: max(0.75rem, env(safe-area-inset-left)) max(0.75rem, env(safe-area-inset-right));
+  }
+
+  .sticky-desktop-label { display: none; }
+  .sticky-mobile-label { display: inline; }
+  .sticky-registration-offer { font-size: 0.75rem; }
+  .sticky-registration-amount strong { font-size: clamp(1.625rem, 7vw, 2rem); }
+  .sticky-registration-timer .pricing-countdown-status { max-width: 10rem; font-size: 0.75rem; }
+  .sticky-registration-timer .pricing-countdown dl > div { min-width: 2.4rem; }
+  .sticky-registration-timer .pricing-countdown dt { font-size: 0.5rem; }
+  .sticky-registration-actions { grid-column: 1 / -1; justify-self: stretch; }
+  .sticky-registration .sticky-registration-button { width: 100%; }
+}

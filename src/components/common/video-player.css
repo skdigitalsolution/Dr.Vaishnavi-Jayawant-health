@@ -1,0 +1,122 @@
+.intro-player {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgb(255 173 112 / 38%);
+  border-radius: 18px;
+  background: var(--surface-bg);
+  box-shadow: var(--surface-shadow);
+}
+
+.intro-poster,
+.intro-native-video,
+.intro-player-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.intro-poster {
+  object-fit: cover;
+}
+
+.intro-native-video {
+  background: var(--surface-bg);
+}
+
+.intro-native-video:focus-visible {
+  outline-offset: -4px;
+}
+
+.intro-player-overlay {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, rgb(20 20 20 / 38%), rgb(20 20 20 / 10%) 48%, rgb(20 20 20 / 80%));
+}
+
+.intro-play-button,
+.intro-preview-icon {
+  display: grid;
+  width: clamp(3rem, 8vw, 5.25rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.intro-play-button {
+  color: #171717;
+}
+
+.intro-preview-icon {
+  color: #ffad70;
+}
+
+.intro-play-button {
+  background: var(--cta-gradient);
+  box-shadow: 0 8px 28px rgb(255 99 63 / 38%);
+  color: #171717;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.intro-play-button svg {
+  margin-inline-start: 3px;
+}
+
+.intro-play-button:focus-visible {
+  outline: 2px solid var(--surface-heading);
+  outline-offset: 4px;
+}
+
+@media (hover: hover) {
+  .intro-play-button:hover {
+    transform: scale(1.08);
+    filter: brightness(1.06);
+    box-shadow: 0 10px 34px rgb(255 99 63 / 46%);
+  }
+}
+
+.intro-play-button:active {
+  transform: scale(0.96);
+}
+
+.intro-preview-icon {
+  border: 1px solid rgb(255 173 112 / 55%);
+  background: rgb(20 20 20 / 72%);
+  color: #ffad70;
+}
+
+.intro-poster-label,
+.intro-player-status {
+  position: absolute;
+  margin: 0;
+  color: var(--surface-heading);
+  font-size: clamp(0.6875rem, 1.4vw, 0.875rem);
+  font-weight: 600;
+}
+
+.intro-poster-label {
+  inset-block-start: clamp(0.5rem, 2vw, 1rem);
+  inset-inline-start: clamp(0.5rem, 2vw, 1rem);
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  background: rgb(20 20 20 / 90%);
+}
+
+.intro-player-status {
+  inset-inline: 0.5rem;
+  inset-block-end: clamp(0.5rem, 2vw, 1rem);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-play-button {
+    transition: none;
+  }
+
+  .intro-play-button:is(:hover, :active) {
+    transform: none;
+  }
+}

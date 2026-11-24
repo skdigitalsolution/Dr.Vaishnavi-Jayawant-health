@@ -1,0 +1,277 @@
+:root {
+  --premium-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --premium-button-time: 280ms;
+  --premium-card-time: 350ms;
+  --premium-image-time: 600ms;
+  --premium-shine-time: 850ms;
+  --premium-orange: #ff633f;
+  --premium-peach: #ffad70;
+  --premium-card-shadow: 0 12px 30px rgb(0 0 0 / 23%), 0 5px 20px rgb(255 112 67 / 9%);
+}
+
+.section-light {
+  --premium-card-shadow: 0 12px 30px rgb(48 28 16 / 12%);
+}
+
+.registration-button.btn-shine {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--cta-gradient);
+  transition: transform var(--premium-button-time) var(--premium-ease),
+    filter var(--premium-button-time) var(--premium-ease),
+    box-shadow var(--premium-button-time) var(--premium-ease);
+}
+
+.btn-shine::before,
+.btn-shine::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0 auto 0 0;
+  width: 56%;
+  transform: translateX(-145%) skewX(-22deg);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 52%) 50%, transparent);
+  pointer-events: none;
+  content: '';
+}
+
+.registration-button-arrow {
+  flex: none;
+  transition: translate var(--premium-button-time) var(--premium-ease);
+}
+
+@keyframes premium-button-glint {
+  to { transform: translateX(260%) skewX(-22deg); }
+}
+
+@keyframes premium-button-repeat {
+  0%, 4% { transform: translateX(-145%) skewX(-22deg); }
+  23%, 100% { transform: translateX(260%) skewX(-22deg); }
+}
+
+.gradient-text-shine {
+  background: linear-gradient(110deg, #ff633f, #ff9855, #ffd0a8, #ff633f);
+  background-clip: text;
+  background-size: 225% 100%;
+  color: transparent;
+}
+
+@keyframes premium-text-glint {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+:is(.intro-video-section, .trust-stats-section, .testimonials-section, .problems-section,
+  .wellness-comparison, .webinar-agenda, .target-audience, .about-doctor, .webinar-bonuses,
+  .registration-steps, .webinar-pricing, .webinar-faq, .webinar-final-cta, .sticky-registration) {
+  background-image: radial-gradient(ellipse at 50% 5%, rgb(255 112 67 / 7%), transparent 60%),
+    radial-gradient(ellipse at 95% 75%, rgb(255 173 112 / 4%), transparent 55%);
+}
+
+.section-light:is(.testimonials-section, .webinar-agenda, .about-doctor, .registration-steps, .webinar-faq) {
+  background-image: radial-gradient(ellipse at 50% 0%, rgb(255 112 67 / 4%), transparent 63%),
+    radial-gradient(ellipse at 90% 75%, rgb(255 173 112 / 3%), transparent 57%);
+}
+
+:is(.trust-stat, .testimonial-video-card, .testimonial-review, .problem-card, .limitation-card,
+  .comparison-card, .agenda-module, .agenda-qa, .audience-qualification, .audience-category,
+  .doctor-gallery figure, .bonus-card, .registration-step-card, .pricing-card, .comparison-images > div) {
+  position: relative;
+  isolation: isolate;
+  transition: translate var(--premium-card-time) var(--premium-ease),
+    border-color var(--premium-card-time) var(--premium-ease),
+    box-shadow var(--premium-card-time) var(--premium-ease),
+    background-color var(--premium-card-time) var(--premium-ease);
+}
+
+:is(.trust-stat, .testimonial-video-card, .testimonial-review, .problem-card, .limitation-card,
+  .comparison-card, .agenda-module, .agenda-qa, .audience-qualification, .audience-category,
+  .doctor-gallery figure, .bonus-card, .registration-step-card, .pricing-card, .comparison-images > div)::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(112deg, transparent 32%, rgb(255 201 162 / 14%) 49%, transparent 65%) 100% 0 / 300% 100%;
+  opacity: 0;
+  pointer-events: none;
+  content: '';
+}
+
+@keyframes premium-card-glint {
+  0% { background-position: 100% 0; opacity: 0; }
+  22%, 74% { opacity: 1; }
+  100% { background-position: 0 0; opacity: 0; }
+}
+
+@property --premium-border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.animated-border::after {
+  position: absolute;
+  z-index: 3;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--premium-border-angle), transparent 65%, rgb(255 99 63 / 45%) 79%, #ffd0a8 90%, transparent 99%);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  content: '';
+}
+
+@keyframes premium-border-travel {
+  from { --premium-border-angle: 0deg; opacity: 0; }
+  20%, 80% { opacity: 1; }
+  to { --premium-border-angle: 360deg; opacity: 0; }
+}
+
+.comparison-images > div { overflow: hidden; border-radius: 16px; }
+.doctor-biography img.doctor-portrait { clip-path: inset(0 round 20px); }
+.comparison-card { --premium-card-surface: var(--approach-background); }
+.audience-qualification { --premium-card-surface: var(--qualification-background); }
+
+.testimonial-track,
+.doctor-gallery-track {
+  margin-block: -7px;
+  padding-block: 7px;
+}
+
+:is(.problem-card-image, .agenda-module-image, .audience-category-image, .doctor-gallery figure,
+  .bonus-media, .comparison-images > div) img,
+.testimonial-video-card > img,
+.intro-poster {
+  transition: scale var(--premium-image-time) var(--premium-ease),
+    filter var(--premium-image-time) var(--premium-ease);
+}
+
+:is(.trust-stat-icon, .problem-card-content h3 svg, .limitation-category svg, .comparison-card h4 + ul svg,
+  .agenda-module-label svg, .agenda-qa-icon svg, .audience-category-copy svg, .audience-qualification h3 svg,
+  .registration-step-icon, .bonus-format svg, .testimonial-placeholder-icon, .faq-item button svg, .pulse-ring svg) {
+  transition: translate var(--premium-card-time) var(--premium-ease), rotate var(--premium-button-time) var(--premium-ease);
+}
+
+.pulse-ring {
+  position: relative;
+  background: var(--cta-gradient);
+  color: var(--cta-text);
+  box-shadow: 0 4px 24px rgb(255 99 63 / 34%);
+  transition: transform var(--premium-button-time) var(--premium-ease), box-shadow var(--premium-button-time) var(--premium-ease);
+}
+
+.pulse-ring::after {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--premium-peach);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  content: '';
+}
+
+@keyframes premium-play-ring {
+  0%, 100% { scale: 1; opacity: 0; }
+  22% { opacity: 0.7; }
+  70% { scale: 1.42; opacity: 0; }
+}
+
+.faq-item {
+  transition: border-color var(--premium-button-time) var(--premium-ease),
+    background-color var(--premium-button-time) var(--premium-ease);
+}
+
+.faq-item[data-open='true'] button svg { rotate: 180deg; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gradient-text-shine { animation: premium-text-glint 8s ease-in-out infinite; }
+  .btn-shine[data-shine-visible='true']:not(:disabled, [aria-disabled='true'])::before {
+    animation: premium-button-repeat 4.6s linear infinite;
+  }
+
+  .btn-shine:not(:disabled, [aria-disabled='true']):active {
+    transform: scale(0.97);
+    filter: brightness(0.98);
+  }
+
+  .pulse-ring::after { animation: premium-play-ring 2.5s var(--premium-ease) 3; }
+  .testimonials-section[data-video-open='true'] .pulse-ring::after { animation: none; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .btn-shine[data-shine-visible='true']:not(.pricing-registration, .final-cta-registration, .sticky-registration-button, .webinar-navbar .registration-button)::before {
+    animation: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .btn-shine:not(:disabled, [aria-disabled='true']):hover {
+    transform: translateY(-4px) scale(1.03);
+    filter: brightness(1.05);
+    box-shadow: 0 12px 28px rgb(255 99 63 / 37%);
+  }
+
+  .btn-shine:not(:disabled, [aria-disabled='true']):hover::before { opacity: 0; }
+  .btn-shine:not(:disabled, [aria-disabled='true']):hover::after { animation: premium-button-glint var(--premium-shine-time) var(--premium-ease); }
+  .btn-shine:not(:disabled, [aria-disabled='true']):hover .registration-button-arrow { translate: 6px 0; }
+  .btn-shine:not(:disabled, [aria-disabled='true']):hover:active { transform: scale(0.97); }
+
+  :is(.trust-stat, .testimonial-video-card, .testimonial-review, .problem-card, .limitation-card,
+    .comparison-card, .agenda-module, .agenda-qa, .audience-qualification, .audience-category,
+    .doctor-gallery figure, .bonus-card, .registration-step-card, .pricing-card):hover {
+    translate: 0 -6px;
+    border-color: rgb(255 133 84 / 64%);
+    box-shadow: var(--premium-card-shadow);
+    background-color: color-mix(in srgb, var(--premium-card-surface, var(--surface-card)) 96%, var(--premium-peach));
+  }
+
+  :is(.trust-stat, .testimonial-video-card, .testimonial-review, .problem-card, .limitation-card,
+    .comparison-card, .agenda-module, .agenda-qa, .audience-qualification, .audience-category,
+    .doctor-gallery figure, .bonus-card, .registration-step-card, .pricing-card, .comparison-images > div):hover::before {
+    animation: premium-card-glint var(--premium-shine-time) var(--premium-ease);
+  }
+
+  .animated-border:hover::after { animation: premium-border-travel 980ms var(--premium-ease); }
+
+  :is(.problem-card:hover .problem-card-image, .agenda-module:hover .agenda-module-image,
+    .audience-category:hover .audience-category-image, .doctor-gallery figure:hover,
+    .bonus-card:hover .bonus-media, .comparison-images > div:hover) img,
+  .testimonial-video-card:hover > img,
+  .intro-player:not(:has(video:not([hidden]))):hover .intro-poster {
+    scale: 1.05;
+    filter: brightness(1.04);
+  }
+
+  :is(.trust-stat:hover .trust-stat-icon, .problem-card:hover h3 svg,
+    .limitation-card:hover .limitation-category svg, .comparison-card:hover svg,
+    .agenda-module:hover .agenda-module-label svg, .agenda-qa:hover .agenda-qa-icon svg,
+    .audience-category:hover h4 svg, .audience-qualification:hover h3 svg, .registration-step-card:hover .registration-step-icon,
+    .bonus-card:hover .bonus-format svg, .testimonial-video-card:hover .testimonial-placeholder-icon) {
+    translate: 0 -3px;
+  }
+
+  .trust-stat:hover .trust-stat-value,
+  .pricing-card:hover .pricing-price {
+    background-image: linear-gradient(110deg, #ff633f, #ff9855, #ffd0a8, #ff633f);
+    background-size: 225% 100%;
+    animation: premium-text-glint 1.5s var(--premium-ease);
+  }
+
+  .pulse-ring:hover { transform: scale(1.07); box-shadow: 0 5px 29px rgb(255 99 63 / 47%); }
+  .pulse-ring:hover svg { translate: 2px 0; }
+  .faq-item:hover { border-color: rgb(255 133 84 / 75%); background-color: #fff9f4; }
+  .faq-item button:hover svg { translate: 0 -2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .registration-button.btn-shine,
+  .registration-button-arrow,
+  .pulse-ring,
+  .pulse-ring svg,
+  .faq-item,
+  .faq-item button svg { transition: none; }
+
+  .intro-play-button.pulse-ring:is(:hover, :active) { transform: none; }
+}

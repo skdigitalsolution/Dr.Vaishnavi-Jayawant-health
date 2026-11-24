@@ -1,0 +1,135 @@
+.announcement-bar {
+  height: 40px;
+  overflow: hidden;
+  container-type: inline-size;
+  border-bottom: 1px solid var(--surface-border);
+  background: var(--surface-bg);
+  color: var(--surface-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.announcement-bar:focus-visible {
+  outline-offset: -2px;
+}
+
+.announcement-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: announcement-scroll 36s linear infinite;
+}
+
+.announcement-bar:is(:hover, :focus-visible) .announcement-track {
+  animation-play-state: paused;
+}
+
+.announcement-group,
+.announcement-group li {
+  display: flex;
+  align-items: center;
+}
+
+.announcement-group {
+  min-width: 100cqw;
+  flex: none;
+  justify-content: space-around;
+}
+
+.announcement-group li {
+  flex: 1 0 auto;
+  justify-content: space-around;
+  gap: 1.25rem;
+  padding-inline-start: 1.25rem;
+  white-space: nowrap;
+}
+
+.announcement-group li::after {
+  width: 4px;
+  height: 4px;
+  transform: rotate(45deg);
+  background: var(--surface-text);
+  opacity: 0.65;
+  content: '';
+}
+
+@keyframes announcement-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.webinar-navbar {
+  position: absolute;
+  z-index: 1;
+  inset-inline: 0;
+  background: transparent;
+}
+
+.webinar-navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: 1200px;
+  height: 80px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+}
+
+.webinar-brand {
+  display: grid;
+  gap: 0.125rem;
+  line-height: 1.2;
+}
+
+.webinar-brand-name {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.webinar-brand-tagline {
+  color: var(--surface-text);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+@media (max-width: 639px) {
+  .announcement-bar {
+    height: 34px;
+    font-size: 0.8125rem;
+  }
+
+  .webinar-navbar-inner {
+    height: 64px;
+  }
+
+  .webinar-brand-name {
+    font-size: 1.0625rem;
+  }
+
+  .webinar-brand-tagline {
+    font-size: 0.6875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-bar {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .announcement-track {
+    animation: none;
+  }
+
+  .announcement-group[aria-hidden='true'],
+  .announcement-group li:last-child::after {
+    display: none;
+  }
+
+  .announcement-group li:last-child {
+    padding-inline-end: 1.25rem;
+  }
+}

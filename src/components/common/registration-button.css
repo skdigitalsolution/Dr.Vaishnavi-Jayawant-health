@@ -1,0 +1,35 @@
+.registration-button {
+  flex: none;
+  min-height: 44px;
+  padding: 0.6875rem 1.375rem;
+  border-radius: 9999px;
+  background: var(--cta-gradient);
+  color: var(--cta-text, #171717);
+  box-shadow: 0 8px 22px rgb(255 99 63 / 28%);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.registration-button:focus-visible {
+  outline: 2px solid #ff8554;
+  outline-offset: 3px;
+}
+
+.registration-button:disabled,
+.registration-button[aria-disabled='true'] {
+  cursor: not-allowed;
+  filter: grayscale(0.1) saturate(0.7);
+  opacity: 0.72;
+  box-shadow: none;
+  transform: none;
+}
+
+@media (max-width: 639px) {
+  .registration-button {
+    padding-inline: 0.875rem;
+    font-size: 0.8125rem;
+  }
+}
+

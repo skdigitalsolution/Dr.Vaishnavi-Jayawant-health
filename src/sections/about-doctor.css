@@ -1,0 +1,437 @@
+.about-doctor,
+.doctor-story {
+  --doctor-orange: var(--surface-accent);
+  --doctor-gradient: var(--surface-accent-gradient);
+  --doctor-border: var(--surface-border);
+  background-color: var(--surface-bg);
+}
+
+.about-doctor {
+  overflow-x: clip;
+  padding-block: clamp(5.625rem, 7vw, 6.875rem);
+}
+
+.doctor-content,
+.doctor-story-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.doctor-gallery-heading,
+.doctor-actions {
+  text-align: center;
+}
+
+.doctor-label,
+.doctor-draft {
+  color: var(--doctor-orange);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.doctor-label {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.doctor-gallery-heading h2,
+.doctor-biography h2 {
+  margin-block-start: 0.75rem;
+  color: var(--surface-heading);
+  font-size: clamp(2.75rem, 4.25vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.12;
+}
+
+.doctor-gallery-heading h2 span,
+.doctor-biography-journey h3,
+.doctor-stats strong {
+  background: var(--doctor-gradient);
+  background-clip: text;
+  color: transparent;
+}
+
+.doctor-gallery-heading h2 span { display: block; }
+
+.doctor-gallery-heading > p:not(.doctor-label) {
+  max-width: 750px;
+  margin: 0.875rem auto 0;
+  line-height: 1.65;
+}
+
+.doctor-gallery { margin-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 7vw, 5.5rem); }
+
+.doctor-gallery-track {
+  --gallery-gap: clamp(0.625rem, 1.5vw, 1.125rem);
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * var(--gallery-gap)) / 4);
+  gap: var(--gallery-gap);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.doctor-gallery-track:focus-visible { outline-offset: -2px; }
+.doctor-gallery-track li { min-width: 0; scroll-snap-align: start; }
+
+.doctor-gallery figure {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--doctor-border);
+  border-radius: 14px;
+  background: var(--surface-card);
+}
+
+.doctor-gallery figure::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgb(20 20 20 / 68%));
+  pointer-events: none;
+  content: '';
+}
+
+.doctor-gallery img,
+.doctor-story img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.doctor-gallery figcaption {
+  position: absolute;
+  inset: auto 0.375rem 0.5rem;
+  z-index: 1;
+  color: var(--color-primary-text);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.doctor-gallery-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.625rem;
+  margin-block-start: 0.875rem;
+}
+
+.doctor-gallery-controls button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--doctor-border);
+  border-radius: 50%;
+  background: var(--surface-card);
+  cursor: pointer;
+}
+
+.doctor-gallery-controls button:hover:not(:disabled) { border-color: var(--doctor-orange); }
+.doctor-gallery-controls button:disabled { opacity: 0.4; cursor: default; }
+
+.doctor-biography {
+  display: grid;
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  scroll-margin-block-start: 1rem;
+}
+
+.doctor-biography:has(.doctor-profile) {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+}
+
+.doctor-biography:not(:has(.doctor-profile)) {
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.doctor-profile {
+  position: relative;
+  isolation: isolate;
+  padding: 0 0.75rem 0.75rem 0;
+}
+
+.doctor-profile::before {
+  position: absolute;
+  z-index: -1;
+  inset: -10% -10% 2%;
+  background: radial-gradient(ellipse, rgb(255 173 112 / 27%), transparent 68%);
+  pointer-events: none;
+  content: '';
+}
+
+.doctor-profile-frame {
+  position: absolute;
+  z-index: -1;
+  inset: 0.75rem 0 0 0.75rem;
+  border: 1px solid rgb(255 99 63 / 40%);
+  border-radius: 24px;
+  background: rgb(255 173 112 / 10%);
+}
+
+.doctor-profile-portrait {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border: 1px solid transparent;
+  border-radius: 24px;
+  background: linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(145deg, #ff633f, #ffd0ad 52%, #ffad70) border-box;
+  box-shadow: 0 18px 40px rgb(68 38 17 / 13%);
+  transition: transform 500ms var(--premium-ease), box-shadow 500ms var(--premium-ease),
+    border-color 500ms var(--premium-ease);
+}
+
+.doctor-profile-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 550ms var(--premium-ease);
+}
+
+.doctor-profile-portrait::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  transform: translateX(-125%);
+  background: linear-gradient(112deg, transparent 34%, rgb(255 226 206 / 24%) 50%, transparent 66%);
+  pointer-events: none;
+  content: '';
+}
+
+.doctor-profile-namecard {
+  position: absolute;
+  z-index: 2;
+  inset: auto clamp(0.75rem, 2.1vw, 1.5rem) clamp(0.75rem, 2.1vw, 1.5rem);
+  display: grid;
+  gap: 0.25rem;
+  padding: clamp(0.75rem, 2vw, 1.125rem);
+  border: 1px solid rgb(255 255 255 / 84%);
+  border-radius: 16px;
+  background: rgb(255 255 255 / 92%);
+  box-shadow: 0 8px 24px rgb(35 20 13 / 15%);
+  backdrop-filter: blur(12px);
+}
+
+.doctor-profile-namecard::before {
+  width: 1.625rem;
+  height: 3px;
+  border-radius: 999px;
+  background: #ff633f;
+  content: '';
+}
+
+.doctor-profile-namecard strong {
+  color: var(--surface-heading);
+  font-size: clamp(1.125rem, 2.4vw, 1.625rem);
+  font-weight: 850;
+}
+
+.doctor-profile-namecard span {
+  color: var(--surface-text);
+  font-size: clamp(0.75rem, 1.25vw, 0.875rem);
+  line-height: 1.4;
+}
+
+.doctor-biography .doctor-biography-copy h2 {
+  font-size: clamp(2.125rem, 4.8vw, 3.625rem);
+  letter-spacing: -0.035em;
+}
+
+.doctor-subtitle {
+  margin-block-start: 0.5rem;
+  color: var(--surface-text);
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  font-weight: 600;
+}
+
+.doctor-credentials {
+  display: grid;
+  gap: 0.375rem;
+  margin-block-start: 0.875rem;
+  color: var(--surface-text);
+}
+
+.doctor-biography-journey,
+.doctor-approach,
+.doctor-stats { margin-block-start: 1.5rem; }
+
+.doctor-biography-journey h3,
+.doctor-approach h3 {
+  font-size: clamp(1.375rem, 2.75vw, 1.875rem);
+  line-height: 1.2;
+}
+
+.doctor-biography-journey h3 {
+  margin-block-start: 0.375rem;
+  background-image: linear-gradient(110deg, #b93820, #b75116);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 850;
+}
+
+.doctor-biography-journey p:not(.doctor-draft) {
+  margin-block-start: 0.75rem;
+  color: var(--surface-text);
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.7;
+}
+
+.doctor-stats,
+.doctor-approach ul {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.doctor-stats { grid-template-columns: repeat(auto-fit, minmax(min(100%, 7.5rem), 1fr)); }
+
+.doctor-stats li {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  border: 1px solid var(--doctor-border);
+  border-radius: 12px;
+  background: var(--surface-card);
+  color: var(--surface-heading);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.doctor-stats strong { font-size: clamp(1.5rem, 3vw, 2.25rem); line-height: 1.1; }
+.doctor-approach ul { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-block-start: 0.875rem; }
+
+.doctor-approach li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--surface-text);
+  font-size: 0.9375rem;
+}
+
+.doctor-approach svg { flex: none; color: var(--doctor-orange); }
+
+.doctor-message {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  max-width: 50rem;
+  margin: clamp(1.75rem, 4vw, 3rem) auto 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--doctor-border);
+  border-radius: 18px;
+  background: var(--surface-card);
+  box-shadow: var(--surface-shadow);
+  color: var(--surface-heading);
+  text-align: center;
+}
+
+.doctor-message svg { color: var(--doctor-orange); }
+.doctor-message blockquote { font-size: clamp(1.125rem, 2.5vw, 1.5rem); font-style: italic; }
+.doctor-message figcaption { color: var(--surface-accent); font-weight: 700; }
+.doctor-actions { margin-block-start: clamp(1.75rem, 4vw, 3rem); }
+.doctor-actions h3 { font-size: clamp(1.375rem, 3vw, 2rem); }
+
+.doctor-actions .doctor-registration {
+  min-height: 54px;
+  margin-block-start: 0.875rem;
+  padding-inline: 1.5rem;
+  font-size: 1rem;
+}
+
+.doctor-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 0.625rem;
+  margin-block-start: 0.875rem;
+  color: var(--surface-text);
+  font-size: 0.8125rem;
+}
+
+.doctor-benefits li + li::before {
+  margin-inline-end: 0.625rem;
+  color: var(--doctor-orange);
+  content: '•';
+}
+
+.doctor-story { padding-block-end: clamp(1rem, 3vw, 2rem); }
+
+.doctor-story-inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(0.75rem, 3vw, 1.5rem);
+  max-width: 52rem;
+  width: calc(100% - 2rem);
+  padding: clamp(0.875rem, 3vw, 1.5rem);
+  border: 1px solid var(--doctor-border);
+  border-radius: 18px;
+  background: var(--surface-card);
+  box-shadow: var(--surface-shadow);
+}
+
+.doctor-story img,
+.doctor-story-avatar {
+  width: clamp(3rem, 9vw, 5rem);
+  aspect-ratio: 3 / 4;
+  height: auto;
+  border-radius: 10px;
+}
+
+.doctor-story-avatar { display: grid; place-items: center; background: var(--surface-bg); color: var(--doctor-orange); }
+.doctor-story h2 { font-size: clamp(1.125rem, 2.5vw, 1.625rem); }
+.doctor-story p:not(.doctor-draft) { margin-block-start: 0.375rem; color: var(--surface-text); }
+.doctor-story-name { font-weight: 700; }
+
+.doctor-story a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-block-start: 0.5rem;
+  color: var(--doctor-orange);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(#doctor-biography:target) { scroll-behavior: auto; }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .doctor-profile:hover .doctor-profile-portrait {
+    transform: translateY(-4px);
+    border-color: rgb(255 99 63 / 50%);
+    box-shadow: 0 24px 48px rgb(68 38 17 / 19%);
+  }
+
+  .doctor-profile:hover img { transform: scale(1.04); }
+  .doctor-profile:hover .doctor-profile-portrait::after { animation: doctor-profile-shine 560ms var(--premium-ease); }
+}
+
+@keyframes doctor-profile-shine {
+  to { transform: translateX(125%); }
+}
+
+@media (max-width: 1023px) {
+  .doctor-gallery-track { grid-auto-columns: calc((100% - 2 * var(--gallery-gap)) / 3); }
+  .doctor-gallery-heading h2, .doctor-biography h2 { font-size: clamp(2.25rem, 4.5vw, 2.625rem); }
+}
+
+@media (max-width: 639px) {
+  .about-doctor { padding-block: clamp(3rem, 9vw, 3.75rem); }
+  .doctor-gallery-track { grid-auto-columns: calc((100% - var(--gallery-gap)) / 2); }
+  .doctor-gallery-heading h2, .doctor-biography h2 { font-size: clamp(1.75rem, 7vw, 2.125rem); }
+  .doctor-biography:has(.doctor-profile) { grid-template-columns: minmax(0, 1fr); }
+  .doctor-profile { width: 100%; max-width: 26rem; margin-inline: auto; }
+  .doctor-actions .doctor-registration { width: 100%; }
+}

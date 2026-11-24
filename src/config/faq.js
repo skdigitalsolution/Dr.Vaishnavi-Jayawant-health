@@ -1,0 +1,17 @@
+export const faq = [
+  ['What is this masterclass about?', 'This live masterclass focuses on understanding PCOS, hormonal health, balanced nutrition and sustainable lifestyle habits that can fit into everyday life.'],
+  ['Who can attend this masterclass?', 'The masterclass is designed for women who want to understand PCOS, nutrition and hormonal wellness better, including women who have been diagnosed with PCOS or PCOD.'],
+  ['Do I need a confirmed PCOS diagnosis to attend?', 'No. Anyone interested in learning about PCOS and women’s hormonal health can attend. The webinar does not provide an individual medical diagnosis.'],
+  ['Do I need to follow a strict diet?', 'No. The masterclass focuses on balanced nutrition and sustainable lifestyle habits rather than extreme dietary restrictions.'],
+  ['Will I have to stop eating rice, roti or my favourite foods?', 'The masterclass explores balanced nutrition using familiar Indian foods and everyday meals. Individual dietary requirements may vary.'],
+  ['Will I receive a personalised diet plan?', 'This is a group educational masterclass. Personalised nutrition plans and medical recommendations require an individual assessment.'],
+  ['Can I attend if I am planning a pregnancy?', 'Yes. The masterclass provides general educational information about PCOS and hormonal wellness. Individual fertility concerns should be discussed with a qualified healthcare professional.'],
+  ['Do I need to stop my current medicines?', 'No. Continue your prescribed medications and consult your treating healthcare professional before making any changes.'],
+  ['Does my husband or family need to attend?', 'No. You can attend independently. Additional attendee access is subject to the webinar registration policy.'],
+  ['Will I be able to ask questions during the webinar?', 'The masterclass includes a live Q&A session covering common questions about PCOS, nutrition and lifestyle habits. Individual medical consultations are not included.'],
+  ['Can I attend using my mobile phone?', 'Yes. You can join the live online masterclass using a smartphone, tablet, laptop or desktop computer with a stable internet connection.'],
+  ['How will I receive the webinar joining link?', 'After successful registration and payment verification, joining instructions will be shared through the confirmed communication channels.'],
+  ['Will I receive a recording of the webinar?', 'Recording availability will be communicated before registration.'],
+  ['Is my personal information private?', 'Your registration information will be handled according to our published privacy policy. You are not required to publicly share sensitive medical information during the webinar.'],
+  ['What is the refund and cancellation policy?', 'Please review our refund and cancellation policy before completing your webinar registration.'],
+].map(([question, answer]) => ({ question, answer }))
