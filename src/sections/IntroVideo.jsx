@@ -17,7 +17,9 @@ const videoHintId = 'intro-video-hint'
 export default function IntroVideo({ ebookPromotionActive, ebookPromotionExpired }) {
   const reducedMotion = useReducedMotion()
   const introduction = webinarConfig.introduction
-  const developmentPreview = import.meta.env.DEV && !ebookPromotionActive
+  const developmentPreview = !ebookPromotionActive && (
+    import.meta.env.DEV || (offer.preview && !offer.promotionApproved)
+  )
   const showPromotion = ebookPromotionActive || developmentPreview
   const referenceValue = developmentPreview ? '₹999' : offer.verifiedReferenceValue
 
