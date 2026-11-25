@@ -2,13 +2,12 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Gift, X } from 'lucide-react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import webinarConfig from '../../config/webinar'
+import PriceDisplay from './PriceDisplay'
 import OfferCountdown from './OfferCountdown'
 import RegistrationButton from './RegistrationButton'
 import '../../styles/animations.css'
 
 const easing = [0.22, 1, 0.36, 1]
-const price = webinarConfig.registration.displayPrice
 
 export default function OfferPopup({ seconds, onOpen, onClose }) {
   const dialog = useRef(null)
@@ -94,7 +93,7 @@ export default function OfferPopup({ seconds, onOpen, onClose }) {
                 <p className="offer-label"><Gift size={17} aria-hidden="true" /> Limited Time Registration Offer</p>
                 <h2 id="offer-heading">
                   Book Your Seat for
-                  <strong className="offer-price">{price}</strong>
+                  <span className="offer-price"><PriceDisplay /></span>
                   {!expired && <span>&amp; Get a Premium eBook <em className="offer-free">Absolutely FREE!</em></span>}
                 </h2>
                 {expired
@@ -102,7 +101,6 @@ export default function OfferPopup({ seconds, onOpen, onClose }) {
                   : <OfferCountdown seconds={seconds} />}
                 <RegistrationButton
                   className="offer-register"
-                  text={expired ? `Reserve My Seat – ${price}` : `Yes! Reserve My Seat – ${price}`}
                   showArrow
                   observeInPage={false}
                 />

@@ -43,7 +43,7 @@
 
 .faq-title span,
 .final-cta-content h2 span,
-.final-cta-price {
+.final-cta-price strong {
   background: var(--ending-gradient);
   background-clip: text;
   color: transparent;
@@ -148,6 +148,7 @@
   font-size: clamp(3.25rem, 7vw, 5.25rem);
   font-weight: 900;
   line-height: 1.12;
+  color: var(--surface-text);
 }
 
 .final-cta-content .final-cta-registration {

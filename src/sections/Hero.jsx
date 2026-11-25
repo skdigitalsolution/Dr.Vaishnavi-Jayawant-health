@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { premiumReveal } from '../utils/premiumMotion'
 import { Layers, MessageCircle, Video } from 'lucide-react'
 import webinarConfig from '../config/webinar'
+import RegistrationButton from '../components/common/RegistrationButton'
 import './hero.css'
 
 const benefits = [
@@ -63,6 +64,9 @@ export default function Hero() {
             </motion.li>
           ))}
         </ul>
+        <motion.div className="mt-5" {...entrance(0.35, { y: 6 })}>
+          <RegistrationButton />
+        </motion.div>
       </div>
     </main>
   )

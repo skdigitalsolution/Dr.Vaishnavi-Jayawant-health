@@ -14,7 +14,7 @@ export default function Navbar() {
               <span className="webinar-brand-tagline">{webinarConfig.brand.subtitle}</span>
             </>}
         </div>
-        <RegistrationButton />
+        <RegistrationButton compactText="Reserve" />
       </div>
     </header>
   )

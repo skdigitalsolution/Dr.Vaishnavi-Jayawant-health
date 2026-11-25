@@ -1,37 +1,37 @@
-import { MapPin, Quote, Star } from 'lucide-react'
+﻿import { ExternalLink, Star } from 'lucide-react'
 
-const stars = [1, 2, 3, 4, 5]
-
-export default function SuccessStoryCard({ story }) {
-  const { image, name, location, rating, headline, review } = story
-  const hasRating = Number.isFinite(rating) && rating >= 0 && rating <= 5
+export default function SuccessStoryCard({ story, duplicate }) {
+  const { profileImage, initials, clientName, location, rating, headline, description, sourceUrl, sourceBusiness } = story
 
   return (
     <article className="client-story-card">
       <header className="client-story-profile">
-        <img src={image} alt="" width="64" height="64" loading="lazy" decoding="async" />
+        {profileImage
+          ? <span className="client-story-photo">
+              <img src={profileImage} alt="" width="64" height="64" loading="lazy" decoding="async" />
+            </span>
+          : <span className="client-story-initials" aria-hidden="true">{initials}</span>}
         <div>
-          <p className="client-story-name">{name}</p>
-          <p className="client-story-location"><MapPin size={14} aria-hidden="true" />{location}</p>
+          <p className="client-story-name">{clientName}</p>
+          <p className="client-story-meta">{location || `${sourceBusiness} Community`}</p>
         </div>
       </header>
-      {hasRating && (
-        <div className="client-story-rating" role="img" aria-label={`${rating} out of 5 stars`}>
-          {stars.map((star) => (
-            <span key={star} className="client-story-star" aria-hidden="true">
-              <Star size={16} />
-              <span style={{ width: `${Math.min(1, Math.max(0, rating - star + 1)) * 100}%` }}>
-                <Star size={16} fill="currentColor" />
-              </span>
-            </span>
-          ))}
-        </div>
-      )}
+      <div className="client-story-rating" role="img" aria-label={`${rating} out of 5 stars`}>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star key={star} size={16} fill={star <= rating ? 'currentColor' : 'none'} aria-hidden="true" />
+        ))}
+      </div>
       <h3>{headline}</h3>
-      <blockquote className="client-story-quote">
-        <Quote size={25} aria-hidden="true" />
-        <p>{review}</p>
-      </blockquote>
+      <div>
+        <p className="client-story-meta">Review summary</p>
+        <p className="client-story-copy">{description}</p>
+      </div>
+      <footer className="client-story-source">
+        <span>Google Review</span>
+        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" tabIndex={duplicate ? -1 : undefined}>
+          View Original Review <ExternalLink size={14} aria-hidden="true" />
+        </a>
+      </footer>
     </article>
   )
 }

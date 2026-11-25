@@ -4,7 +4,7 @@ import { responsiveReveal } from '../utils/premiumMotion'
 import BonusCard from '../components/common/BonusCard'
 import RegistrationButton from '../components/common/RegistrationButton'
 import { bonusOffer, bonusResources } from '../config/bonuses'
-import webinarConfig from '../config/webinar'
+import PriceDisplay from '../components/common/PriceDisplay'
 import './bonuses.css'
 
 const availableBonuses = bonusResources.filter(({ isApproved, isAvailable, isPlaceholder }) =>
@@ -53,12 +53,12 @@ export default function Bonuses() {
               : `Get access to the live PCOS & PCOD masterclass, interactive Q&A and ${countWord.toLowerCase()} practical ${count === 1 ? 'wellness resource' : 'wellness resources'} with a single registration.`}
           </p>
           <p className="bonuses-price-label">{preview ? 'Webinar Registration' : 'Complete Access For Just'}</p>
-          <p className="bonuses-price">{webinarConfig.registration.displayPrice}</p>
+          <p className="bonuses-price"><PriceDisplay /></p>
           <p className="bonuses-inclusion-note">
             {preview ? 'Bonus availability is pending confirmation.' : 'All Included With Your Webinar Registration.'}
           </p>
           <motion.div className="bonuses-actions" {...entrance(0.06, 8)}>
-            <RegistrationButton className="bonuses-registration" text="Claim My Seat + Bonuses" showArrow />
+            <RegistrationButton className="bonuses-registration" compactText="Reserve Seat" showArrow />
             <p>One-Time Registration <span aria-hidden="true">•</span> No Additional Charges</p>
           </motion.div>
         </motion.div>

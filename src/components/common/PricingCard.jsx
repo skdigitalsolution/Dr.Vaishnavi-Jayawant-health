@@ -7,8 +7,9 @@ import useWebinarRegistration from '../../hooks/useWebinarRegistration'
 import CountdownTimer from './CountdownTimer'
 import PaymentTrust from './PaymentTrust'
 import RegistrationButton from './RegistrationButton'
+import PriceDisplay from './PriceDisplay'
 
-const { instructorName, webinar, registration, displayOriginalPrice } = webinarConfig
+const { instructorName, webinar } = webinarConfig
 const approvedBonuses = bonusResources.filter(({ isApproved, isAvailable, isPlaceholder }) =>
   isApproved && isAvailable && !isPlaceholder,
 )
@@ -50,8 +51,7 @@ export default function PricingCard({ entrance }) {
 
       <motion.div className="pricing-amount" {...entrance(0, 8)}>
         <p className="pricing-price-label">Get Complete Access For Just</p>
-        {displayOriginalPrice && <p className="pricing-original"><span className="sr-only">Original price </span><s>{displayOriginalPrice}</s></p>}
-        <p className="pricing-price">{registration.displayPrice}</p>
+        <p className="pricing-price"><PriceDisplay /></p>
         <p className="pricing-fee">One-Time Registration Fee</p>
         {webinarConfig.taxDisclosure && <p className="pricing-fee">{webinarConfig.taxDisclosure}</p>}
       </motion.div>
@@ -74,7 +74,6 @@ export default function PricingCard({ entrance }) {
       <motion.div className="pricing-actions" {...entrance(0.06, 8)}>
         <RegistrationButton
           className="pricing-registration"
-          text={closed ? 'Registration Closed' : `Yes! Reserve My Seat – ${registration.displayPrice}`}
           showArrow={!closed}
         />
         {!closed && !canReserve && (

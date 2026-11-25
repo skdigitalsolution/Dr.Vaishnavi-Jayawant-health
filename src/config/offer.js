@@ -8,6 +8,9 @@ export function hasBlockingOfferOverlay() {
 
 const offer = {
   preview: showSitePreview,
+  promotionApproved: false,
+  ebookAvailable: false,
+  verifiedReferenceValue: null,
   expiryKey: `${previewId}:expires-at`,
   shownKey: `${previewId}:shown`,
   popupDelayMs: 3000,

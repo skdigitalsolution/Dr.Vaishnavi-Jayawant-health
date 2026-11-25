@@ -6,7 +6,6 @@ import RegistrationButton from '../components/common/RegistrationButton'
 import ReviewCard from '../components/common/ReviewCard'
 import TestimonialVideoCard from '../components/common/TestimonialVideoCard'
 import VideoModal from '../components/common/VideoModal'
-import { clientStories } from '../config/clientStories'
 import { testimonials } from '../config/testimonials'
 import ClientSuccessStories from './ClientSuccessStories'
 import './testimonials.css'
@@ -131,8 +130,6 @@ export default function Testimonials() {
   const reducedMotion = useReducedMotion()
   const [selected, setSelected] = useState(null)
 
-  if (!clientStories.length && !videoEntries.length && !reviewEntries.length) return null
-
   function entrance(delay = 0) {
     return responsiveReveal(reducedMotion, delay, { y: 10 }, 0.1)
   }
@@ -141,10 +138,10 @@ export default function Testimonials() {
     <section className="testimonials-section section-light" aria-labelledby="testimonials-title" data-video-open={Boolean(selected)}>
       <div className="testimonials-content">
         <motion.div className="testimonials-heading" {...entrance()}>
-          <p className="testimonials-label">Real Women · Real Experiences</p>
+          <p className="testimonials-label">REAL PEOPLE · REAL EXPERIENCES</p>
           <h2 id="testimonials-title">Every Woman Has a Story.{' '}<span>The Right Guidance Matters.</span></h2>
           <p className="testimonials-description">
-            Discover the wellness experiences of women who have received guidance from Dr. Vaishnavi.
+            Discover the wellness experiences shared by members of the Wellness Redefined community.
           </p>
         </motion.div>
         <ClientSuccessStories />

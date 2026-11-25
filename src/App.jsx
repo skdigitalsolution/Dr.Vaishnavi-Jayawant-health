@@ -24,15 +24,12 @@ import offer, { hasBlockingOfferOverlay } from './config/offer'
 import useOfferCountdown from './hooks/useOfferCountdown'
 import useWebinarRegistration from './hooks/useWebinarRegistration'
 
-function RegistrationOverlays() {
-  const { seconds, expiresAt, activate } = useOfferCountdown()
-  const { closed } = useWebinarRegistration()
+function RegistrationOverlays({ seconds, expiresAt, activate, closed, isOfferActive }) {
   const [popupMode, setPopupMode] = useState(null)
   const isPopupOpen = popupMode !== null
   const [hasAutoPopupDismissed, setAutoPopupDismissed] = useState(() =>
     offer.preview && sessionStorage.getItem(offer.shownKey) === 'true')
   const manualTrigger = useRef(null)
-  const isOfferActive = offer.preview && !closed && seconds > 0
 
   const showAutomatically = useEffectEvent(() => {
     if (closed || sessionStorage.getItem(offer.shownKey) === 'true' || hasBlockingOfferOverlay()) return
@@ -107,14 +104,22 @@ function RegistrationOverlays() {
 }
 
 export default function App() {
+  const countdown = useOfferCountdown()
+  const { closed } = useWebinarRegistration()
+  const isOfferActive = offer.preview && !closed && countdown.seconds > 0
+  const ebookPromotionActive = offer.promotionApproved && offer.ebookAvailable && isOfferActive
+
   return (
     <div className="webinar-page relative min-h-screen bg-primary-bg text-primary-text">
       <AnnouncementBar />
       <Navbar />
       <Hero />
-      <IntroVideo />
-      <TrustStats />
+      <IntroVideo
+        ebookPromotionActive={ebookPromotionActive}
+        ebookPromotionExpired={offer.promotionApproved && countdown.seconds === 0}
+      />
       <Testimonials />
+      <TrustStats />
       <Problems />
       <DoctorStoryHighlight />
       <Comparison />
@@ -127,7 +132,7 @@ export default function App() {
       <FAQ />
       <FinalCTA />
       <Footer />
-      <RegistrationOverlays />
+      <RegistrationOverlays {...countdown} closed={closed} isOfferActive={isOfferActive} />
     </div>
   )
 }

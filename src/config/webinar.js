@@ -9,8 +9,8 @@ const startTimestamp = parseWebinarInstant(webinarStartAt)
 const duration = null
 const language = null
 const platform = null
-const originalPrice = null
-const showOriginalPrice = false
+const originalPrice = 499
+const showOriginalPrice = true
 const { price, currency } = baseConfig.registration
 const displayOriginalPrice = showOriginalPrice && Number.isFinite(originalPrice) && originalPrice > price
   ? new Intl.NumberFormat('en-IN', { style: 'currency', currency, minimumFractionDigits: 0 }).format(originalPrice)

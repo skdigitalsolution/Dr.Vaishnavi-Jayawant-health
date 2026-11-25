@@ -4,17 +4,19 @@ import { useRef, useState } from 'react'
 import webinarConfig from '../../config/webinar'
 import useWebinarRegistration from '../../hooks/useWebinarRegistration'
 import Button from '../ui/Button'
+import PriceDisplay from './PriceDisplay'
 import './registration-button.css'
 
 export default function RegistrationButton({
-  text = `Reserve My Seat – ${webinarConfig.registration.displayPrice}`,
+  text = 'Yes! Reserve My Seat',
+  compactText = 'Reserve My Seat',
   className = '',
-  showArrow = false,
+  showArrow = true,
   observeInPage = true,
 }) {
   const button = useRef(null)
   const inView = useInView(button, { amount: 0.25 })
-  const { canReserve } = useWebinarRegistration()
+  const { canReserve, closed } = useWebinarRegistration()
   const [touchPressed, setTouchPressed] = useState(false)
 
   function startPress(event) {
@@ -40,8 +42,14 @@ export default function RegistrationButton({
       href={canReserve ? webinarConfig.paymentUrl : undefined}
       disabled={canReserve ? undefined : true}
     >
-      {text}
-      {showArrow && <ArrowRight className="registration-button-arrow" aria-hidden="true" size={21} />}
+      <span className="registration-button-label">
+        {closed ? <span>Registration Closed</span> : <>
+          <span className="registration-button-full-text">{text}</span>
+          <span className="registration-button-compact-text">{compactText}</span>
+          <span className="registration-button-prices">– <PriceDisplay /></span>
+        </>}
+      </span>
+      {showArrow && !closed && <ArrowRight className="registration-button-arrow" aria-hidden="true" size={21} />}
     </Button>
   )
 }

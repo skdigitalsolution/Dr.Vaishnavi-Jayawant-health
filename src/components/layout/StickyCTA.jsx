@@ -5,9 +5,10 @@ import useWebinarRegistration from '../../hooks/useWebinarRegistration'
 import CountdownTimer from '../common/CountdownTimer'
 import OfferCountdown from '../common/OfferCountdown'
 import RegistrationButton from '../common/RegistrationButton'
+import PriceDisplay from '../common/PriceDisplay'
 import './sticky-cta.css'
 
-const { registration, displayOriginalPrice, webinarStartAt } = webinarConfig
+const { webinarStartAt } = webinarConfig
 const ctaSelector = '[data-registration-cta]'
 
 function isInPageCTA(button) {
@@ -161,8 +162,7 @@ function StickyRegistrationBar({ offerSeconds }) {
           <p className="sticky-desktop-label">Complete Masterclass Access</p>
           <p className="sticky-mobile-label">Registration Fee</p>
           <p className="sticky-registration-amount">
-            {displayOriginalPrice && <s><span className="sr-only">Original price </span>{displayOriginalPrice}</s>}
-            <strong>{registration.displayPrice}</strong>
+            <PriceDisplay />
           </p>
           <p className="sticky-desktop-label sticky-registration-fee">One-Time Registration</p>
         </div>
@@ -174,10 +174,6 @@ function StickyRegistrationBar({ offerSeconds }) {
         <div className="sticky-registration-actions">
           <RegistrationButton
             className="sticky-registration-button"
-            text={closed ? 'Registration Closed' : <>
-              <span className="sticky-desktop-label">Reserve My Seat</span>
-              <span className="sticky-mobile-label">Reserve My Seat – {registration.displayPrice}</span>
-            </>}
             showArrow={!closed}
             observeInPage={false}
           />

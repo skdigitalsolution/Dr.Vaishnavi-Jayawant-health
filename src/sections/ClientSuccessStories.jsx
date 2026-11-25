@@ -2,11 +2,11 @@ import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from 'react'
 import SuccessStoryCard from '../components/common/SuccessStoryCard'
-import { clientStories } from '../config/clientStories'
+import { clientStoryCards } from '../config/clientStories'
 import { responsiveReveal } from '../utils/premiumMotion'
 import './client-success-stories.css'
 
-const count = clientStories.length
+const count = clientStoryCards.length
 const normalize = (index) => ((index % count) + count) % count
 
 export default function ClientSuccessStories() {
@@ -93,15 +93,17 @@ export default function ClientSuccessStories() {
     return () => window.clearInterval(interval)
   }, [loops, paused, hovered, focused, touching, inView, reducedMotion, active])
 
-  if (!count) return null
+  if (!count) {
+    return <p className="client-stories">Community reviews will appear here once permission to republish them is confirmed.</p>
+  }
 
   return (
     <div
       ref={region}
       className="client-stories"
       role="region"
-      aria-label="Client stories"
-      aria-roledescription="carousel"
+      aria-label="Wellness Redefined community reviews"
+      aria-roledescription={loops ? 'carousel' : undefined}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)}
@@ -111,7 +113,7 @@ export default function ClientSuccessStories() {
         ref={track}
         id="client-stories-track"
         className="client-stories-track"
-        aria-label="Client profiles"
+        aria-label="Reviewer profiles"
         tabIndex={loops ? 0 : undefined}
         onScroll={onScroll}
         onTouchStart={() => setTouching(true)}
@@ -123,34 +125,34 @@ export default function ClientSuccessStories() {
           move(event.key === 'ArrowRight' ? 1 : -1)
         }}
       >
-        {copies.flatMap((copy) => clientStories.map((story, index) => (
+        {copies.flatMap((copy) => clientStoryCards.map((story, index) => (
           <motion.li
             key={`${copy - Number(loops)}-${story.id}`}
             aria-hidden={loops && copy !== 1 ? true : undefined}
             {...responsiveReveal(reducedMotion, (index % capacity) * 0.07, { y: 12 }, 0.2)}
           >
-            <SuccessStoryCard story={story} />
+            <SuccessStoryCard story={story} duplicate={loops && copy !== 1} />
           </motion.li>
         )))}
       </ul>
       {loops && (
         <div className="client-stories-controls">
-          <button type="button" aria-label="Previous client story" aria-controls="client-stories-track" onClick={() => move(-1)}>
+          <button type="button" aria-label="Previous card" aria-controls="client-stories-track" onClick={() => move(-1)}>
             <ChevronLeft size={19} aria-hidden="true" />
           </button>
-          <div className="client-stories-pages" aria-label="Client story positions">
-            {clientStories.map(({ id, location }, index) => (
+          <div className="client-stories-pages" aria-label="Card positions">
+            {clientStoryCards.map(({ id, headline }, index) => (
               <button
                 key={id}
                 type="button"
-                aria-label={`Go to story ${index + 1}, ${location}`}
+                aria-label={`Go to card ${index + 1}, ${headline}`}
                 aria-current={active === index ? 'true' : undefined}
                 aria-controls="client-stories-track"
                 onClick={() => scrollToCard(count + index, reducedMotion ? 'instant' : 'smooth')}
               />
             ))}
           </div>
-          <button type="button" aria-label="Next client story" aria-controls="client-stories-track" onClick={() => move(1)}>
+          <button type="button" aria-label="Next card" aria-controls="client-stories-track" onClick={() => move(1)}>
             <ChevronRight size={19} aria-hidden="true" />
           </button>
           {!reducedMotion && (

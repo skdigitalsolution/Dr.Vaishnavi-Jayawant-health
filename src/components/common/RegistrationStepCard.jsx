@@ -1,3 +1,5 @@
+import PriceDisplay from './PriceDisplay'
+
 export default function RegistrationStepCard({ step }) {
   const { stepNumber, title, description, supportingLabel, icon: Icon } = step
 
@@ -11,7 +13,9 @@ export default function RegistrationStepCard({ step }) {
       </header>
       <p className="registration-step-label">Step {stepNumber}</p>
       <h3>{title}</h3>
-      <p className="registration-step-description">{description}</p>
+      <p className="registration-step-description">
+        {step.showRegistrationPrice && <>Complete your <PriceDisplay /> </>}{description}
+      </p>
       <p className="registration-step-support">{supportingLabel}</p>
     </article>
   )

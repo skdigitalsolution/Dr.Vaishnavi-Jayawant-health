@@ -39,14 +39,12 @@
   gap: 0.25rem 0.5rem;
 }
 
-.sticky-registration-amount > s { color: #d6d3d1; }
+.sticky-registration-amount .registration-price-pair > s { color: #d6d3d1; }
 
 .sticky-registration-amount strong {
   background: linear-gradient(110deg, #ff633f 0%, #ff8554 50%, #ffad70 100%);
   background-clip: text;
   color: transparent;
-  font-size: clamp(2rem, 3vw, 2.5rem);
-  font-weight: 900;
   line-height: 1.1;
 }
 
@@ -87,7 +85,6 @@
   .sticky-desktop-label { display: none; }
   .sticky-mobile-label { display: inline; }
   .sticky-registration-offer { font-size: 0.75rem; }
-  .sticky-registration-amount strong { font-size: clamp(1.625rem, 7vw, 2rem); }
   .sticky-registration-timer .pricing-countdown-status { max-width: 10rem; font-size: 0.75rem; }
   .sticky-registration-timer .pricing-countdown dl > div { min-width: 2.4rem; }
   .sticky-registration-timer .pricing-countdown dt { font-size: 0.5rem; }

@@ -8,8 +8,37 @@
   box-shadow: 0 8px 22px rgb(255 99 63 / 28%);
   font-size: 0.9375rem;
   font-weight: 700;
-  white-space: nowrap;
+  max-width: 100%;
   cursor: pointer;
+}
+
+.registration-button-label {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: 0.35em;
+  min-width: max-content;
+  text-align: center;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.registration-button-compact-text { display: none; }
+.registration-button-arrow { flex: none; }
+
+@media (max-width: 540px) {
+  .webinar-navbar .registration-button {
+    flex: none;
+    padding-inline: 0.65rem;
+  }
+
+  .webinar-navbar .registration-button-full-text { display: none; }
+  .webinar-navbar .registration-button-compact-text { display: inline; }
+}
+
+@media (max-width: 379px) {
+  .registration-button-full-text { display: none; }
+  .registration-button-compact-text { display: inline; }
 }
 
 .registration-button:focus-visible {

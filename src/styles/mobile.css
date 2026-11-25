@@ -110,7 +110,6 @@
   .webinar-page .registration-button:not(.webinar-navbar .registration-button) { max-width: 100%; white-space: normal; }
   .sticky-registration-inner { gap: 6px 8px; padding-block: 6px; }
   .sticky-registration .sticky-registration-button { min-height: 44px; padding-block: 8px; font-size: 14px; }
-  .sticky-registration-amount strong { font-size: 1.5rem; }
 
   :is(.problems-grid, .limitation-grid, .bonuses-grid, .registration-step-grid) { grid-auto-rows: auto; }
   .testimonials-section .testimonial-carousel { width: 100%; }

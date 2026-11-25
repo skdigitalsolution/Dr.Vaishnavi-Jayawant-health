@@ -104,7 +104,7 @@
   line-height: 1.12;
 }
 
-.offer-price,
+.offer-price strong,
 .offer-free {
   background: linear-gradient(108deg, #ff9a59 30%, #ffcd83 44%, #fff0b9 50%, #ffbe73 56%, #ff8c4f 72%);
   background-size: 240% 100%;
@@ -114,10 +114,11 @@
 }
 
 .offer-price {
-  font-size: clamp(3.8rem, 14vw, 6.5rem);
+  font-size: clamp(2.75rem, 11vw, 6.5rem);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.065em;
+  color: #ffddbf;
 }
 
 .offer-free { display: table; margin: 4px auto 0; font-style: normal; animation-delay: 0.65s; }
@@ -181,7 +182,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .offer-panel, .offer-price, .offer-free, .offer-clock span { animation: none; }
+  .offer-panel, .offer-price strong, .offer-free, .offer-clock span { animation: none; }
   .offer-close { transition: none; }
   .offer-close:hover { transform: none; }
 }
