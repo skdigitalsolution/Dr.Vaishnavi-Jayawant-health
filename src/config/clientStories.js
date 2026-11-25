@@ -1,32 +1,23 @@
-import { showSitePreview } from './sitePreview'
 const imageRoot = `${import.meta.env.BASE_URL}images/client-stories/`
 
-// Add entries only after verifying the original review and securing publication consent.
-// Each entry needs id, name, location, image, headline, review, isVerified and hasConsent.
+// Add original feedback and a genuine photo only after verifying the details and obtaining consent.
+// Fields: id, name, city, state, image (filename), headline, review, isVerified, hasConsent.
+// rating is optional and preserves the original score on a five-star scale.
+// Use 40–60 words when the original supports that length. Preserve shorter reviews as supplied.
+// Confirm city and state before entry. Any location is supported, including:
+// Mumbai and Pune (Maharashtra), New Delhi (Delhi), Bengaluru (Karnataka),
+// Hyderabad (Telangana), Ahmedabad (Gujarat), Jaipur (Rajasthan),
+// Kolkata (West Bengal), and Kochi (Kerala).
 const approvedStories = []
 
-const previewStories = showSitePreview ? [
-  ['mumbai', 'Mumbai, Maharashtra'],
-  ['new-delhi', 'New Delhi, Delhi'],
-  ['bengaluru', 'Bengaluru, Karnataka'],
-  ['pune', 'Pune, Maharashtra'],
-  ['ahmedabad', 'Ahmedabad, Gujarat'],
-  ['hyderabad', 'Hyderabad, Telangana'],
-  ['kochi', 'Kochi, Kerala'],
-  ['jaipur', 'Jaipur, Rajasthan'],
-  ['kolkata', 'Kolkata, West Bengal'],
-].map(([id, location]) => ({
-  id,
-  location,
-  image: `${imageRoot}${id}.webp`,
-  name: 'Sample profile',
-  headline: 'Client story preview',
-  review: 'The original client review will appear here once it is verified and approved for publication.',
-  preview: true,
-})) : []
-
-const verifiedStories = approvedStories.filter((story) =>
-  story.isVerified && story.hasConsent && story.name && story.location &&
-  story.image && story.headline && story.review)
-
-export const clientStories = verifiedStories.length ? verifiedStories : previewStories
+export const clientStories = approvedStories
+  .filter(({ isVerified, hasConsent, id, name, city, state, image, headline, review }) =>
+    isVerified === true && hasConsent === true &&
+    [id, name, city, state, image, headline, review].every((value) =>
+      typeof value === 'string' && value.trim().length > 0),
+  )
+  .map((story) => ({
+    ...story,
+    location: `${story.city}, ${story.state}`,
+    image: `${imageRoot}${encodeURIComponent(story.image)}`,
+  }))

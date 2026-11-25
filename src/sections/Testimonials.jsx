@@ -12,7 +12,6 @@ import ClientSuccessStories from './ClientSuccessStories'
 import './testimonials.css'
 
 const { videos: videoEntries, reviews: reviewEntries } = testimonials
-const isPreview = clientStories.some((story) => story.preview)
 
 function VideoCarousel({ onPlay, reducedMotion, entrance, videoOpen }) {
   const track = useRef(null)
@@ -147,7 +146,6 @@ export default function Testimonials() {
           <p className="testimonials-description">
             Discover the wellness experiences of women who have received guidance from Dr. Vaishnavi.
           </p>
-          {isPreview && <p className="testimonials-preview-note">Development preview · Sample profiles only</p>}
         </motion.div>
         <ClientSuccessStories />
         {videoEntries.length > 0 && (

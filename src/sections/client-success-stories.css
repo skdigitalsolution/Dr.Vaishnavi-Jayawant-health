@@ -66,7 +66,25 @@
   font-size: 0.84rem;
 }
 .client-story-location svg { flex: none; color: var(--surface-accent); }
-.client-story-preview { color: var(--surface-accent); font-size: 0.73rem; font-weight: 700; }
+.client-story-rating {
+  display: flex;
+  gap: 0.2rem;
+  color: #b85a25;
+}
+
+.client-story-star {
+  position: relative;
+  display: grid;
+}
+
+.client-story-star > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  overflow: hidden;
+}
+
+.client-story-star svg { display: block; max-width: none; }
+
 .client-story-card h3 {
   background: var(--surface-accent-gradient);
   background-clip: text;
@@ -75,14 +93,29 @@
   font-weight: 850;
   line-height: 1.23;
 }
-.client-story-card > :is(p, blockquote):last-child { font-size: 0.94rem; line-height: 1.6; }
+.client-story-quote {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.client-story-quote svg {
+  flex: none;
+  color: var(--surface-accent);
+  transform: rotate(180deg);
+}
 
 .client-story-card::after {
   position: absolute;
-  z-index: -1;
   inset: 0;
-  transform: translateX(-110%);
-  background: linear-gradient(112deg, transparent 35%, rgb(255 175 125 / 22%) 49%, transparent 63%);
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(112deg, transparent 38%, #ef8545 49%, #ffd1a0 52%, transparent 63%) 100% 0 / 250% 100%;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
   pointer-events: none;
   content: '';
 }
@@ -157,10 +190,16 @@
   }
 
   .client-story-card:hover img { transform: scale(1.06); }
-  .client-story-card:hover::after { animation: client-story-shine 0.85s ease-out both; }
 }
 
-@keyframes client-story-shine { to { transform: translateX(110%); } }
+@media (prefers-reduced-motion: no-preference) {
+  .client-story-card::after { animation: client-story-shine 5s ease-in-out infinite; }
+}
+
+@keyframes client-story-shine {
+  0%, 36% { background-position: 100% 0; }
+  70%, 100% { background-position: 0 0; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .client-story-card, .client-story-card img { transition: none; }

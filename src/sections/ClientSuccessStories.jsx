@@ -1,29 +1,13 @@
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, MapPin, Pause, Play } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from 'react'
+import SuccessStoryCard from '../components/common/SuccessStoryCard'
 import { clientStories } from '../config/clientStories'
 import { responsiveReveal } from '../utils/premiumMotion'
 import './client-success-stories.css'
 
 const count = clientStories.length
 const normalize = (index) => ((index % count) + count) % count
-
-function StoryCard({ story }) {
-  return (
-    <article className="client-story-card">
-      <header className="client-story-profile">
-        <img src={story.image} alt="" width="72" height="72" loading="lazy" decoding="async" />
-        <div>
-          <p className="client-story-name">{story.name}</p>
-          <p className="client-story-location"><MapPin size={14} aria-hidden="true" />{story.location}</p>
-        </div>
-      </header>
-      {story.preview && <p className="client-story-preview">Development placeholder · AI-generated portrait</p>}
-      <h3>{story.headline}</h3>
-      {story.preview ? <p>{story.review}</p> : <blockquote><p>{story.review}</p></blockquote>}
-    </article>
-  )
-}
 
 export default function ClientSuccessStories() {
   const region = useRef(null)
@@ -90,6 +74,11 @@ export default function ClientSuccessStories() {
   }
 
   function move(direction) {
+    const target = landingIndex.current + direction
+    const lastStart = track.current.children.length - capacity
+    if (target < 0 || target > lastStart) {
+      scrollToCard(count + normalize(landingIndex.current), 'instant')
+    }
     scrollToCard(landingIndex.current + direction, reducedMotion ? 'instant' : 'smooth')
   }
 
@@ -140,7 +129,7 @@ export default function ClientSuccessStories() {
             aria-hidden={loops && copy !== 1 ? true : undefined}
             {...responsiveReveal(reducedMotion, (index % capacity) * 0.07, { y: 12 }, 0.2)}
           >
-            <StoryCard story={story} />
+            <SuccessStoryCard story={story} />
           </motion.li>
         )))}
       </ul>
