@@ -23,6 +23,7 @@ const benefits = [
 ]
 
 const details = [
+  { label: 'Webinar Schedule', value: `${webinar.recurringSchedule} IST`, Icon: CalendarDays },
   { label: 'Webinar Date', value: webinar.date, Icon: CalendarDays },
   { label: 'Webinar Time', value: webinar.time, Icon: Clock },
   { label: 'Duration', value: webinarConfig.duration, Icon: Hourglass },

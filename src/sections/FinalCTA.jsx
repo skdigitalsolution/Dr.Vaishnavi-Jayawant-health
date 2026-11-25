@@ -39,6 +39,7 @@ export default function FinalCTA() {
           <p>One-Time Registration Fee</p>
         </div>
         <RegistrationButton className="final-cta-registration" showArrow />
+        <p className="final-cta-date">{webinar.recurringSchedule} IST</p>
         {webinarStartAt && webinar.date !== 'To be announced' && webinar.time !== 'To be announced' && (
           <time className="final-cta-date" dateTime={webinarStartAt}>{webinar.date} · {webinar.time}</time>
         )}

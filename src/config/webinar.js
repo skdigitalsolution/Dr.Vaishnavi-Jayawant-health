@@ -5,6 +5,7 @@ import { approvedPolicies } from './legal'
 // Use an ISO date-time with an explicit offset, such as +05:30 for India.
 const webinarStartAt = null
 const timezone = 'Asia/Kolkata'
+const recurringSchedule = 'Every Sunday, 11:00 AM–1:00 PM'
 const startTimestamp = parseWebinarInstant(webinarStartAt)
 const duration = null
 const language = null
@@ -57,6 +58,7 @@ export const webinarConfig = {
   webinar: {
     ...baseConfig.webinar,
     ...schedule,
+    recurringSchedule,
     duration: duration ?? baseConfig.webinar.duration,
     language: language ?? baseConfig.webinar.language,
     platform,

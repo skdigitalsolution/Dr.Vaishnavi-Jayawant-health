@@ -1,8 +1,10 @@
 import PriceDisplay from '../common/PriceDisplay'
+import webinarConfig from '../../config/webinar'
 import './site-header.css'
 
 const announcements = [
   'LIVE PCOS & PCOD Masterclass',
+  `${webinarConfig.webinar.recurringSchedule} IST`,
   'Expert-Led Wellness Guidance',
   'Registration at Just',
   'Interactive Live Q&A',
