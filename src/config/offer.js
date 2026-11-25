@@ -1,3 +1,4 @@
+import { showSitePreview } from './sitePreview'
 const previewId = 'webinar-ebook-preview-v1'
 
 export function hasBlockingOfferOverlay() {
@@ -6,7 +7,7 @@ export function hasBlockingOfferOverlay() {
 }
 
 const offer = {
-  preview: import.meta.env.DEV,
+  preview: showSitePreview,
   expiryKey: `${previewId}:expires-at`,
   shownKey: `${previewId}:shown`,
   popupDelayMs: 3000,

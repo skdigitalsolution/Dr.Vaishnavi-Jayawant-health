@@ -1,10 +1,11 @@
+import { showSitePreview } from './sitePreview'
 const imageRoot = `${import.meta.env.BASE_URL}images/client-stories/`
 
 // Add entries only after verifying the original review and securing publication consent.
 // Each entry needs id, name, location, image, headline, review, isVerified and hasConsent.
 const approvedStories = []
 
-const previewStories = import.meta.env.DEV ? [
+const previewStories = showSitePreview ? [
   ['mumbai', 'Mumbai, Maharashtra'],
   ['new-delhi', 'New Delhi, Delhi'],
   ['bengaluru', 'Bengaluru, Karnataka'],

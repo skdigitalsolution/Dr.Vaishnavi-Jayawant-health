@@ -1,3 +1,4 @@
+import { showSitePreview } from '../config/sitePreview'
 import { motion, useReducedMotion } from 'framer-motion'
 import { responsiveReveal } from '../utils/premiumMotion'
 import { Award, HeartHandshake, Languages, UsersRound } from 'lucide-react'
@@ -14,7 +15,7 @@ const icons = {
 }
 
 const { statistics, recognition } = webinarConfig.credibility
-const visibleStats = statistics.filter(({ verified }) => verified || import.meta.env.DEV)
+const visibleStats = statistics.filter(({ verified }) => verified || showSitePreview)
 const showPreviewLabel = visibleStats.some(({ verified }) => !verified)
 const showSupportingCopy = ['experience', 'pcod-journey'].every(
   (id) => visibleStats.some((stat) => stat.id === id),

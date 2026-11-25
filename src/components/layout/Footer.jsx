@@ -1,3 +1,4 @@
+import { showSitePreview } from '../../config/sitePreview'
 import { motion, useReducedMotion } from 'framer-motion'
 import { responsiveReveal } from '../../utils/premiumMotion'
 import { Mail, MessageCircle, Phone } from 'lucide-react'
@@ -54,7 +55,7 @@ export default function Footer() {
                 </ul>
               </nav>
             )}
-            {import.meta.env.DEV && !registrationPoliciesReady && (
+            {showSitePreview && !registrationPoliciesReady && (
               <p className="footer-policy-pending">Development preview · Legal policies pending approval</p>
             )}
             {supportLinks.length > 0 && (

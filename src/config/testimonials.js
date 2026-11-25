@@ -1,3 +1,4 @@
+import { showSitePreview } from './sitePreview'
 const previewVideos = [
   ['personal-experience', 'Personal Experience'],
   ['nutrition-journey', 'Nutrition Journey'],
@@ -31,6 +32,6 @@ export const testimonials = {
     entry.isVerified && entry.hasConsent && entry.reviewerName && entry.reviewText &&
     Number.isInteger(entry.rating) && entry.rating >= 1 && entry.rating <= 5,
   ),
-  previewVideos: import.meta.env.DEV ? previewVideos : [],
-  previewReviews: import.meta.env.DEV ? ['review-1', 'review-2', 'review-3'] : [],
+  previewVideos: showSitePreview ? previewVideos : [],
+  previewReviews: showSitePreview ? ['review-1', 'review-2', 'review-3'] : [],
 }

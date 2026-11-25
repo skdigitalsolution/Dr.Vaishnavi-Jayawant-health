@@ -1,3 +1,4 @@
+import { showSitePreview } from '../config/sitePreview'
 import { motion, useReducedMotion } from 'framer-motion'
 import { responsiveReveal } from '../utils/premiumMotion'
 import BonusCard from '../components/common/BonusCard'
@@ -9,7 +10,7 @@ import './bonuses.css'
 const availableBonuses = bonusResources.filter(({ isApproved, isAvailable, isPlaceholder }) =>
   isApproved && isAvailable && !isPlaceholder,
 )
-const preview = import.meta.env.DEV && availableBonuses.length < bonusResources.length
+const preview = showSitePreview && availableBonuses.length < bonusResources.length
 const visibleBonuses = preview ? bonusResources : availableBonuses
 const count = visibleBonuses.length
 const countWord = ['Zero', 'One', 'Two', 'Three'][count] ?? String(count)

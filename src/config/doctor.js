@@ -1,3 +1,4 @@
+import { showSitePreview } from './sitePreview'
 import { CalendarCheck, HeartHandshake, HeartPulse, Salad } from 'lucide-react'
 import webinarConfig from './webinar'
 
@@ -6,7 +7,7 @@ const biographyApproved = false
 const storyApproved = false
 const messageApproved = false
 
-const previewGallery = import.meta.env.DEV ? [
+const previewGallery = showSitePreview ? [
   ['seminar', 'Illustrative view of a wellness seminar from the rear of an auditorium.'],
   ['workshop', 'Illustrative setup for a small wellness workshop.'],
   ['consultation', 'Illustrative discussion at a nutrition consultation desk.'],
@@ -29,7 +30,7 @@ export const doctor = {
   // Add approved event photos with id, image, alt, isPlaceholder, isVerified and hasConsent.
   galleryImages: [],
   previewGallery,
-  biography: (import.meta.env.DEV || biographyApproved) ? [
+  biography: (showSitePreview || biographyApproved) ? [
     'My understanding of PCOD goes beyond professional knowledge.',
     'Having personally experienced the challenges of PCOD, I understand the uncertainty, frustration and emotional struggles that can come with it.',
     "My personal health journey, combined with years of professional experience, has shaped my approach to women's wellness.",
@@ -37,14 +38,14 @@ export const doctor = {
     'Through this live masterclass, I want to share practical knowledge about hormonal health, balanced nutrition and sustainable lifestyle habits.',
     'My goal is to help women move beyond confusing advice and approach their wellness journey with greater clarity and confidence.',
   ] : null,
-  personalStory: (import.meta.env.DEV || storyApproved) ? {
+  personalStory: (showSitePreview || storyApproved) ? {
     paragraphs: [
       'Having personally experienced PCOD, I understand how important the right knowledge, practical guidance and compassionate support can be.',
       "My personal journey and professional experience have shaped my approach to women's health, balanced nutrition and sustainable lifestyle habits.",
       'I believe every woman deserves guidance that respects her individual needs and helps her make informed wellness decisions.',
     ],
   } : null,
-  personalMessage: (import.meta.env.DEV || messageApproved)
+  personalMessage: (showSitePreview || messageApproved)
     ? 'My goal is to help women understand their bodies with greater clarity, confidence and compassion.'
     : null,
   professionalApproach: [

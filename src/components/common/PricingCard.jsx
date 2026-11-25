@@ -1,3 +1,4 @@
+import { showSitePreview } from '../../config/sitePreview'
 import { motion } from 'framer-motion'
 import { CalendarDays, CircleCheck, Clock, Hourglass, Languages, MonitorPlay } from 'lucide-react'
 import { bonusResources } from '../../config/bonuses'
@@ -78,7 +79,7 @@ export default function PricingCard({ entrance }) {
         />
         {!closed && !canReserve && (
           <p className="pricing-checkout-status">
-            {import.meta.env.DEV ? 'Development preview · Checkout is not available yet.' : 'Online checkout is not available yet.'}
+            {showSitePreview ? 'Development preview · Checkout is not available yet.' : 'Online checkout is not available yet.'}
           </p>
         )}
         <PaymentTrust enabled={webinarConfig.paymentEnabled} verified={webinarConfig.paymentVerified} methods={webinarConfig.paymentMethods} />
