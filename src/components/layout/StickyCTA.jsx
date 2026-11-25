@@ -3,6 +3,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import webinarConfig from '../../config/webinar'
 import useWebinarRegistration from '../../hooks/useWebinarRegistration'
 import CountdownTimer from '../common/CountdownTimer'
+import OfferCountdown from '../common/OfferCountdown'
 import RegistrationButton from '../common/RegistrationButton'
 import './sticky-cta.css'
 
@@ -136,7 +137,7 @@ function useStickySuspension() {
   return suspended
 }
 
-function StickyRegistrationBar() {
+function StickyRegistrationBar({ offerSeconds }) {
   const bar = useRef(null)
   const reducedMotion = useReducedMotion()
   const suspended = useStickySuspension()
@@ -166,7 +167,9 @@ function StickyRegistrationBar() {
           <p className="sticky-desktop-label sticky-registration-fee">One-Time Registration</p>
         </div>
         <div className="sticky-registration-timer">
-          <CountdownTimer startAt={webinarStartAt} eventStatus={eventStatus} />
+          {offerSeconds > 0
+            ? <OfferCountdown seconds={offerSeconds} compact />
+            : <CountdownTimer startAt={webinarStartAt} eventStatus={eventStatus} />}
         </div>
         <div className="sticky-registration-actions">
           <RegistrationButton
@@ -176,7 +179,6 @@ function StickyRegistrationBar() {
               <span className="sticky-mobile-label">Reserve My Seat – {registration.displayPrice}</span>
             </>}
             showArrow={!closed}
-            disabled={!canReserve}
             observeInPage={false}
           />
           {!closed && !canReserve && <p className="sr-only">Registration is not open yet.</p>}
@@ -186,6 +188,6 @@ function StickyRegistrationBar() {
   )
 }
 
-export default function StickyCTA() {
-  return webinarConfig.stickyCTAEnabled ? <StickyRegistrationBar /> : null
+export default function StickyCTA({ offerSeconds }) {
+  return webinarConfig.stickyCTAEnabled ? <StickyRegistrationBar offerSeconds={offerSeconds} /> : null
 }

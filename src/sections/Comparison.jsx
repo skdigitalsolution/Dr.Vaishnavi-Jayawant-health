@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../utils/premiumMotion'
+import { responsiveReveal } from '../utils/premiumMotion'
 import ComparisonCard from '../components/common/ComparisonCard'
 import LimitationCard from '../components/common/LimitationCard'
 import RegistrationButton from '../components/common/RegistrationButton'
@@ -13,14 +13,7 @@ export default function Comparison() {
   const reducedMotion = useReducedMotion()
 
   function entrance(delay = 0, offset = {}) {
-    if (reducedMotion) return {}
-
-    return {
-      initial: { opacity: 0, ...offset },
-      whileInView: { opacity: 1, x: 0, y: 0 },
-      viewport: { once: true, amount: 0.15 },
-      transition: { ...premiumReveal, delay },
-    }
+    return responsiveReveal(reducedMotion, delay, offset, 0.15)
   }
 
   return (

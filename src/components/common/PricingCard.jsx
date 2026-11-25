@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { CalendarDays, CircleCheck, Clock, Hourglass, Languages, MonitorPlay } from 'lucide-react'
 import { bonusResources } from '../../config/bonuses'
-import { registrationPoliciesReady } from '../../config/legal'
 import webinarConfig from '../../config/webinar'
 import useWebinarRegistration from '../../hooks/useWebinarRegistration'
 import CountdownTimer from './CountdownTimer'
@@ -29,12 +28,8 @@ const details = [
   { label: 'Language', value: webinarConfig.language, Icon: Languages },
 ].filter(({ value }) => value && value !== 'To be announced')
 
-export default function PricingCard({ entrance, onCheckout }) {
+export default function PricingCard({ entrance }) {
   const { eventStatus, closed, canReserve } = useWebinarRegistration()
-  const checkoutReady = canReserve &&
-    registrationPoliciesReady &&
-    webinarConfig.paymentEnabled && webinarConfig.paymentVerified &&
-    Boolean(webinarConfig.taxDisclosure) && typeof onCheckout === 'function'
 
   return (
     <motion.div className="pricing-card animated-border" {...entrance(0, 12)}>
@@ -80,10 +75,8 @@ export default function PricingCard({ entrance, onCheckout }) {
           className="pricing-registration"
           text={closed ? 'Registration Closed' : `Yes! Reserve My Seat – ${registration.displayPrice}`}
           showArrow={!closed}
-          disabled={closed || !checkoutReady}
-          onClick={onCheckout}
         />
-        {!closed && !checkoutReady && (
+        {!closed && !canReserve && (
           <p className="pricing-checkout-status">
             {import.meta.env.DEV ? 'Development preview · Checkout is not available yet.' : 'Online checkout is not available yet.'}
           </p>

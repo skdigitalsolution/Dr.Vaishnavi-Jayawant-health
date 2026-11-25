@@ -1,0 +1,133 @@
+@media (max-width: 1023px) {
+  .webinar-page {
+    --mobile-gutter: clamp(16px, 4vw, 20px);
+    --mobile-section-space: clamp(40px, 7vw, 56px);
+    --mobile-section-heading: clamp(26px, 5.8vw, 34px);
+    --mobile-card-heading: clamp(18px, 4.3vw, 22px);
+    --mobile-copy: clamp(15px, 2.3vw, 16px);
+    --mobile-card-space: clamp(18px, 3.2vw, 24px);
+    --mobile-grid-gap: clamp(12px, 2vw, 16px);
+  }
+
+  .webinar-page > section { padding-block: var(--mobile-section-space); }
+
+  :is(.intro-video-content, .trust-stats-content, .testimonials-content, .problems-content,
+    .comparison-content, .agenda-content, .audience-content, .doctor-content, .doctor-story-inner,
+    .bonuses-content, .registration-steps-content, .pricing-content, .faq-content,
+    .final-cta-content, .webinar-footer-content) {
+    padding-inline: var(--mobile-gutter);
+  }
+
+  :is(.intro-video-title, .trust-stats-title, .testimonials-heading h2, .problems-title,
+    .comparison-title, .agenda-title, .audience-title, .doctor-gallery-heading h2,
+    .doctor-biography .doctor-biography-copy h2, .bonuses-title, .registration-steps-title,
+    .pricing-title, .faq-title, .final-cta-content h2) {
+    font-size: var(--mobile-section-heading);
+    line-height: 1.14;
+    text-wrap: balance;
+  }
+
+  :is(.client-story-card h3, .trust-stat h3, .problem-card h3, .limitation-card h3,
+    .comparison-card h4, .agenda-module h3, .agenda-qa h3, .audience-qualification h3,
+    .audience-category h4, .doctor-approach h3, .bonus-card h3, .registration-step-card h3,
+    .pricing-benefits h3, .doctor-biography-journey h3) {
+    font-size: var(--mobile-card-heading);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  :is(.intro-video-description, .trust-stats-description, .testimonials-description,
+    .problems-description, .comparison-description, .agenda-description, .audience-description,
+    .bonuses-description, .registration-steps-description, .pricing-description, .landing-end-description,
+    .problem-card-content p, .limitation-card p, .agenda-module-description, .bonus-card-copy > p,
+    .doctor-biography-journey p:not(.doctor-draft), .registration-step-description, .faq-answer p,
+    .pricing-benefits li, .footer-brand-description) {
+    font-size: var(--mobile-copy);
+    line-height: 1.6;
+  }
+
+  :is(.trust-stat-grid, .problems-grid, .limitation-grid, .comparison-images, .agenda-modules,
+    .audience-qualification-grid, .audience-category-grid, .bonuses-grid, .registration-step-grid,
+    .testimonial-review-grid) {
+    gap: var(--mobile-grid-gap);
+  }
+
+  :is(.client-story-card, .testimonial-review, .trust-stat, .problem-card-content, .limitation-card,
+    .comparison-card, .agenda-module, .agenda-qa, .audience-qualification, .bonus-card,
+    .registration-step-card, .pricing-card) {
+    padding: var(--mobile-card-space);
+  }
+
+  .client-story-card { min-height: auto; }
+  .bonus-media { max-height: 17rem; }
+  .bonus-media img { object-fit: contain; }
+  .webinar-hero { min-height: auto; padding-block: 85px 36px; }
+  .hero-title { font-size: clamp(28px, 7.5vw, 40px); line-height: 1.1; text-wrap: balance; }
+  .hero-description { font-size: var(--mobile-copy); }
+  .hero-title span { display: inline; }
+  .hero-backdrop img, .hero-backdrop video { filter: none; object-position: 56% center; }
+  .hero-backdrop::after { background: linear-gradient(180deg, rgb(0 0 0 / 55%), rgb(0 0 0 / 70%)); }
+
+  .webinar-navbar-inner { height: 64px; padding-inline: var(--mobile-gutter); }
+  .webinar-navbar .registration-button { min-height: 44px; }
+  .announcement-bar {
+    height: calc(34px + env(safe-area-inset-top));
+    padding-block-start: env(safe-area-inset-top);
+    font-size: 13px;
+  }
+  .announcement-group li { gap: 0.85rem; padding-inline-start: 0.85rem; }
+  .announcement-track { animation-duration: 30s; }
+
+  .doctor-biography:has(.doctor-profile) { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .doctor-profile { width: min(100%, 22rem); margin-inline: auto; }
+  .doctor-biography-copy { max-width: 42rem; margin-inline: auto; }
+  .doctor-profile-namecard { padding: 0.625rem 0.75rem; backdrop-filter: none; }
+  .doctor-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .footer-links :is(a, button) { min-height: 44px; }
+  .client-stories-pages button { height: 44px; }
+  .registration-button { touch-action: manipulation; }
+  .offer-panel { width: min(94vw, 420px, 100%); max-height: min(92dvh, 100%); }
+}
+
+@media (max-width: 639px) {
+  .webinar-navbar-inner { height: 60px; gap: 8px; }
+  .webinar-brand { min-width: 0; }
+  .webinar-brand img { max-width: min(32vw, 7rem); max-height: 40px; }
+  .webinar-brand-name { font-size: clamp(15px, 4.3vw, 18px); }
+  .webinar-brand-tagline { font-size: 12px; }
+  .webinar-navbar .registration-button { font-size: 14px; padding-inline: 10px; white-space: nowrap; }
+  .webinar-hero { padding-block: 66px 28px; }
+  .hero-content { padding: 8px var(--mobile-gutter); }
+  .hero-badge { padding: 7px 11px; font-size: 12px; letter-spacing: 0.075em; }
+  .hero-title { margin-block-start: 14px; }
+  .hero-description { margin-block-start: 12px; }
+  .hero-benefits { margin-block-start: 16px; line-height: 1.35; }
+  .hero-benefits li { padding-inline: 4px; }
+
+  .registration-button { font-size: 14px; }
+  .registration-button-arrow { width: 18px; height: 18px; }
+  .webinar-page .registration-button:not(.webinar-navbar .registration-button) { max-width: 100%; white-space: normal; }
+  .sticky-registration-inner { gap: 6px 8px; padding-block: 6px; }
+  .sticky-registration .sticky-registration-button { min-height: 44px; padding-block: 8px; font-size: 14px; }
+  .sticky-registration-amount strong { font-size: 1.5rem; }
+
+  :is(.problems-grid, .limitation-grid, .bonuses-grid, .registration-step-grid) { grid-auto-rows: auto; }
+  .testimonials-section .testimonial-carousel { width: 100%; }
+  .testimonial-video-card { max-height: 64svh; }
+
+  .offer-content { gap: 8px; padding: 14px 14px 16px; }
+  .offer-preview { padding-inline: 42px; }
+  .offer-panel h2 { font-size: clamp(20px, 5.1vw, 27px); gap: 2px; }
+  .offer-price { font-size: clamp(54px, 13vw, 72px); }
+  .offer-countdown { gap: 5px; }
+  .offer-clock { gap: 8px; }
+  .offer-clock span { gap: 3px; min-width: 55px; padding: 5px 8px; }
+  .offer-clock strong { font-size: 1.45rem; }
+  .offer-panel .offer-register { min-height: 44px; font-size: 14px; }
+  .offer-scrim { backdrop-filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

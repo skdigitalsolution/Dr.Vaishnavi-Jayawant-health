@@ -1,36 +1,69 @@
-import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../../utils/premiumMotion'
-import { ArrowRight, UserRound } from 'lucide-react'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { ArrowRight, Quote } from 'lucide-react'
+import { useRef } from 'react'
+import { responsiveReveal } from '../../utils/premiumMotion'
 import { doctor } from '../../config/doctor'
+import Button from '../ui/Button'
 import '../../sections/about-doctor.css'
+
+const portraitName = 'Dr. Vaishnavi Jayawant'
 
 export default function DoctorStoryHighlight() {
   const reducedMotion = useReducedMotion()
-  const { personalStory, approvalStatus, verificationStatus, name, profileImage } = doctor
+  const mentorLink = useRef(null)
+  const linkInView = useInView(mentorLink, { amount: 0.5 })
+  const { personalStory, approvalStatus, profileImage } = doctor
   if (!personalStory) return null
 
+  function reveal(delay = 0, offset = { y: 16 }) {
+    return responsiveReveal(reducedMotion, delay, offset)
+  }
+
   return (
-    <aside className="doctor-story section-light" aria-labelledby="doctor-story-title">
-      <motion.div
-        className="doctor-story-inner"
-        initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ ...premiumReveal, duration: reducedMotion ? 0 : premiumReveal.duration }}
-      >
-        {verificationStatus.profileImage ? (
-          <img src={profileImage} alt={name} width={96} height={128} loading="lazy" decoding="async" />
-        ) : (
-          <span className="doctor-story-avatar" aria-hidden="true"><UserRound size={30} /></span>
-        )}
-        <div>
-          {!approvalStatus.personalStory && <p className="doctor-draft">Draft · Pending approval</p>}
-          <h2 id="doctor-story-title">{personalStory.heading}</h2>
-          <p>{personalStory.text}</p>
-          <p className="doctor-story-name">{name}</p>
-          <a href="#doctor-biography">Meet your mentor <ArrowRight size={16} aria-hidden="true" /></a>
+    <section className="doctor-story section-light" aria-labelledby="doctor-story-title">
+      <div className="doctor-story-inner">
+        <motion.header className="doctor-story-heading" {...reveal()}>
+          <p className="doctor-label">A Personal Journey · A Professional Purpose</p>
+          <h2 id="doctor-story-title">More Than Professional Knowledge.{' '}<span>A Personal Understanding.</span></h2>
+        </motion.header>
+        <div className="doctor-story-grid">
+          <motion.figure className="doctor-story-portrait" {...reveal(0.06, { x: -22 })}>
+            <div className="doctor-story-photo">
+              <motion.img
+                src={profileImage} alt={portraitName} width={1280} height={1600} loading="lazy" decoding="async"
+                whileHover={reducedMotion ? undefined : { scale: 1.035 }}
+                transition={{ duration: 0.56 }}
+              />
+              {!reducedMotion && (
+                <motion.span className="doctor-story-border-shine" aria-hidden="true"
+                  initial={{ backgroundPosition: '100% 0%' }}
+                  whileInView={{ backgroundPosition: '0% 0%' }}
+                  transition={{ duration: 0.65, repeat: Infinity, repeatDelay: 4.1 }} />
+              )}
+            </div>
+            <motion.figcaption className="doctor-story-namecard" {...reveal(0.16, { y: 12 })}>
+              <strong>{portraitName}</strong>
+              <span>Women's Health &amp; Wellness</span>
+            </motion.figcaption>
+          </motion.figure>
+          <motion.div className="doctor-story-copy" {...reveal(0.06, { x: 22 })}>
+            <Quote className="doctor-story-quote" size={48} strokeWidth={1.5} aria-hidden="true" />
+            {!approvalStatus.personalStory && <p className="doctor-draft">Draft · Pending approval</p>}
+            <h3>I've Been Through <span>This Journey Too.</span></h3>
+            <div className="doctor-story-paragraphs">
+              {personalStory.paragraphs.map((paragraph, index) => (
+                <motion.p key={paragraph} {...reveal(index * 0.06)}>{paragraph}</motion.p>
+              ))}
+            </div>
+            <p className="doctor-story-statement">Professional Experience. Personal Understanding. Compassionate Guidance.</p>
+            <Button as={motion.a} ref={mentorLink} href="#doctor-biography"
+              className="registration-button btn-shine doctor-story-mentor"
+              data-shine-visible={linkInView} whileTap={reducedMotion ? undefined : { scale: 0.97 }}>
+              Meet Your Mentor <ArrowRight className="registration-button-arrow" size={20} aria-hidden="true" />
+            </Button>
+          </motion.div>
         </div>
-      </motion.div>
-    </aside>
+      </div>
+    </section>
   )
 }

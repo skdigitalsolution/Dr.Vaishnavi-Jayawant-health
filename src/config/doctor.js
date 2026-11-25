@@ -38,8 +38,11 @@ export const doctor = {
     'My goal is to help women move beyond confusing advice and approach their wellness journey with greater clarity and confidence.',
   ] : null,
   personalStory: (import.meta.env.DEV || storyApproved) ? {
-    heading: "I've Been Through This Journey Too.",
-    text: 'Having personally experienced PCOD, I understand how important the right knowledge, practical guidance and compassionate support can be.',
+    paragraphs: [
+      'Having personally experienced PCOD, I understand how important the right knowledge, practical guidance and compassionate support can be.',
+      "My personal journey and professional experience have shaped my approach to women's health, balanced nutrition and sustainable lifestyle habits.",
+      'I believe every woman deserves guidance that respects her individual needs and helps her make informed wellness decisions.',
+    ],
   } : null,
   personalMessage: (import.meta.env.DEV || messageApproved)
     ? 'My goal is to help women understand their bodies with greater clarity, confidence and compassion.'

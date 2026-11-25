@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../utils/premiumMotion'
+import { responsiveReveal } from '../utils/premiumMotion'
 import { Award, HeartHandshake, Languages, UsersRound } from 'lucide-react'
 import AnimatedCounter from '../components/common/AnimatedCounter'
 import FeaturedIn from '../components/common/FeaturedIn'
@@ -24,14 +24,7 @@ function TrustStatGrid() {
   const reducedMotion = useReducedMotion()
 
   function entrance(delay = 0, y = 0) {
-    if (reducedMotion) return {}
-
-    return {
-      initial: { opacity: 0, y },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, amount: 0.15 },
-      transition: { ...premiumReveal, delay },
-    }
+    return responsiveReveal(reducedMotion, delay, { y }, 0.15)
   }
 
   return (

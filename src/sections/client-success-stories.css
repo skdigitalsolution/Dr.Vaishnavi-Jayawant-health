@@ -1,0 +1,167 @@
+.client-stories {
+  margin-block-start: 1.75rem;
+}
+
+.client-stories-track {
+  --client-story-columns: 3;
+  --client-story-gap: clamp(0.875rem, 2vw, 1.375rem);
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 2 * var(--client-story-gap)) / 3);
+  gap: var(--client-story-gap);
+  padding-block: 0.75rem 1.1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.client-stories-track > li {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.client-story-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  height: 100%;
+  min-height: 15rem;
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  padding: clamp(1rem, 2.4vw, 1.625rem);
+  background: #fff;
+  box-shadow: 0 6px 18px rgb(83 42 25 / 8%);
+  color: var(--surface-text);
+  text-align: start;
+  transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+}
+
+.client-story-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.client-story-profile img {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border: 2px solid #f7cebb;
+  border-radius: 50%;
+  background: var(--surface-bg);
+  object-fit: cover;
+  transition: transform 260ms ease;
+}
+
+.client-story-name { color: var(--surface-heading); font-weight: 800; }
+.client-story-location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.84rem;
+}
+.client-story-location svg { flex: none; color: var(--surface-accent); }
+.client-story-preview { color: var(--surface-accent); font-size: 0.73rem; font-weight: 700; }
+.client-story-card h3 {
+  background: var(--surface-accent-gradient);
+  background-clip: text;
+  color: transparent;
+  font-size: 1.25rem;
+  font-weight: 850;
+  line-height: 1.23;
+}
+.client-story-card > :is(p, blockquote):last-child { font-size: 0.94rem; line-height: 1.6; }
+
+.client-story-card::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  transform: translateX(-110%);
+  background: linear-gradient(112deg, transparent 35%, rgb(255 175 125 / 22%) 49%, transparent 63%);
+  pointer-events: none;
+  content: '';
+}
+
+.client-stories-controls,
+.client-stories-pages {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.client-stories-controls > button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--surface-border);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--surface-accent);
+  cursor: pointer;
+}
+
+.client-stories-pages button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.client-stories-pages button::before {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--surface-accent);
+  border-radius: 50%;
+  content: '';
+}
+
+.client-stories-pages button[aria-current='true']::before {
+  background: var(--surface-accent);
+}
+
+.client-stories :is(button, ul):focus-visible {
+  outline: 2px solid var(--surface-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1023px) {
+  .client-stories-track {
+    --client-story-columns: 2;
+    grid-auto-columns: calc((100% - var(--client-story-gap)) / 2);
+  }
+}
+
+@media (max-width: 639px) {
+  .client-stories-track {
+    --client-story-columns: 1;
+    grid-auto-columns: 100%;
+  }
+
+  .client-stories-pages { order: 1; flex-basis: 100%; }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .client-story-card:hover {
+    transform: translateY(-5px);
+    border-color: #e47b47;
+    box-shadow: 0 9px 23px rgb(147 63 31 / 17%);
+  }
+
+  .client-story-card:hover img { transform: scale(1.06); }
+  .client-story-card:hover::after { animation: client-story-shine 0.85s ease-out both; }
+}
+
+@keyframes client-story-shine { to { transform: translateX(110%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .client-story-card, .client-story-card img { transition: none; }
+}

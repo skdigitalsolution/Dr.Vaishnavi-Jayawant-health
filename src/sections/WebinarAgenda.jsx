@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../utils/premiumMotion'
+import { responsiveReveal } from '../utils/premiumMotion'
 import AgendaModule from '../components/common/AgendaModule'
 import LiveQACard from '../components/common/LiveQACard'
 import RegistrationButton from '../components/common/RegistrationButton'
@@ -12,13 +12,7 @@ export default function WebinarAgenda() {
   const reducedMotion = useReducedMotion()
 
   function entrance(delay = 0, offset = {}) {
-    if (reducedMotion) return {}
-    return {
-      initial: { opacity: 0, ...offset },
-      whileInView: { opacity: 1, x: 0, y: 0 },
-      viewport: { once: true, amount: 0.15 },
-      transition: { ...premiumReveal, delay },
-    }
+    return responsiveReveal(reducedMotion, delay, offset, 0.15)
   }
 
   return (

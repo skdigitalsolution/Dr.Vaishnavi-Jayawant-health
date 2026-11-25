@@ -200,9 +200,13 @@
   .testimonials-section[data-video-open='true'] .pulse-ring::after { animation: none; }
 }
 
-@media (hover: none), (pointer: coarse) {
-  .btn-shine[data-shine-visible='true']:not(.pricing-registration, .final-cta-registration, .sticky-registration-button, .webinar-navbar .registration-button)::before {
-    animation: none;
+@media (prefers-reduced-motion: no-preference) {
+  .btn-shine[data-touch-pressed='true'] {
+    transform: scale(0.97);
+  }
+
+  .btn-shine[data-touch-pressed='true']::after {
+    animation: premium-button-glint 480ms var(--premium-ease);
   }
 }
 

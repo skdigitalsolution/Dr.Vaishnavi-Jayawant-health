@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../utils/premiumMotion'
+import { responsiveReveal } from '../utils/premiumMotion'
 import { ShieldCheck, UserRoundCheck, Video, Volume2 } from 'lucide-react'
 import RegistrationButton from '../components/common/RegistrationButton'
 import VideoPlayer from '../components/common/VideoPlayer'
@@ -18,12 +18,7 @@ export default function IntroVideo() {
   const introduction = webinarConfig.introduction
 
   function entrance(delay = 0, y = 0) {
-    return reducedMotion ? {} : {
-      initial: { opacity: 0, y },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, amount: 0.15 },
-      transition: { ...premiumReveal, delay },
-    }
+    return responsiveReveal(reducedMotion, delay, { y }, 0.15)
   }
 
   return (

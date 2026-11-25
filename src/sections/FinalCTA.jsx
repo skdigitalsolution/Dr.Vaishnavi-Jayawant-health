@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../utils/premiumMotion'
+import { responsiveReveal } from '../utils/premiumMotion'
 import { Lightbulb, MessagesSquare, Video } from 'lucide-react'
 import RegistrationButton from '../components/common/RegistrationButton'
 import webinarConfig from '../config/webinar'
@@ -19,10 +19,7 @@ export default function FinalCTA() {
     <section className="webinar-final-cta" aria-labelledby="final-cta-title">
       <motion.div
         className="final-cta-content"
-        initial={reducedMotion ? false : { opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ ...premiumReveal, duration: reducedMotion ? 0 : premiumReveal.duration }}
+        {...responsiveReveal(reducedMotion, 0, { y: 12 })}
       >
         <p className="landing-end-label">Your First Step Starts Today</p>
         <h2 id="final-cta-title">Stop Searching for Quick Fixes.{' '}<span>Start Understanding Your Body.</span></h2>

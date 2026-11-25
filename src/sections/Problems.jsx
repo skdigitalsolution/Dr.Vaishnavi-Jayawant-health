@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../utils/premiumMotion'
+import { responsiveReveal } from '../utils/premiumMotion'
 import ProblemCard from '../components/common/ProblemCard'
 import RegistrationButton from '../components/common/RegistrationButton'
 import { problems } from '../config/problems'
@@ -11,14 +11,7 @@ export default function Problems() {
   const reducedMotion = useReducedMotion()
 
   function entrance(delay = 0, y = 0) {
-    if (reducedMotion) return {}
-
-    return {
-      initial: { opacity: 0, y },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, amount: 0.15 },
-      transition: { ...premiumReveal, delay },
-    }
+    return responsiveReveal(reducedMotion, delay, { y }, 0.15)
   }
 
   return (

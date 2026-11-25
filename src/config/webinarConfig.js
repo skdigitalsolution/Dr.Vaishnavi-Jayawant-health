@@ -19,16 +19,6 @@ export const webinarConfig = {
       minimumFractionDigits: 0,
     }).format(registrationPrice),
   },
-  payment: {
-    provider: 'razorpay',
-    enabled: false,
-    // Placeholder fields for future Razorpay integration. Do not store secrets in client code.
-    keyId: '',
-    orderEndpoint: '',
-    notes: {
-      purpose: 'webinar_registration',
-    },
-  },
 }
 
 export default webinarConfig

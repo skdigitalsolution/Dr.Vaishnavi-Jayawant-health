@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../utils/premiumMotion'
+import { responsiveReveal } from '../utils/premiumMotion'
 import DoctorBiography from '../components/common/DoctorBiography'
 import DoctorGallery from '../components/common/DoctorGallery'
 import RegistrationButton from '../components/common/RegistrationButton'
@@ -16,13 +16,7 @@ export default function AboutDoctor() {
   const reducedMotion = useReducedMotion()
 
   function entrance(delay = 0, offset = {}) {
-    if (reducedMotion) return {}
-    return {
-      initial: { opacity: 0, ...offset },
-      whileInView: { opacity: 1, x: 0, y: 0 },
-      viewport: { once: true, amount: 0.12 },
-      transition: { ...premiumReveal, delay },
-    }
+    return responsiveReveal(reducedMotion, delay, offset, 0.12)
   }
 
   return (

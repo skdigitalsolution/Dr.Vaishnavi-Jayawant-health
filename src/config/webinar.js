@@ -41,10 +41,11 @@ export const webinarConfig = {
   duration,
   language,
   platform,
-  registrationStatus: null, // Set to 'open' or 'closed' once confirmed.
+  registrationStatus: 'open',
   stickyCTAEnabled: true,
   eventStatus: null, // Set to 'live', 'ended' or 'cancelled' when applicable.
-  paymentEnabled: baseConfig.payment.enabled,
+  paymentUrl: 'https://rzp.io/rzp/SRxnIIP',
+  paymentEnabled: true,
   paymentVerified: false,
   paymentMethods: [], // Supported entries supply { id, logo? }.
   taxDisclosure: null, // Confirm taxes and the total payable before enabling checkout.

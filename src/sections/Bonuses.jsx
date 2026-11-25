@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../utils/premiumMotion'
+import { responsiveReveal } from '../utils/premiumMotion'
 import BonusCard from '../components/common/BonusCard'
 import RegistrationButton from '../components/common/RegistrationButton'
 import { bonusOffer, bonusResources } from '../config/bonuses'
@@ -20,13 +20,7 @@ export default function Bonuses() {
   if (!count) return null
 
   function entrance(delay = 0, y = 0) {
-    if (reducedMotion) return {}
-    return {
-      initial: { opacity: 0, y },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, amount: 0.12 },
-      transition: { ...premiumReveal, delay },
-    }
+    return responsiveReveal(reducedMotion, delay, { y }, 0.12)
   }
 
   return (

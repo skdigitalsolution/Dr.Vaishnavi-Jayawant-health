@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { premiumReveal } from '../../utils/premiumMotion'
+import { responsiveReveal } from '../../utils/premiumMotion'
 import { Mail, MessageCircle, Phone } from 'lucide-react'
 import { useState } from 'react'
 import { contact } from '../../config/contact'
@@ -31,10 +31,7 @@ export default function Footer() {
     <footer className="webinar-footer">
       <motion.div
         className="webinar-footer-content"
-        initial={reducedMotion ? false : { opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.12 }}
-        transition={{ ...premiumReveal, duration: reducedMotion ? 0 : premiumReveal.duration }}
+        {...responsiveReveal(reducedMotion, 0, {}, 0.12)}
       >
         <div className="footer-top">
           <div className="footer-brand">

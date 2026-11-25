@@ -27,8 +27,9 @@ export default function Hero() {
   const { image, video } = webinarConfig.hero
 
   function entrance(delay, offset = {}) {
+    const compact = window.matchMedia('(max-width: 1023px)').matches
     return {
-      initial: reducedMotion ? false : { opacity: 0, ...offset },
+      initial: reducedMotion || compact ? false : { opacity: 0, ...offset },
       animate: { opacity: 1, y: 0 },
       transition: { ...premiumReveal, duration: reducedMotion ? 0 : premiumReveal.duration, delay: reducedMotion ? 0 : delay },
     }
