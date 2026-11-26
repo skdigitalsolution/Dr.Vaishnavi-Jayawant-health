@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { responsiveReveal } from '../utils/premiumMotion'
-import { Gift, ShieldCheck, Timer, UserRoundCheck, Video, Volume2 } from 'lucide-react'
+import { Gift, ShieldCheck, Timer, UserRoundCheck, Video } from 'lucide-react'
 import RegistrationButton from '../components/common/RegistrationButton'
 import VideoPlayer from '../components/common/VideoPlayer'
 import offer from '../config/offer'
@@ -12,7 +12,6 @@ const trustItems = [
   { Icon: Video, label: 'Live Masterclass' },
   { Icon: UserRoundCheck, label: 'Expert Guidance' },
 ]
-const videoHintId = 'intro-video-hint'
 
 export default function IntroVideo({ ebookPromotionActive, ebookPromotionExpired }) {
   const reducedMotion = useReducedMotion()
@@ -41,13 +40,7 @@ export default function IntroVideo({ ebookPromotionActive, ebookPromotionExpired
           Discover why understanding your body is the first step towards a more informed wellness journey.
         </motion.p>
         <motion.div className="intro-video-media" {...entrance(0.05, 14)}>
-          <VideoPlayer {...introduction} descriptionId={introduction.video ? videoHintId : undefined} />
-          {introduction.video && (
-            <p className="intro-video-hint" id={videoHintId}>
-              <Volume2 aria-hidden="true" size={17} />
-              Tap to play the video with sound.
-            </p>
-          )}
+          <VideoPlayer {...introduction} />
         </motion.div>
         <motion.div className="intro-video-actions" {...entrance(0.05, 10)}>
           <RegistrationButton

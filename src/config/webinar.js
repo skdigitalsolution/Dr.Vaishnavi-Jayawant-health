@@ -68,11 +68,9 @@ export const webinarConfig = {
     video: null,
   },
   introduction: {
-    // Replace the development poster and clear the label when client assets are ready.
-    poster: `${import.meta.env.BASE_URL}images/intro-video-thumbnail.webp`,
-    video: null,
+    poster: `${import.meta.env.BASE_URL}videos/dr-vaishnavi-introduction.webp`,
+    video: `${import.meta.env.BASE_URL}videos/dr-vaishnavi-introduction.mp4`,
     captions: null, // Optional WebVTT URL for English captions.
-    developmentPoster: true,
   },
   credibility: {
     // Mark each claim verified only after client confirmation.
