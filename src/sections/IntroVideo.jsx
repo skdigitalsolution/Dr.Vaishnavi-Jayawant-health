@@ -1,9 +1,8 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { premiumReveal, responsiveReveal } from '../utils/premiumMotion'
-import { Gift, ShieldCheck, Timer, UserRoundCheck, Video } from 'lucide-react'
+import { Gift, ShieldCheck, UserRoundCheck, Video } from 'lucide-react'
 import RegistrationButton from '../components/common/RegistrationButton'
 import VideoPlayer from '../components/common/VideoPlayer'
-import offer from '../config/offer'
 import webinarConfig from '../config/webinar'
 import './intro-video.css'
 
@@ -13,11 +12,9 @@ const trustItems = [
   { Icon: UserRoundCheck, label: 'Expert Guidance' },
 ]
 
-export default function IntroVideo({ promotionActive, promotionExpired }) {
+export default function IntroVideo() {
   const reducedMotion = useReducedMotion()
   const introduction = webinarConfig.introduction
-  const referenceValue = import.meta.env.DEV ? '₹999' : offer.verifiedReferenceValue
-  const showPromotion = import.meta.env.DEV || (promotionActive && !promotionExpired)
 
   function entrance(delay = 0, y = 0) {
     return responsiveReveal(reducedMotion, delay, { y }, 0.15)
@@ -57,27 +54,12 @@ export default function IntroVideo({ promotionActive, promotionExpired }) {
           viewport={{ once: true, amount: 0.2 }}
           transition={premiumReveal}
         >
-          {showPromotion && (
-            <p className="intro-ebook-bonus-label">
-              <Timer aria-hidden="true" size={18} />
-              Register Within 5 Minutes
-            </p>
-          )}
-          <h3 className="intro-ebook-bonus-title">
-            {showPromotion ? 'Unlock a Premium Health eBook' : 'Premium Health eBook'}
+          <p className="intro-ebook-bonus-label">Exclusive Registration Bonuses</p>
+          <h3 className="intro-ebook-bonus-title intro-ebook-bonus-price">
+            <Gift className="intro-ebook-bonus-gift" aria-hidden="true" size={26} />
+            <strong>Get 3 FREE eBooks</strong>
           </h3>
-          {showPromotion && (
-            <>
-              <p className="intro-ebook-bonus-price">
-                <Gift className="intro-ebook-bonus-gift" aria-hidden="true" size={26} />
-                {referenceValue && <s>{referenceValue}</s>}
-                <strong>Absolutely FREE!</strong>
-              </p>
-              <p className="intro-ebook-bonus-description">
-                Your wellness journey begins with an exclusive bonus.
-              </p>
-            </>
-          )}
+          <p className="intro-ebook-bonus-description">Receive All 3 eBooks After Successful Registration</p>
         </motion.div>
       </div>
     </section>

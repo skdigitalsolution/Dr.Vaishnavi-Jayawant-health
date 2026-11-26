@@ -156,12 +156,6 @@
   line-height: 1.25;
 }
 
-.intro-ebook-bonus-price s {
-  text-decoration-color: #ffca79;
-  text-decoration-thickness: 2px;
-  white-space: nowrap;
-}
-
 .intro-ebook-bonus-price strong {
   background: linear-gradient(110deg, #ffad45 35%, #ffd075 46%, #fff1c9 50%, #ffd075 54%, #ffad45 65%);
   background-size: 250% 100%;

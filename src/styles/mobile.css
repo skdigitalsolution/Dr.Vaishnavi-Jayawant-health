@@ -116,13 +116,8 @@
   .testimonial-video-card { max-height: 64svh; }
 
   .offer-content { gap: 8px; padding: 14px 14px 16px; }
-  .offer-preview { padding-inline: 42px; }
   .offer-panel h2 { font-size: clamp(20px, 5.1vw, 27px); gap: 2px; }
   .offer-price { font-size: clamp(2.5rem, 11vw, 3.5rem); }
-  .offer-countdown { gap: 5px; }
-  .offer-clock { gap: 8px; }
-  .offer-clock span { gap: 3px; min-width: 55px; padding: 5px 8px; }
-  .offer-clock strong { font-size: 1.45rem; }
   .offer-panel .offer-register { min-height: 44px; font-size: 14px; }
   .offer-scrim { backdrop-filter: none; }
 }

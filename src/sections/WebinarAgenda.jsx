@@ -6,7 +6,7 @@ import RegistrationButton from '../components/common/RegistrationButton'
 import { agendaModules, liveQA } from '../config/agenda'
 import './webinar-agenda.css'
 
-const benefits = ['Live Expert Guidance', 'Practical Learning', 'Interactive Q&A']
+const benefits = ['Live Expert Guidance', 'Practical Learning', 'Interactive Q&A', 'Unlock 3 Complimentary eBooks']
 
 export default function WebinarAgenda() {
   const reducedMotion = useReducedMotion()

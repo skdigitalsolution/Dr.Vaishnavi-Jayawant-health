@@ -3,7 +3,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import webinarConfig from '../../config/webinar'
 import useWebinarRegistration from '../../hooks/useWebinarRegistration'
 import CountdownTimer from '../common/CountdownTimer'
-import OfferCountdown from '../common/OfferCountdown'
 import RegistrationButton from '../common/RegistrationButton'
 import PriceDisplay from '../common/PriceDisplay'
 import './sticky-cta.css'
@@ -101,6 +100,9 @@ function useStickySuspension() {
   useEffect(() => {
     const viewport = window.visualViewport
     const mediaEvents = ['play', 'pause', 'ended', 'fullscreenchange']
+    const compact = window.matchMedia('(max-width: 639px)')
+    const bonusGrid = document.querySelector('.bonuses-grid')
+    let bonusCardsVisible = false
 
     function update() {
       const focused = document.activeElement
@@ -110,8 +112,16 @@ function useStickySuspension() {
       const overlay = document.querySelector('dialog[open], [data-checkout-active="true"]')
       const playing = [...document.querySelectorAll('video[controls]')].some((video) => !video.paused && !video.ended)
 
-      setSuspended(Boolean(keyboard || overlay || playing || document.fullscreenElement))
+      setSuspended(Boolean(keyboard || overlay || playing || document.fullscreenElement ||
+        (compact.matches && bonusCardsVisible)))
     }
+
+    const bonusObserver = new IntersectionObserver(([entry]) => {
+      bonusCardsVisible = entry.isIntersecting
+      update()
+    })
+    if (bonusGrid) bonusObserver.observe(bonusGrid)
+    compact.addEventListener('change', update)
 
     const observer = new MutationObserver(update)
     observer.observe(document.body, {
@@ -128,6 +138,8 @@ function useStickySuspension() {
 
     return () => {
       observer.disconnect()
+      bonusObserver.disconnect()
+      compact.removeEventListener('change', update)
       viewport?.removeEventListener('resize', update)
       document.removeEventListener('focusin', update)
       document.removeEventListener('focusout', update)
@@ -138,7 +150,7 @@ function useStickySuspension() {
   return suspended
 }
 
-function StickyRegistrationBar({ offerSeconds }) {
+function StickyRegistrationBar() {
   const bar = useRef(null)
   const reducedMotion = useReducedMotion()
   const suspended = useStickySuspension()
@@ -159,17 +171,15 @@ function StickyRegistrationBar({ offerSeconds }) {
     >
       <div className="sticky-registration-inner">
         <div className="sticky-registration-offer">
-          <p className="sticky-desktop-label">Complete Masterclass Access</p>
-          <p className="sticky-mobile-label">Registration Fee</p>
+          <p className="sticky-desktop-label">Get 3 FREE eBooks</p>
+          <p className="sticky-mobile-label">3 FREE eBooks</p>
           <p className="sticky-registration-amount">
             <PriceDisplay />
           </p>
           <p className="sticky-desktop-label sticky-registration-fee">One-Time Registration</p>
         </div>
         <div className="sticky-registration-timer">
-          {offerSeconds > 0
-            ? <OfferCountdown seconds={offerSeconds} compact />
-            : <CountdownTimer startAt={webinarStartAt} eventStatus={eventStatus} />}
+          <CountdownTimer startAt={webinarStartAt} eventStatus={eventStatus} />
         </div>
         <div className="sticky-registration-actions">
           <RegistrationButton
@@ -184,6 +194,6 @@ function StickyRegistrationBar({ offerSeconds }) {
   )
 }
 
-export default function StickyCTA({ offerSeconds }) {
-  return webinarConfig.stickyCTAEnabled ? <StickyRegistrationBar offerSeconds={offerSeconds} /> : null
+export default function StickyCTA() {
+  return webinarConfig.stickyCTAEnabled ? <StickyRegistrationBar /> : null
 }

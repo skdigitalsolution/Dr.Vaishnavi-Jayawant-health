@@ -49,8 +49,6 @@
 }
 
 .sticky-registration-timer { text-align: center; }
-.sticky-offer-countdown { color: #ffca9d; font-size: 0.75rem; line-height: 1.25; }
-.sticky-offer-countdown strong { font-size: 1.25rem; font-variant-numeric: tabular-nums; }
 .sticky-registration-timer .pricing-label { color: #d6d3d1; font-size: 0.625rem; letter-spacing: 0.1em; }
 .sticky-registration-timer .pricing-countdown-status { color: #ffad70; font-size: 0.8125rem; }
 

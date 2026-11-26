@@ -11,6 +11,7 @@ export const faq = [
   ['Will I be able to ask questions during the webinar?', 'The masterclass includes a live Q&A session covering common questions about PCOS, nutrition and lifestyle habits. Individual medical consultations are not included.'],
   ['Can I attend using my mobile phone?', 'Yes. You can join the live online masterclass using a smartphone, tablet, laptop or desktop computer with a stable internet connection.'],
   ['How will I receive the webinar joining link?', 'After successful registration and payment verification, joining instructions will be shared through the confirmed communication channels.'],
+  ['Are eBooks included with registration?', 'Yes. Every paid registration includes Circle of Life, 5 Pillars of Good Health and The Side Hustle Funnel at no additional cost. You’ll receive all three digital PDFs after successful payment verification.'],
   ['Will I receive a recording of the webinar?', 'Recording availability will be communicated before registration.'],
   ['Is my personal information private?', 'Your registration information will be handled according to our published privacy policy. You are not required to publicly share sensitive medical information during the webinar.'],
   ['What is the refund and cancellation policy?', 'Please review our refund and cancellation policy before completing your webinar registration.'],

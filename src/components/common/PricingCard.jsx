@@ -1,7 +1,6 @@
 import { showSitePreview } from '../../config/sitePreview'
 import { motion } from 'framer-motion'
 import { CalendarDays, CircleCheck, Clock, Hourglass, Languages, MonitorPlay } from 'lucide-react'
-import { bonusResources } from '../../config/bonuses'
 import webinarConfig from '../../config/webinar'
 import useWebinarRegistration from '../../hooks/useWebinarRegistration'
 import CountdownTimer from './CountdownTimer'
@@ -10,15 +9,12 @@ import RegistrationButton from './RegistrationButton'
 import PriceDisplay from './PriceDisplay'
 
 const { instructorName, webinar } = webinarConfig
-const approvedBonuses = bonusResources.filter(({ isApproved, isAvailable, isPlaceholder }) =>
-  isApproved && isAvailable && !isPlaceholder,
-)
 const benefits = [
   `Live Masterclass With ${instructorName}`,
   'Understanding PCOS & Hormonal Health',
   'Practical Indian Nutrition Guidance',
   'Sustainable Lifestyle Strategies',
-  ...approvedBonuses.map(({ title }) => title),
+  'Get 3 FREE eBooks after successful payment',
   'Interactive Live Q&A',
 ]
 

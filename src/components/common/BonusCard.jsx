@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
 import { Check, FileText } from 'lucide-react'
 
-export default function BonusCard({ bonus, preview, entrance, reducedMotion, showReferenceValues }) {
-  const { bonusNumber, title, description, highlights, resourceFormat, image, imageAlt, referenceValue, isPlaceholder } = bonus
-  const showValue = !preview && showReferenceValues && referenceValue?.isVerified && referenceValue.displayPrice
+export default function BonusCard({ bonus, entrance, reducedMotion }) {
+  const { bonusNumber, category, title, subtitle, description, highlights, pages, image } = bonus
 
   return (
     <article className="bonus-card animated-border">
+      <p className="bonus-badge">Bonus #{bonusNumber} · {category}</p>
       <div className="bonus-media">
         <motion.div
           className="bonus-image-float"
@@ -17,18 +17,15 @@ export default function BonusCard({ bonus, preview, entrance, reducedMotion, sho
         >
           <img
             src={image}
-            alt={imageAlt}
-            width={640}
-            height={800}
+            alt={title + ' original book cover'}
             loading="lazy"
             decoding="async"
           />
         </motion.div>
-        <p className="bonus-badge">Bonus #{bonusNumber}</p>
-        {isPlaceholder && <p className="bonus-mockup-label">Development mockup</p>}
       </div>
       <div className="bonus-card-copy">
         <h3>{title}</h3>
+        <p className="bonus-subtitle">{subtitle}</p>
         <p>{description}</p>
         <ul className="bonus-highlights">
           {highlights.map((highlight, index) => (
@@ -38,9 +35,9 @@ export default function BonusCard({ bonus, preview, entrance, reducedMotion, sho
           ))}
         </ul>
         <div className="bonus-card-footer">
-          <p className="bonus-format"><FileText size={17} aria-hidden="true" />{resourceFormat}</p>
-          {showValue && <p className="bonus-reference">Reference price <s>{referenceValue.displayPrice}</s></p>}
-          <p className="bonus-included">{preview ? 'Proposed with registration' : 'Included With Registration'}</p>
+          <p className="bonus-format"><FileText size={17} aria-hidden="true" />Digital PDF eBook · {pages} pages</p>
+          <p className="bonus-format">Revised Edition 2026</p>
+          <p className="bonus-included">FREE with registration.</p>
         </div>
       </div>
     </article>

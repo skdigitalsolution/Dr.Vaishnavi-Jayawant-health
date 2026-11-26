@@ -3,19 +3,17 @@ import { Gift, X } from 'lucide-react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import PriceDisplay from './PriceDisplay'
-import OfferCountdown from './OfferCountdown'
 import RegistrationButton from './RegistrationButton'
 import '../../styles/animations.css'
 
 const easing = [0.22, 1, 0.36, 1]
 
-export default function OfferPopup({ seconds, onOpen, onClose }) {
+export default function OfferPopup({ onOpen, onClose }) {
   const dialog = useRef(null)
   const close = useRef(null)
   const restoreScroll = useRef(null)
   const [visible, setVisible] = useState(true)
   const reducedMotion = useReducedMotion()
-  const expired = !seconds
 
   useLayoutEffect(() => {
     const element = dialog.current
@@ -89,22 +87,18 @@ export default function OfferPopup({ seconds, onOpen, onClose }) {
                 <X size={22} aria-hidden="true" />
               </button>
               <div className="offer-content">
-                <p className="offer-preview">Development preview</p>
-                <p className="offer-label"><Gift size={17} aria-hidden="true" /> Limited Time Registration Offer</p>
+                <p className="offer-label"><Gift size={17} aria-hidden="true" /> Exclusive Registration Bonuses</p>
                 <h2 id="offer-heading">
                   Book Your Seat for
                   <span className="offer-price"><PriceDisplay /></span>
-                  {!expired && <span>&amp; Get a Premium eBook <em className="offer-free">Absolutely FREE!</em></span>}
+                  <span>&amp; Get <em className="offer-free">3 FREE eBooks</em></span>
                 </h2>
-                {expired
-                  ? <p className="offer-expired" role="status">Free eBook Offer Expired</p>
-                  : <OfferCountdown seconds={seconds} />}
                 <RegistrationButton
                   className="offer-register"
                   showArrow
                   observeInPage={false}
                 />
-                <p className="offer-note">One-Time Registration{!expired && ' • Free Digital eBook'}</p>
+                <p className="offer-note">Receive All 3 eBooks After Successful Registration</p>
               </div>
             </motion.div>
           )}

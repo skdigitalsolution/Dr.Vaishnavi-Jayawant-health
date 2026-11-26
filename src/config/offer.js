@@ -11,14 +11,8 @@ export function hasBlockingOfferOverlay() {
 
 const offer = {
   preview: showSitePreview,
-  promotionApproved: true,
-  ebookAvailable: true,
-  verifiedReferenceValue: '₹999',
-  expiryKey: `${previewId}:expires-at`,
   shownKey: `${previewId}:shown`,
   popupDelayMs: 3000,
-  offerDurationSeconds: 300,
-  startCountdownOnPopupOpen: true,
 }
 
 export default offer

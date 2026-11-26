@@ -4,7 +4,6 @@ import Navbar from './components/layout/Navbar'
 import Hero from './sections/Hero'
 import WebinarSchedule from './sections/WebinarSchedule'
 import IntroVideo from './sections/IntroVideo'
-import EbookShowcase from './sections/EbookShowcase'
 import TrustStats from './sections/TrustStats'
 import Testimonials from './sections/Testimonials'
 import Problems from './sections/Problems'
@@ -23,10 +22,9 @@ import StickyCTA from './components/layout/StickyCTA'
 import OfferPopup from './components/common/OfferPopup'
 import FloatingOfferButton from './components/common/FloatingOfferButton'
 import offer, { hasBlockingOfferOverlay } from './config/offer'
-import useOfferCountdown from './hooks/useOfferCountdown'
 import useWebinarRegistration from './hooks/useWebinarRegistration'
 
-function RegistrationOverlays({ seconds, expiresAt, activate, closed, isOfferActive }) {
+function RegistrationOverlays({ closed }) {
   const [popupMode, setPopupMode] = useState(null)
   const isPopupOpen = popupMode !== null
   const [hasAutoPopupDismissed, setAutoPopupDismissed] = useState(() =>
@@ -35,19 +33,16 @@ function RegistrationOverlays({ seconds, expiresAt, activate, closed, isOfferAct
 
   const showAutomatically = useEffectEvent(() => {
     if (closed || sessionStorage.getItem(offer.shownKey) === 'true' || hasBlockingOfferOverlay()) return
-    if (expiresAt !== null && expiresAt <= Date.now()) return
     setPopupMode('automatic')
   })
 
-  const activateAutomaticOffer = useCallback(() => {
-    activate()
+  const markOfferShown = useCallback(() => {
     sessionStorage.setItem(offer.shownKey, 'true')
-  }, [activate])
+  }, [])
 
   useEffect(() => {
     if (!offer.preview) return
     window.resetOfferPreview = () => {
-      localStorage.removeItem(offer.expiryKey)
       sessionStorage.removeItem(offer.shownKey)
       window.location.reload()
     }
@@ -71,7 +66,7 @@ function RegistrationOverlays({ seconds, expiresAt, activate, closed, isOfferAct
   }, [])
 
   function openOfferPopup(event) {
-    if (!isOfferActive || expiresAt <= Date.now() || hasBlockingOfferOverlay()) return
+    if (closed || hasBlockingOfferOverlay()) return
     manualTrigger.current = event.currentTarget
     setPopupMode('manual')
   }
@@ -90,14 +85,13 @@ function RegistrationOverlays({ seconds, expiresAt, activate, closed, isOfferAct
 
   return (
     <>
-      <StickyCTA offerSeconds={isOfferActive ? seconds : null} />
+      <StickyCTA />
       {offer.preview && hasAutoPopupDismissed && (
-        <FloatingOfferButton seconds={seconds} enabled={isOfferActive && !isPopupOpen} onOpen={openOfferPopup} />
+        <FloatingOfferButton enabled={!closed && !isPopupOpen} onOpen={openOfferPopup} />
       )}
       {isPopupOpen && (
         <OfferPopup
-          seconds={closed ? 0 : seconds}
-          onOpen={popupMode === 'automatic' && offer.startCountdownOnPopupOpen ? activateAutomaticOffer : undefined}
+          onOpen={popupMode === 'automatic' ? markOfferShown : undefined}
           onClose={closeOfferPopup}
         />
       )}
@@ -106,21 +100,14 @@ function RegistrationOverlays({ seconds, expiresAt, activate, closed, isOfferAct
 }
 
 export default function App() {
-  const countdown = useOfferCountdown()
   const { closed } = useWebinarRegistration()
-  const isOfferActive = offer.preview && !closed && countdown.seconds > 0
-  const ebookPromotionActive = offer.promotionApproved && offer.ebookAvailable && isOfferActive
 
   return (
     <div className="webinar-page relative min-h-screen bg-primary-bg text-primary-text">
       <AnnouncementBar />
       <Navbar />
       <Hero />
-      <IntroVideo promotionActive={ebookPromotionActive} promotionExpired={countdown.seconds === 0} />
-      <EbookShowcase
-        promotionActive={ebookPromotionActive}
-        promotionExpired={offer.promotionApproved && countdown.seconds === 0}
-      />
+      <IntroVideo />
       <WebinarSchedule />
       <Testimonials />
       <TrustStats />
@@ -136,7 +123,7 @@ export default function App() {
       <FAQ />
       <FinalCTA />
       <Footer />
-      <RegistrationOverlays {...countdown} closed={closed} isOfferActive={isOfferActive} />
+      <RegistrationOverlays closed={closed} />
     </div>
   )
 }
