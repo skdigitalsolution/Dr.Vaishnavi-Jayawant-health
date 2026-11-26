@@ -1,8 +1,9 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { responsiveReveal } from '../utils/premiumMotion'
-import { ShieldCheck, UserRoundCheck, Video } from 'lucide-react'
+import { premiumReveal, responsiveReveal } from '../utils/premiumMotion'
+import { Gift, ShieldCheck, Timer, UserRoundCheck, Video } from 'lucide-react'
 import RegistrationButton from '../components/common/RegistrationButton'
 import VideoPlayer from '../components/common/VideoPlayer'
+import offer from '../config/offer'
 import webinarConfig from '../config/webinar'
 import './intro-video.css'
 
@@ -12,9 +13,11 @@ const trustItems = [
   { Icon: UserRoundCheck, label: 'Expert Guidance' },
 ]
 
-export default function IntroVideo() {
+export default function IntroVideo({ promotionActive, promotionExpired }) {
   const reducedMotion = useReducedMotion()
   const introduction = webinarConfig.introduction
+  const referenceValue = import.meta.env.DEV ? '₹999' : offer.verifiedReferenceValue
+  const showPromotion = import.meta.env.DEV || (promotionActive && !promotionExpired)
 
   function entrance(delay = 0, y = 0) {
     return responsiveReveal(reducedMotion, delay, { y }, 0.15)
@@ -46,6 +49,35 @@ export default function IntroVideo() {
               <li key={label}><Icon aria-hidden="true" size={15} />{label}</li>
             ))}
           </ul>
+        </motion.div>
+        <motion.div
+          className="intro-ebook-bonus"
+          initial={false}
+          whileInView={reducedMotion ? undefined : { opacity: [0.65, 1], y: [8, 0] }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={premiumReveal}
+        >
+          {showPromotion && (
+            <p className="intro-ebook-bonus-label">
+              <Timer aria-hidden="true" size={18} />
+              Register Within 5 Minutes
+            </p>
+          )}
+          <h3 className="intro-ebook-bonus-title">
+            {showPromotion ? 'Unlock a Premium Health eBook' : 'Premium Health eBook'}
+          </h3>
+          {showPromotion && (
+            <>
+              <p className="intro-ebook-bonus-price">
+                <Gift className="intro-ebook-bonus-gift" aria-hidden="true" size={26} />
+                {referenceValue && <s>{referenceValue}</s>}
+                <strong>Absolutely FREE!</strong>
+              </p>
+              <p className="intro-ebook-bonus-description">
+                Your wellness journey begins with an exclusive bonus.
+              </p>
+            </>
+          )}
         </motion.div>
       </div>
     </section>

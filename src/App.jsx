@@ -116,12 +116,12 @@ export default function App() {
       <AnnouncementBar />
       <Navbar />
       <Hero />
-      <WebinarSchedule />
-      <IntroVideo />
+      <IntroVideo promotionActive={ebookPromotionActive} promotionExpired={countdown.seconds === 0} />
       <EbookShowcase
         promotionActive={ebookPromotionActive}
         promotionExpired={offer.promotionApproved && countdown.seconds === 0}
       />
+      <WebinarSchedule />
       <Testimonials />
       <TrustStats />
       <Problems />
