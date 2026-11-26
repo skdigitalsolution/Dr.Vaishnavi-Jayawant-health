@@ -5,7 +5,17 @@ import { approvedPolicies } from './legal'
 // Use an ISO date-time with an explicit offset, such as +05:30 for India.
 const webinarStartAt = null
 const timezone = 'Asia/Kolkata'
-const recurringSchedule = 'Every Sunday, 11:00 AM–1:00 PM'
+const scheduleDetails = {
+  confirmed: false,
+  day: 'Sunday',
+  startsAt: '11:00 AM',
+  endsAt: '1:00 PM',
+  timezoneLabel: 'Indian Standard Time',
+  duration: '2 Hours',
+  platform: 'Live on Zoom',
+  languages: ['English', 'Hindi', 'Marathi'],
+}
+const recurringSchedule = `Every ${scheduleDetails.day}, ${scheduleDetails.startsAt}–${scheduleDetails.endsAt}`
 const startTimestamp = parseWebinarInstant(webinarStartAt)
 const duration = null
 const language = null
@@ -59,6 +69,7 @@ export const webinarConfig = {
     ...baseConfig.webinar,
     ...schedule,
     recurringSchedule,
+    scheduleDetails,
     duration: duration ?? baseConfig.webinar.duration,
     language: language ?? baseConfig.webinar.language,
     platform,

@@ -4,11 +4,11 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid transparent;
-  border-radius: 20px;
+  border-radius: 24px;
   background:
     linear-gradient(var(--surface-bg), var(--surface-bg)) padding-box,
-    linear-gradient(145deg, #ffad7088, #ff633f28 50%, #ffad7055) border-box;
-  box-shadow: 0 18px 48px #170b0850, 0 0 36px #ff633f22;
+    linear-gradient(125deg, #ff633f4d, #ffad70cc 34%, #ff633f52 62%, #ffad70a6) border-box;
+  box-shadow: 0 18px 44px #10090566, 0 0 36px #ff633f26;
 }
 
 .intro-poster,
@@ -71,7 +71,7 @@
   justify-content: center;
   gap: 0.6rem;
   min-height: 44px;
-  padding: 16px 28px;
+  padding: clamp(10px, 2vw, 16px) clamp(18px, 3.5vw, 28px);
   overflow: hidden;
   border-radius: inherit;
   background: linear-gradient(115deg, #ff633f, #ffad70);
@@ -102,6 +102,25 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .intro-player::after {
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    border-radius: 23px;
+    background: linear-gradient(125deg, #ffad70, transparent 50%, #ff633f) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    animation: intro-video-border-shine 6s ease-in-out infinite alternate;
+    animation-play-state: paused;
+    content: '';
+  }
+
+  .intro-player[data-visible='true']::after {
+    animation-play-state: running;
+  }
+
   .intro-player[data-visible='true'] .intro-player-spinner {
     animation: intro-video-spin 900ms linear infinite;
   }
@@ -127,6 +146,10 @@
   .intro-play-button:active {
     transform: scale(0.96);
   }
+}
+
+@keyframes intro-video-border-shine {
+  to { opacity: 0.75; }
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {

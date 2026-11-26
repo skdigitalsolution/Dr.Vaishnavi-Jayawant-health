@@ -1,0 +1,277 @@
+﻿.ebook-showcase {
+  overflow: clip;
+  padding-block: clamp(2.25rem, 6vw, 5rem);
+  background: #fff5ec;
+  color: #241915;
+}
+
+.ebook-showcase-content {
+  width: min(100%, 1200px);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.ebook-showcase-header { text-align: center; }
+
+.ebook-showcase-label,
+.ebook-edition,
+.ebook-offer-window {
+  color: #9c3d20;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ebook-showcase-header h2 {
+  margin-block-start: 0.55rem;
+  font-size: clamp(1.85rem, 4.5vw, 3.75rem);
+  font-weight: 900;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.ebook-showcase-header h2 span {
+  background: var(--surface-accent-gradient);
+  background-clip: text;
+  color: transparent;
+}
+
+.ebook-showcase-grid {
+  display: grid;
+  align-items: center;
+  gap: clamp(1.25rem, 4vw, 3.5rem);
+  margin-block-start: clamp(1.35rem, 4vw, 3rem);
+}
+
+.ebook-stage {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 1rem 1rem 1.5rem;
+  perspective: 1100px;
+}
+
+.ebook-stage::before,
+.ebook-stage::after {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  content: '';
+}
+
+.ebook-stage::before {
+  width: min(90%, 420px);
+  aspect-ratio: 1;
+  border: 1px solid #f3946233;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 56%, #f394622b 56.3%, transparent 56.8%),
+    radial-gradient(circle, #ffa36565, #ffa3651c 48%, transparent 72%);
+}
+
+.ebook-stage::after {
+  bottom: 0.15rem;
+  width: min(66%, 310px);
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #512a2355, transparent 70%);
+}
+
+.ebook-book-float {
+  width: min(100%, clamp(172px, 47vw, 320px));
+  transform-style: preserve-3d;
+}
+
+.ebook-book {
+  --ebook-depth: clamp(9px, 2vw, 16px);
+  position: relative;
+  aspect-ratio: 900 / 1273;
+  transform: rotateX(11deg) rotateY(22deg);
+  transform-style: preserve-3d;
+}
+
+.ebook-book::before {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px 8px 8px 3px;
+  background: #16172c;
+  transform: translateZ(calc(var(--ebook-depth) / -2));
+  content: '';
+}
+
+.ebook-book-front {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 3px 8px 8px 3px;
+  box-shadow: 8px 12px 28px #26152a3d;
+  transform: translateZ(calc(var(--ebook-depth) / 2));
+}
+
+.ebook-book-front img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ebook-book-spine,
+.ebook-book-pages {
+  position: absolute;
+}
+
+.ebook-book-spine {
+  inset: 0 auto 0 0;
+  width: var(--ebook-depth);
+  border-radius: 3px 0 0 3px;
+  background: linear-gradient(90deg, #16172c, #333047 32%, #151325);
+  transform: translateZ(calc(var(--ebook-depth) / 2)) rotateY(90deg);
+  transform-origin: left;
+}
+
+.ebook-book-pages {
+  inset: auto 4px 0;
+  height: var(--ebook-depth);
+  border-bottom: 1px solid #191829;
+  background: repeating-linear-gradient(#d1baa4 0 1px, #f6e9d9 1px 3px);
+  transform: translateZ(calc(var(--ebook-depth) / 2)) rotateX(90deg);
+  transform-origin: bottom;
+}
+
+.ebook-copy { min-width: 0; }
+
+.ebook-copy h3 {
+  margin-block-start: 0.25rem;
+  font-size: clamp(1.6rem, 3.25vw, 2.75rem);
+  font-weight: 900;
+  line-height: 1.13;
+}
+
+.ebook-subtitle {
+  margin-block-start: 0.3rem;
+  color: #953e25;
+  font-weight: 750;
+}
+
+.ebook-author,
+.ebook-description,
+.ebook-offer {
+  color: #59463e;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.ebook-author { margin-block-start: 0.2rem; }
+.ebook-description { margin-block-start: 0.75rem; }
+
+.ebook-topics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 0.75rem;
+  margin-block-start: 1rem;
+}
+
+.ebook-topics li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.42rem;
+  color: #382a24;
+  font-size: clamp(0.74rem, 2.9vw, 0.9rem);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.ebook-topics svg {
+  flex: none;
+  color: #b44a29;
+}
+
+.ebook-offer {
+  margin-block-start: 1rem;
+  padding-block-start: 0.875rem;
+  border-block-start: 1px solid #edc9b7;
+}
+
+.ebook-offer-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.ebook-offer-value strong {
+  color: #a93d1d;
+  font-size: clamp(1.45rem, 3.5vw, 2rem);
+  font-weight: 900;
+}
+
+.ebook-registration { margin-block-start: 0.75rem; }
+
+@media (min-width: 768px) {
+  .ebook-showcase-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); }
+  .ebook-book-float { width: min(78%, 320px); }
+}
+
+@media (max-width: 767px) {
+  .ebook-showcase .ebook-registration {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ebook-showcase[data-in-view='true'] .ebook-book-float {
+    animation: ebook-cover-float 5s ease-in-out infinite;
+  }
+
+  .ebook-showcase[data-in-view='true'] .ebook-stage::before {
+    animation: ebook-ambient-glow 6s ease-in-out infinite alternate;
+  }
+
+  .ebook-book-front::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 38%, #ffffff26 50%, transparent 62%);
+    pointer-events: none;
+    transform: translateX(-110%);
+    content: '';
+  }
+
+  .ebook-showcase[data-in-view='true'] .ebook-book-front::after {
+    animation: ebook-cover-reflection 6s ease-in-out infinite;
+  }
+
+  .ebook-showcase[data-in-view='true'] .ebook-offer-value strong {
+    background: linear-gradient(105deg, #983719 25%, #c34c22 43%, #d7713e 50%, #9c3719 65%) 100% 0 / 240% 100%;
+    background-clip: text;
+    color: transparent;
+    animation: ebook-offer-shine 4.5s ease-in-out infinite;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ebook-book { transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .ebook-stage:hover .ebook-book { transform: rotateX(7deg) rotateY(14deg); }
+}
+
+@keyframes ebook-cover-float {
+  50% { translate: 0 -8px; }
+}
+
+@keyframes ebook-ambient-glow {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+@keyframes ebook-cover-reflection {
+  0%, 24% { transform: translateX(-110%); }
+  58%, 100% { transform: translateX(110%); }
+}
+
+@keyframes ebook-offer-shine {
+  0%, 20% { background-position: 100% 0; }
+  65%, 100% { background-position: 0 0; }
+}

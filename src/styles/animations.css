@@ -359,3 +359,13 @@
   0%, 22% { transform: translateX(-110%); }
   55%, 100% { transform: translateX(110%); }
 }
+
+@keyframes webinar-schedule-border-shine {
+  0% { background-position: 100% 0; opacity: 0; }
+  35% { opacity: 1; }
+  100% { background-position: 0 0; opacity: 0; }
+}
+
+@keyframes webinar-schedule-icon-highlight {
+  45% { box-shadow: 0 0 16px #ff633f50; }
+}

@@ -2,7 +2,9 @@ import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react'
 import AnnouncementBar from './components/layout/AnnouncementBar'
 import Navbar from './components/layout/Navbar'
 import Hero from './sections/Hero'
+import WebinarSchedule from './sections/WebinarSchedule'
 import IntroVideo from './sections/IntroVideo'
+import EbookShowcase from './sections/EbookShowcase'
 import TrustStats from './sections/TrustStats'
 import Testimonials from './sections/Testimonials'
 import Problems from './sections/Problems'
@@ -114,9 +116,11 @@ export default function App() {
       <AnnouncementBar />
       <Navbar />
       <Hero />
-      <IntroVideo
-        ebookPromotionActive={ebookPromotionActive}
-        ebookPromotionExpired={offer.promotionApproved && countdown.seconds === 0}
+      <WebinarSchedule />
+      <IntroVideo />
+      <EbookShowcase
+        promotionActive={ebookPromotionActive}
+        promotionExpired={offer.promotionApproved && countdown.seconds === 0}
       />
       <Testimonials />
       <TrustStats />

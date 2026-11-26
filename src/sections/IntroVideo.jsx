@@ -1,9 +1,8 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { responsiveReveal } from '../utils/premiumMotion'
-import { Gift, ShieldCheck, Timer, UserRoundCheck, Video } from 'lucide-react'
+import { ShieldCheck, UserRoundCheck, Video } from 'lucide-react'
 import RegistrationButton from '../components/common/RegistrationButton'
 import VideoPlayer from '../components/common/VideoPlayer'
-import offer from '../config/offer'
 import webinarConfig from '../config/webinar'
 import './intro-video.css'
 
@@ -13,14 +12,9 @@ const trustItems = [
   { Icon: UserRoundCheck, label: 'Expert Guidance' },
 ]
 
-export default function IntroVideo({ ebookPromotionActive, ebookPromotionExpired }) {
+export default function IntroVideo() {
   const reducedMotion = useReducedMotion()
   const introduction = webinarConfig.introduction
-  const developmentPreview = !ebookPromotionActive && (
-    import.meta.env.DEV || (offer.preview && !offer.promotionApproved)
-  )
-  const showPromotion = ebookPromotionActive || developmentPreview
-  const referenceValue = developmentPreview ? '₹999' : offer.verifiedReferenceValue
 
   function entrance(delay = 0, y = 0) {
     return responsiveReveal(reducedMotion, delay, { y }, 0.15)
@@ -53,34 +47,6 @@ export default function IntroVideo({ ebookPromotionActive, ebookPromotionExpired
             ))}
           </ul>
         </motion.div>
-        <motion.aside
-          className="intro-ebook-offer"
-          aria-label="Premium Health eBook"
-          initial={false}
-          whileInView={reducedMotion ? undefined : { y: [5, 0] }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.35 }}
-        >
-          {developmentPreview && <p className="intro-ebook-preview">Development preview</p>}
-          {showPromotion && <p className="intro-ebook-window"><Timer size={20} aria-hidden="true" />Register Within 5 Minutes</p>}
-          <p className="intro-ebook-title">
-            <Gift size={24} aria-hidden="true" />
-            {showPromotion ? 'Unlock a Premium Health eBook' : 'Premium Health eBook'}
-          </p>
-          {showPromotion ? (
-            <>
-              <p className="intro-ebook-value">
-                {referenceValue && <><s>{referenceValue}</s><span aria-hidden="true">—</span></>}
-                <strong>Absolutely FREE!</strong>
-              </p>
-              <p className="intro-ebook-note">Your wellness journey begins with an exclusive bonus.</p>
-            </>
-          ) : (
-            <p className="intro-ebook-note">
-              {ebookPromotionExpired ? 'The free eBook offer has expired.' : 'The free eBook offer is currently unavailable.'}
-            </p>
-          )}
-        </motion.aside>
       </div>
     </section>
   )

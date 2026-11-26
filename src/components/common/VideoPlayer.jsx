@@ -1,10 +1,10 @@
 ﻿import { LoaderCircle, Play, Volume2 } from 'lucide-react'
-import { useEffect, useId, useRef, useState } from 'react'
+import { memo, useEffect, useId, useRef, useState } from 'react'
 import { hasBlockingModal } from '../../config/offer'
 import '../../styles/animations.css'
 import './video-player.css'
 
-export default function VideoPlayer({ poster, video, captions }) {
+export default memo(function VideoPlayer({ poster, video, captions }) {
   const player = useRef(null)
   const frame = useRef(null)
   const eligible = useRef(false)
@@ -20,7 +20,6 @@ export default function VideoPlayer({ poster, video, captions }) {
   const hintId = useId()
 
   function pauseForPage(element) {
-    element.autoplay = false
     attempt.current += 1
     if (!element.paused) {
       managedPauses.current += 1
@@ -32,7 +31,6 @@ export default function VideoPlayer({ poster, video, captions }) {
     const currentAttempt = ++attempt.current
     element.play().catch((error) => {
       if (attempt.current !== currentAttempt || !eligible.current) return
-      element.autoplay = false
       wantsPlayback.current = false
       setProblem(error.name === 'NotAllowedError' ? 'blocked' : 'failed')
     })
@@ -40,11 +38,12 @@ export default function VideoPlayer({ poster, video, captions }) {
 
   useEffect(() => {
     const element = player.current
+    const container = frame.current
     let inView = false
     let inlineFullscreen = false
 
     function sync() {
-      const fullscreen = inlineFullscreen || document.fullscreenElement === element
+      const fullscreen = inlineFullscreen || container.contains(document.fullscreenElement)
       const canPlay = (inView || fullscreen) && !document.hidden && !hasBlockingModal()
       if (canPlay === eligible.current) return
       eligible.current = canPlay
@@ -52,21 +51,22 @@ export default function VideoPlayer({ poster, video, captions }) {
       if (!canPlay) {
         pauseForPage(element)
       } else if (wantsPlayback.current && element.paused && !element.ended) {
-        // Enable native autoplay only after the first viewport check.
-        element.autoplay = element.muted
+        // Defer the MP4 request until the player first becomes eligible to play.
+        if (!element.hasAttribute('src')) element.setAttribute('src', video)
         play(element)
       }
     }
 
     const observer = new IntersectionObserver(([entry]) => {
-      inView = entry.intersectionRatio >= 0.5
+      // Start at 50%, then keep playing until fully out of view.
+      inView = entry.intersectionRatio >= 0.5 || (inView && entry.isIntersecting && entry.intersectionRatio > 0)
       sync()
-    }, { threshold: 0.5 })
+    }, { threshold: [0, 0.5] })
     const modals = new MutationObserver(sync)
     const onFullscreenStart = () => { inlineFullscreen = true; sync() }
     const onFullscreenEnd = () => { inlineFullscreen = false; sync() }
 
-    observer.observe(frame.current)
+    observer.observe(container)
     modals.observe(document.body, {
       subtree: true,
       childList: true,
@@ -86,7 +86,7 @@ export default function VideoPlayer({ poster, video, captions }) {
       element.removeEventListener('webkitbeginfullscreen', onFullscreenStart)
       element.removeEventListener('webkitendfullscreen', onFullscreenEnd)
     }
-  }, [])
+  }, [video])
 
   function activate() {
     const element = player.current
@@ -116,7 +116,6 @@ export default function VideoPlayer({ poster, video, captions }) {
         <video
           ref={player}
           className="intro-native-video"
-          src={video}
           poster={poster}
           muted
           playsInline
@@ -127,8 +126,7 @@ export default function VideoPlayer({ poster, video, captions }) {
           aria-describedby={muted && !problem ? hintId : undefined}
           onLoadedData={() => setReady(true)}
           onWaiting={() => setLoading(true)}
-          onPlaying={(event) => {
-            event.currentTarget.autoplay = false
+          onPlaying={() => {
             setLoading(false)
             setProblem(null)
           }}
@@ -149,7 +147,7 @@ export default function VideoPlayer({ poster, video, captions }) {
         >
           {captions && <track kind="captions" src={captions} srcLang="en" label="English" />}
         </video>
-        <img className="intro-poster" src={poster} alt="" data-ready={ready} />
+        <img className="intro-poster" src={poster} alt="" decoding="async" data-ready={ready} />
         {loading && !problem && <LoaderCircle className="intro-player-spinner" aria-hidden="true" />}
         <div className="intro-player-overlay" data-shown={showOverlay} inert={!showOverlay}>
           <button className="intro-play-button" type="button" onClick={activate}>
@@ -164,9 +162,9 @@ export default function VideoPlayer({ poster, video, captions }) {
       {muted && !problem && (
         <p className="intro-video-hint" id={hintId}>
           <Volume2 aria-hidden="true" size={17} />
-          Tap the video to turn the sound on
+          Tap the video to turn the sound on.
         </p>
       )}
     </>
   )
-}
+})
