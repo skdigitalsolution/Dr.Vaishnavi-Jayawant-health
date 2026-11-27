@@ -256,9 +256,13 @@
     translate: 0 -3px;
   }
 
-  .trust-stat:hover .trust-stat-value,
-  .pricing-card:hover .pricing-price {
+  .trust-stat:hover .trust-stat-value {
     background-image: linear-gradient(110deg, #ff633f, #ff9855, #ffd0a8, #ff633f);
+    background-size: 225% 100%;
+    animation: premium-text-glint 1.5s var(--premium-ease);
+  }
+
+  .pricing-card:hover .pricing-price .registration-price-pair > strong {
     background-size: 225% 100%;
     animation: premium-text-glint 1.5s var(--premium-ease);
   }
