@@ -4,7 +4,7 @@ import './site-header.css'
 
 const announcements = [
   'LIVE PCOS & PCOD Masterclass',
-  `${webinarConfig.webinar.recurringSchedule} IST`,
+  webinarConfig.webinar.summary,
   'Expert-Led Wellness Guidance',
   'Registration at Just',
   'Interactive Live Q&A',

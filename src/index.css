@@ -117,6 +117,14 @@
   }
 }
 
+.registration-policy-note {
+  max-width: 50ch;
+  margin: 0 auto 0.875rem;
+  color: var(--surface-text);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
 .webinar-page {
   padding-block-end: var(--sticky-cta-height, 0px);
 }

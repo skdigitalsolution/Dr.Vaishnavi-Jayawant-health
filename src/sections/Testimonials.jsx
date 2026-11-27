@@ -7,10 +7,12 @@ import ReviewCard from '../components/common/ReviewCard'
 import TestimonialVideoCard from '../components/common/TestimonialVideoCard'
 import VideoModal from '../components/common/VideoModal'
 import { testimonials } from '../config/testimonials'
+import { clientStoryCards } from '../config/clientStories'
 import ClientSuccessStories from './ClientSuccessStories'
 import './testimonials.css'
 
 const { videos: videoEntries, reviews: reviewEntries } = testimonials
+const hasTestimonials = clientStoryCards.length > 0 || videoEntries.length > 0 || reviewEntries.length > 0
 
 function VideoCarousel({ onPlay, reducedMotion, entrance, videoOpen }) {
   const track = useRef(null)
@@ -138,10 +140,12 @@ export default function Testimonials() {
     <section className="testimonials-section section-light" aria-labelledby="testimonials-title" data-video-open={Boolean(selected)}>
       <div className="testimonials-content">
         <motion.div className="testimonials-heading" {...entrance()}>
-          <p className="testimonials-label">REAL PEOPLE · REAL EXPERIENCES</p>
-          <h2 id="testimonials-title">Every Woman Has a Story.{' '}<span>The Right Guidance Matters.</span></h2>
+          <p className="testimonials-label">{hasTestimonials ? 'Community Experiences' : 'Wellness Redefined'}</p>
+          <h2 id="testimonials-title">{hasTestimonials ? 'Experiences From the Wellness Redefined Community' : 'Bring Your Questions to the Live Webinar'}</h2>
           <p className="testimonials-description">
-            Discover the wellness experiences shared by members of the Wellness Redefined community.
+            {hasTestimonials
+              ? 'Discover the wellness experiences shared by members of the Wellness Redefined community.'
+              : 'The live Q&A gives attendees a chance to ask about PCOS, nutrition and everyday wellness habits.'}
           </p>
         </motion.div>
         <ClientSuccessStories />
@@ -154,16 +158,15 @@ export default function Testimonials() {
             <motion.h3 {...entrance()}>What Women Say About Us</motion.h3>
             <ul className="testimonial-review-grid">
               {reviewEntries.map((entry, index) => (
-                <motion.li key={entry.id || entry} {...entrance((index % 3) * 0.07)}>
-                  <ReviewCard review={typeof entry === 'string' ? null : entry} />
+                <motion.li key={entry.id} {...entrance((index % 3) * 0.07)}>
+                  <ReviewCard review={entry} />
                 </motion.li>
               ))}
             </ul>
           </div>
         )}
         <div className="testimonials-footer">
-          <p className="testimonials-disclaimer">Every body responds differently. Individual experiences and outcomes may vary.</p>
-          <p>Take the first step towards understanding your body better.</p>
+          {hasTestimonials && <p className="testimonials-disclaimer">Every body responds differently. Individual experiences and outcomes may vary.</p>}
           <RegistrationButton className="testimonials-registration" showArrow />
         </div>
       </div>

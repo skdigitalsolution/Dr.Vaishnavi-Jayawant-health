@@ -1,10 +1,9 @@
-import { showSitePreview } from '../../config/sitePreview'
 import { motion, useReducedMotion } from 'framer-motion'
 import { responsiveReveal } from '../../utils/premiumMotion'
 import { Mail, MessageCircle, Phone } from 'lucide-react'
 import { useState } from 'react'
 import { contact } from '../../config/contact'
-import { approvedPolicies, configuredPageUrl, registrationPoliciesReady } from '../../config/legal'
+import { approvedPolicies, configuredPageUrl, refundPolicyNotice } from '../../config/legal'
 import webinarConfig from '../../config/webinar'
 import PolicyModal from '../common/PolicyModal'
 import '../../sections/landing-end.css'
@@ -18,6 +17,9 @@ const supportLinks = contact.supportAvailable ? [
 const contactUrl = contact.supportAvailable
   ? configuredPageUrl(contact.contactUrl) ?? (supportLinks.length ? '#registration-support' : null)
   : null
+const footerPolicies = approvedPolicies.some(({ id }) => id === refundPolicyNotice.id)
+  ? approvedPolicies
+  : [...approvedPolicies, refundPolicyNotice]
 const copyrightYear = new Intl.DateTimeFormat('en-IN', {
   year: 'numeric',
   timeZone: webinarConfig.timezone,
@@ -41,23 +43,18 @@ export default function Footer() {
             <p className="footer-brand-description">{brand.description}</p>
           </div>
           <div>
-            {(approvedPolicies.length > 0 || contactUrl) && (
-              <nav className="footer-links" aria-label="Policies and support">
-                <ul>
-                  {approvedPolicies.map((policy) => (
-                    <li key={policy.id}>
-                      {policy.url
-                        ? <a href={policy.url}>{policy.title}</a>
-                        : <button type="button" onClick={(event) => setSelected({ policy, trigger: event.currentTarget })}>{policy.title}</button>}
-                    </li>
-                  ))}
-                  {contactUrl && <li><a href={contactUrl}>Contact Us</a></li>}
-                </ul>
-              </nav>
-            )}
-            {showSitePreview && !registrationPoliciesReady && (
-              <p className="footer-policy-pending">Development preview · Legal policies pending approval</p>
-            )}
+            <nav className="footer-links" aria-label="Policies and support">
+              <ul>
+                {footerPolicies.map((policy) => (
+                  <li key={policy.id}>
+                    {policy.url
+                      ? <a href={policy.url}>{policy.title}</a>
+                      : <button type="button" onClick={(event) => setSelected({ policy, trigger: event.currentTarget })}>{policy.title}</button>}
+                  </li>
+                ))}
+                {contactUrl && <li><a href={contactUrl}>Contact Us</a></li>}
+              </ul>
+            </nav>
             {supportLinks.length > 0 && (
               <div className="footer-support" id="registration-support">
                 <h2>Need Help With Registration?</h2>

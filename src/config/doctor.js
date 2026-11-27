@@ -1,4 +1,3 @@
-import { showSitePreview } from './sitePreview'
 import { CalendarCheck, HeartHandshake, HeartPulse, Salad } from 'lucide-react'
 import webinarConfig from './webinar'
 
@@ -7,7 +6,7 @@ const biographyApproved = false
 const storyApproved = false
 const messageApproved = false
 
-const previewGallery = showSitePreview ? [
+const illustrativeGallery = [
   ['seminar', 'Illustrative view of a wellness seminar from the rear of an auditorium.'],
   ['workshop', 'Illustrative setup for a small wellness workshop.'],
   ['consultation', 'Illustrative discussion at a nutrition consultation desk.'],
@@ -16,7 +15,7 @@ const previewGallery = showSitePreview ? [
   ['studio', 'Illustrative view of a wellness studio.'],
 ].map(([id, alt]) => ({
   id, image: `${images}gallery/${id}.webp`, alt, isPlaceholder: true, isVerified: false, hasConsent: false,
-})) : []
+}))
 
 export const doctor = {
   name: webinarConfig.instructorName,
@@ -29,25 +28,34 @@ export const doctor = {
   profileImage: `${images}dr-vaishnavi.webp`,
   // Add approved event photos with id, image, alt, isPlaceholder, isVerified and hasConsent.
   galleryImages: [],
-  previewGallery,
-  biography: (showSitePreview || biographyApproved) ? [
+  illustrativeGallery,
+  biography: biographyApproved ? [
     'My understanding of PCOD goes beyond professional knowledge.',
     'Having personally experienced the challenges of PCOD, I understand the uncertainty, frustration and emotional struggles that can come with it.',
     "My personal health journey, combined with years of professional experience, has shaped my approach to women's wellness.",
     'I believe that every woman deserves guidance that respects her individual needs, understands her lifestyle and helps her make informed decisions about her health.',
     'Through this live masterclass, I want to share practical knowledge about hormonal health, balanced nutrition and sustainable lifestyle habits.',
     'My goal is to help women move beyond confusing advice and approach their wellness journey with greater clarity and confidence.',
-  ] : null,
-  personalStory: (showSitePreview || storyApproved) ? {
+  ] : [
+    webinarConfig.instructorName + ' hosts this live educational webinar on PCOS and PCOD. The session covers hormonal health, balanced nutrition and lifestyle habits that can fit into everyday life.',
+    'The masterclass includes a live Q&A about common questions on PCOS, nutrition and everyday wellness.',
+  ],
+  personalStory: storyApproved ? {
     paragraphs: [
       'Having personally experienced PCOD, I understand how important the right knowledge, practical guidance and compassionate support can be.',
       "My personal journey and professional experience have shaped my approach to women's health, balanced nutrition and sustainable lifestyle habits.",
       'I believe every woman deserves guidance that respects her individual needs and helps her make informed wellness decisions.',
     ],
-  } : null,
-  personalMessage: (showSitePreview || messageApproved)
+  } : {
+    paragraphs: [
+      'Conflicting advice about food and lifestyle can make it difficult to know where to start. This masterclass explores common questions about hormonal health and shows how familiar foods can fit into balanced meals.',
+      'The session also covers sleep, movement and stress management, with time for questions during the live Q&A.',
+    ],
+  },
+  personalMessage: messageApproved
     ? 'My goal is to help women understand their bodies with greater clarity, confidence and compassion.'
     : null,
+  webinarTakeaway: 'Explore practical nutrition and lifestyle habits that fit into everyday life.',
   professionalApproach: [
     { title: 'Understanding Your Body', icon: HeartPulse },
     { title: 'Balanced Everyday Nutrition', icon: Salad },

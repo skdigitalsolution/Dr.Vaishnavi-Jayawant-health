@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
-export default function DoctorGallery({ images, entrance, reducedMotion }) {
+export default function DoctorGallery({ label, images, entrance, reducedMotion }) {
   const track = useRef(null)
   const [edges, setEdges] = useState({ start: true, end: true })
 
@@ -34,7 +34,7 @@ export default function DoctorGallery({ images, entrance, reducedMotion }) {
   const canScroll = !edges.start || !edges.end
 
   return (
-    <div className="doctor-gallery" role="region" aria-label="Professional photo gallery">
+    <div className="doctor-gallery" role="region" aria-label={label}>
       <ul
         className="doctor-gallery-track"
         id="doctor-gallery-track"
@@ -47,7 +47,7 @@ export default function DoctorGallery({ images, entrance, reducedMotion }) {
           step(event.key === 'ArrowLeft' ? -1 : 1)
         }}
       >
-        {images.map(({ id, image, alt, isPlaceholder }, index) => (
+        {images.map(({ id, image, alt }, index) => (
           <li key={id}>
             <motion.figure {...entrance((index % 4) * 0.055, { y: 8 })}>
               <img
@@ -58,17 +58,16 @@ export default function DoctorGallery({ images, entrance, reducedMotion }) {
                 loading="lazy"
                 decoding="async"
               />
-              {isPlaceholder && <figcaption>AI development preview</figcaption>}
             </motion.figure>
           </li>
         ))}
       </ul>
       {canScroll && (
         <div className="doctor-gallery-controls">
-          <button type="button" aria-label="Previous photos" aria-controls="doctor-gallery-track" disabled={edges.start} onClick={() => step(-1)}>
+          <button type="button" aria-label="Previous images" aria-controls="doctor-gallery-track" disabled={edges.start} onClick={() => step(-1)}>
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
-          <button type="button" aria-label="Next photos" aria-controls="doctor-gallery-track" disabled={edges.end} onClick={() => step(1)}>
+          <button type="button" aria-label="Next images" aria-controls="doctor-gallery-track" disabled={edges.end} onClick={() => step(1)}>
             <ChevronRight size={20} aria-hidden="true" />
           </button>
         </div>

@@ -2,35 +2,57 @@ import baseConfig from './webinarConfig.js'
 import { parseWebinarInstant } from '../utils/webinarTime'
 import { approvedPolicies } from './legal'
 
-// Use an ISO date-time with an explicit offset, such as +05:30 for India.
-const webinarStartAt = null
-const timezone = 'Asia/Kolkata'
-const scheduleDetails = {
-  confirmed: false,
-  day: 'Sunday',
-  startsAt: '11:00 AM',
-  endsAt: '1:00 PM',
-  timezoneLabel: 'Indian Standard Time',
-  duration: '2 Hours',
+const session = {
+  date: '2026-12-06',
+  startTime: '11:00',
+  endTime: '13:00',
+  timezone: 'Asia/Kolkata',
+  utcOffset: '+05:30',
   platform: 'Live on Zoom',
   languages: ['English', 'Hindi', 'Marathi'],
+  timeConfirmed: false,
+  platformConfirmed: false,
+  languagesConfirmed: false,
 }
-const recurringSchedule = `Every ${scheduleDetails.day}, ${scheduleDetails.startsAt}–${scheduleDetails.endsAt}`
-const startTimestamp = parseWebinarInstant(webinarStartAt)
-const duration = null
-const language = null
-const platform = null
+
+const { timezone } = session
+const sessionInstant = (time) => session.date + 'T' + time + session.utcOffset
+const startInstant = sessionInstant(session.startTime)
+const endInstant = sessionInstant(session.endTime)
+const startTimestamp = parseWebinarInstant(startInstant)
+const endTimestamp = parseWebinarInstant(endInstant)
+const validRange = startTimestamp !== null && endTimestamp !== null && endTimestamp > startTimestamp
+const hasConfirmedTime = validRange && session.timeConfirmed
+const showTime = validRange && (hasConfirmedTime || import.meta.env.DEV)
+const date = new Intl.DateTimeFormat('en-GB', {
+  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: timezone,
+}).format(parseWebinarInstant(sessionInstant('00:00')))
+const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+  hour: 'numeric', minute: '2-digit', hour12: true, timeZone: timezone,
+})
+const formatTime = (timestamp) => timeFormatter.format(timestamp).toUpperCase()
+const time = showTime ? [formatTime(startTimestamp), formatTime(endTimestamp)].join(' – ') + ' IST' : null
+const duration = showTime
+  ? new Intl.NumberFormat('en-IN', { style: 'unit', unit: 'hour', unitDisplay: 'long' })
+    .format((endTimestamp - startTimestamp) / 3_600_000)
+  : null
+const schedule = {
+  date,
+  dateISO: session.date,
+  time,
+  duration,
+  platform: session.platformConfirmed || import.meta.env.DEV ? session.platform : null,
+  language: session.languagesConfirmed || import.meta.env.DEV
+    ? new Intl.ListFormat('en-GB').format(session.languages)
+    : null,
+  summary: [date, time].filter(Boolean).join(' · '),
+}
 const originalPrice = 499
 const showOriginalPrice = true
 const { price, currency } = baseConfig.registration
 const displayOriginalPrice = showOriginalPrice && Number.isFinite(originalPrice) && originalPrice > price
   ? new Intl.NumberFormat('en-IN', { style: 'currency', currency, minimumFractionDigits: 0 }).format(originalPrice)
   : null
-
-const schedule = startTimestamp === null ? {} : {
-  date: new Intl.DateTimeFormat('en-IN', { dateStyle: 'long', timeZone: timezone }).format(startTimestamp),
-  time: new Intl.DateTimeFormat('en-IN', { hour: 'numeric', minute: '2-digit', timeZoneName: 'short', timeZone: timezone }).format(startTimestamp),
-}
 
 export const webinarConfig = {
   ...baseConfig,
@@ -45,13 +67,10 @@ export const webinarConfig = {
   originalPrice,
   showOriginalPrice,
   displayOriginalPrice,
-  webinarStartAt,
-  webinarEndAt: null,
+  webinarStartAt: hasConfirmedTime ? startInstant : null,
+  webinarEndAt: hasConfirmedTime ? endInstant : null,
   registrationDeadline: null,
   timezone,
-  duration,
-  language,
-  platform,
   registrationStatus: 'open',
   stickyCTAEnabled: true,
   eventStatus: null, // Set to 'live', 'ended' or 'cancelled' when applicable.
@@ -65,15 +84,7 @@ export const webinarConfig = {
   refundPolicyUrl: approvedPolicies.find(({ id }) => id === 'refund')?.url ?? null,
   privacyPolicyUrl: approvedPolicies.find(({ id }) => id === 'privacy')?.url ?? null,
   termsUrl: approvedPolicies.find(({ id }) => id === 'terms')?.url ?? null,
-  webinar: {
-    ...baseConfig.webinar,
-    ...schedule,
-    recurringSchedule,
-    scheduleDetails,
-    duration: duration ?? baseConfig.webinar.duration,
-    language: language ?? baseConfig.webinar.language,
-    platform,
-  },
+  webinar: { ...baseConfig.webinar, ...schedule },
   hero: {
     image: `${import.meta.env.BASE_URL}images/hero-background.webp`,
     video: null,

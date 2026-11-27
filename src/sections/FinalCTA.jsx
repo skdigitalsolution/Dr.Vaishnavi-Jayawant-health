@@ -3,6 +3,7 @@ import { responsiveReveal } from '../utils/premiumMotion'
 import { Lightbulb, MessagesSquare, Video } from 'lucide-react'
 import RegistrationButton from '../components/common/RegistrationButton'
 import PriceDisplay from '../components/common/PriceDisplay'
+import { refundPolicySummary } from '../config/legal'
 import webinarConfig from '../config/webinar'
 import './landing-end.css'
 
@@ -14,7 +15,7 @@ const benefits = [
 
 export default function FinalCTA() {
   const reducedMotion = useReducedMotion()
-  const { instructorName, webinar, webinarStartAt } = webinarConfig
+  const { instructorName, webinar } = webinarConfig
 
   return (
     <section className="webinar-final-cta" aria-labelledby="final-cta-title">
@@ -38,11 +39,9 @@ export default function FinalCTA() {
           <p className="final-cta-price"><PriceDisplay /></p>
           <p>One-Time Registration Fee</p>
         </div>
+        <p className="registration-policy-note">{refundPolicySummary}</p>
         <RegistrationButton className="final-cta-registration" showArrow />
-        <p className="final-cta-date">{webinar.recurringSchedule} IST</p>
-        {webinarStartAt && webinar.date !== 'To be announced' && webinar.time !== 'To be announced' && (
-          <time className="final-cta-date" dateTime={webinarStartAt}>{webinar.date} · {webinar.time}</time>
-        )}
+        <p className="final-cta-date">{webinar.summary}</p>
         <p className="final-cta-note">Live Masterclass • Expert Guidance • Practical Learning</p>
       </motion.div>
     </section>

@@ -24,8 +24,7 @@
   text-align: center;
 }
 
-.doctor-label,
-.doctor-draft {
+.doctor-label {
   color: var(--doctor-orange);
   font-size: 0.8125rem;
   font-weight: 600;
@@ -278,7 +277,7 @@
   font-weight: 850;
 }
 
-.doctor-biography-journey p:not(.doctor-draft) {
+.doctor-biography-journey p {
   margin-block-start: 0.75rem;
   color: var(--surface-text);
   font-size: clamp(1rem, 1.5vw, 1.125rem);
@@ -335,7 +334,8 @@
 }
 
 .doctor-message svg { color: var(--doctor-orange); }
-.doctor-message blockquote { font-size: clamp(1.125rem, 2.5vw, 1.5rem); font-style: italic; }
+.doctor-message :is(blockquote, .doctor-message-takeaway) { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
+.doctor-message blockquote { font-style: italic; }
 .doctor-message figcaption { color: var(--surface-accent); font-weight: 700; }
 .doctor-actions { margin-block-start: clamp(1.75rem, 4vw, 3rem); }
 .doctor-actions h3 { font-size: clamp(1.375rem, 3vw, 2rem); }
@@ -475,7 +475,6 @@
 
 .doctor-story-copy { min-width: 0; }
 .doctor-story-quote { margin-block-end: 8px; color: #e77045; }
-.doctor-story-copy .doctor-draft { margin: 0 0 8px; }
 .doctor-story-copy h3 {
   color: var(--surface-heading);
   font-size: clamp(27px, 3.2vw, 42px);

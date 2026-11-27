@@ -37,7 +37,7 @@ export default function BonusCard({ bonus, entrance, reducedMotion }) {
         <div className="bonus-card-footer">
           <p className="bonus-format"><FileText size={17} aria-hidden="true" />Digital PDF eBook · {pages} pages</p>
           <p className="bonus-format">Revised Edition 2026</p>
-          <p className="bonus-included">FREE with registration.</p>
+          <p className="bonus-included">Complimentary with paid registration.</p>
         </div>
       </div>
     </article>

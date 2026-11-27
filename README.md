@@ -1,4 +1,4 @@
-# Dr. Vaishnavi Webinar
+# Dr. Vaishnavi Jayawant Webinar
 
 Phase 01 foundation for a premium, single-page PCOS & PCOD webinar landing page built with React, Vite, and Tailwind CSS.
 

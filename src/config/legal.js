@@ -1,3 +1,13 @@
+export const refundPolicyText = 'The webinar registration fee is non-refundable. However, if you are unable to attend the scheduled webinar, you may attend the next available session. Our team will notify you about the upcoming webinar schedule.'
+export const refundPolicySummary = 'Non-refundable registration. Missed the webinar? Attend the next available session.'
+
+export const refundPolicyNotice = {
+  id: 'refund',
+  title: 'Refunds & Missed Sessions',
+  url: null,
+  paragraphs: [refundPolicyText],
+}
+
 // Supply an approved HTTPS or root-relative page URL, or approved text paragraphs.
 export const policies = [
   { id: 'privacy', title: 'Privacy Policy', isApproved: false, url: null, paragraphs: [] },

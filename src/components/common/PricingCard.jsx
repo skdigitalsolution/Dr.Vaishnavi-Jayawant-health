@@ -1,4 +1,5 @@
-import { showSitePreview } from '../../config/sitePreview'
+import { complimentaryEBooks } from '../../config/bonuses'
+import { refundPolicyText } from '../../config/legal'
 import { motion } from 'framer-motion'
 import { CalendarDays, CircleCheck, Clock, Hourglass, Languages, MonitorPlay } from 'lucide-react'
 import webinarConfig from '../../config/webinar'
@@ -14,18 +15,17 @@ const benefits = [
   'Understanding PCOS & Hormonal Health',
   'Practical Indian Nutrition Guidance',
   'Sustainable Lifestyle Strategies',
-  'Get 3 FREE eBooks after successful payment',
+  complimentaryEBooks + ' included after successful payment',
   'Interactive Live Q&A',
 ]
 
 const details = [
-  { label: 'Webinar Schedule', value: `${webinar.recurringSchedule} IST`, Icon: CalendarDays },
   { label: 'Webinar Date', value: webinar.date, Icon: CalendarDays },
   { label: 'Webinar Time', value: webinar.time, Icon: Clock },
-  { label: 'Duration', value: webinarConfig.duration, Icon: Hourglass },
-  { label: 'Platform', value: webinarConfig.platform, Icon: MonitorPlay },
-  { label: 'Language', value: webinarConfig.language, Icon: Languages },
-].filter(({ value }) => value && value !== 'To be announced')
+  { label: 'Duration', value: webinar.duration, Icon: Hourglass },
+  { label: 'Platform', value: webinar.platform, Icon: MonitorPlay },
+  { label: 'Language', value: webinar.language, Icon: Languages },
+].filter(({ value }) => value)
 
 export default function PricingCard({ entrance }) {
   const { eventStatus, closed, canReserve } = useWebinarRegistration()
@@ -64,18 +64,21 @@ export default function PricingCard({ entrance }) {
         </dl>
       )}
 
-      <motion.div className="pricing-timer-slot" {...entrance(0.04, 6)}>
-        <CountdownTimer startAt={webinarConfig.webinarStartAt} eventStatus={eventStatus} />
-      </motion.div>
+      {(webinarConfig.webinarStartAt || eventStatus) && (
+        <motion.div className="pricing-timer-slot" {...entrance(0.04, 6)}>
+          <CountdownTimer startAt={webinarConfig.webinarStartAt} eventStatus={eventStatus} />
+        </motion.div>
+      )}
 
       <motion.div className="pricing-actions" {...entrance(0.06, 8)}>
+        <p className="registration-policy-note">{refundPolicyText}</p>
         <RegistrationButton
           className="pricing-registration"
           showArrow={!closed}
         />
         {!closed && !canReserve && (
           <p className="pricing-checkout-status">
-            {showSitePreview ? 'Development preview · Checkout is not available yet.' : 'Online checkout is not available yet.'}
+            Online checkout is currently unavailable.
           </p>
         )}
         <PaymentTrust enabled={webinarConfig.paymentEnabled} verified={webinarConfig.paymentVerified} methods={webinarConfig.paymentMethods} />

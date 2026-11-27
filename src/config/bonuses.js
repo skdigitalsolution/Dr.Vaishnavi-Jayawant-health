@@ -35,7 +35,7 @@ export const bonusResources = [
     id: 'wealth',
     bonusNumber: '03',
     category: 'Wealth',
-    title: 'The Side Hustle Funnel',
+    title: 'The Side Hustle Funnel — Wealth',
     subtitle: 'A Blueprint for Building a Side Business',
     description: 'Explore how to turn your knowledge into a useful book and develop a structured business funnel around your expertise.',
     highlights: [
@@ -50,3 +50,7 @@ export const bonusResources = [
 ]
 
 export const bonusPageCount = bonusResources.reduce((sum, book) => sum + book.pages, 0)
+
+export const bonusBookCount = bonusResources.length
+export const complimentaryEBooks = bonusBookCount + ' complimentary eBooks'
+export const eBookRegistrationNote = 'Included with every successful paid registration.'

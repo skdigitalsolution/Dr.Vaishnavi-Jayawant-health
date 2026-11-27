@@ -1,3 +1,4 @@
+import { complimentaryEBooks, eBookRegistrationNote } from '../config/bonuses'
 import { motion, useReducedMotion } from 'framer-motion'
 import { premiumReveal, responsiveReveal } from '../utils/premiumMotion'
 import { Gift, ShieldCheck, UserRoundCheck, Video } from 'lucide-react'
@@ -54,12 +55,12 @@ export default function IntroVideo() {
           viewport={{ once: true, amount: 0.2 }}
           transition={premiumReveal}
         >
-          <p className="intro-ebook-bonus-label">Exclusive Registration Bonuses</p>
+          <p className="intro-ebook-bonus-label">Registration Bonuses</p>
           <h3 className="intro-ebook-bonus-title intro-ebook-bonus-price">
             <Gift className="intro-ebook-bonus-gift" aria-hidden="true" size={26} />
-            <strong>Get 3 FREE eBooks</strong>
+            <strong>Get {complimentaryEBooks}</strong>
           </h3>
-          <p className="intro-ebook-bonus-description">Receive All 3 eBooks After Successful Registration</p>
+          <p className="intro-ebook-bonus-description">{eBookRegistrationNote}</p>
         </motion.div>
       </div>
     </section>

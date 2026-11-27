@@ -1,5 +1,7 @@
 import { Activity, CalendarCheck, MessagesSquare, Utensils } from 'lucide-react'
 
+import webinarConfig from './webinar'
+
 const imageDirectory = `${import.meta.env.BASE_URL}images/agenda/`
 
 export const agendaModules = [
@@ -58,7 +60,7 @@ export const agendaModules = [
 
 export const liveQA = {
   label: 'Special Live Session',
-  title: 'Live Q&A With Dr. Vaishnavi',
+  title: 'Live Q&A With ' + webinarConfig.instructorName,
   description: 'Bring your questions and gain clarity on common concerns related to PCOS, nutrition, hormonal health and everyday lifestyle habits.',
   points: [
     'Interactive live discussion.',

@@ -9,7 +9,7 @@ import './about-doctor.css'
 const approvedGallery = doctor.galleryImages.filter(
   ({ image, alt, isPlaceholder, isVerified, hasConsent }) => image && alt && !isPlaceholder && isVerified && hasConsent,
 )
-const gallery = approvedGallery.length ? approvedGallery : doctor.previewGallery
+const gallery = approvedGallery.length ? approvedGallery : doctor.illustrativeGallery
 const benefits = ['Expert Guidance', 'Practical Learning', 'Interactive Q&A']
 
 export default function AboutDoctor() {
@@ -20,19 +20,18 @@ export default function AboutDoctor() {
   }
 
   return (
-    <section className="about-doctor section-light" aria-label="Meet Dr. Vaishnavi">
+    <section className="about-doctor section-light" aria-label={'Meet ' + doctor.name}>
       <div className="doctor-content">
         {gallery.length > 0 && (
           <>
             <div className="doctor-gallery-heading">
-              <motion.p className="doctor-label" {...entrance()}>Experience Beyond the Consultation Room</motion.p>
+              <motion.p className="doctor-label" {...entrance()}>{approvedGallery.length ? 'Professional Gallery' : 'Wellness Education'}</motion.p>
               <motion.h2 {...entrance(0.06, { y: 12 })}>
-                Professional Knowledge.{' '}<span>Personal Understanding.</span>
+                {approvedGallery.length ? 'Professional Gallery' : 'Settings for Learning and Discussion'}
               </motion.h2>
-              <p>Combining professional experience, personal understanding and a compassionate approach to women's health and wellness.</p>
-              {!approvedGallery.length && <p className="doctor-draft">Development preview · Illustrative scenes</p>}
+              {!approvedGallery.length && <p>Illustrations of wellness education settings, including talks, workshops and consultations.</p>}
             </div>
-            <DoctorGallery images={gallery} entrance={entrance} reducedMotion={reducedMotion} />
+            <DoctorGallery label={approvedGallery.length ? 'Professional photo gallery' : 'Wellness education illustrations'} images={gallery} entrance={entrance} reducedMotion={reducedMotion} />
           </>
         )}
         <DoctorBiography entrance={entrance} />

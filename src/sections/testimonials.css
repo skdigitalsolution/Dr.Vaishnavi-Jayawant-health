@@ -117,8 +117,7 @@
   background: transparent;
 }
 
-.testimonial-duration,
-.testimonial-preview-tag {
+.testimonial-duration {
   position: absolute;
   inset-block-start: 0.875rem;
   padding: 0.25rem 0.625rem;
@@ -129,8 +128,6 @@
 }
 
 .testimonial-duration { inset-inline-end: 0.875rem; }
-.testimonial-preview-tag { inset-inline-start: 0.875rem; }
-.testimonial-placeholder-icon { color: var(--surface-accent); }
 
 .testimonial-play {
   display: grid;
@@ -228,12 +225,6 @@
   box-shadow: var(--surface-shadow);
   text-align: start;
   overflow-wrap: anywhere;
-}
-
-.testimonial-review-preview p:first-child {
-  color: var(--surface-accent);
-  font-size: 0.8125rem;
-  font-weight: 600;
 }
 
 .testimonial-review-rating,

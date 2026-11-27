@@ -6,15 +6,15 @@ import { responsiveReveal } from '../utils/premiumMotion'
 import '../styles/animations.css'
 import './webinar-schedule.css'
 
-const { scheduleDetails } = webinarConfig.webinar
-const timeRange = `${scheduleDetails.startsAt} – ${scheduleDetails.endsAt}`.replaceAll(':00', '')
+const { webinar, registration } = webinarConfig
+const awaitingDetails = 'To be confirmed'
 const details = [
-  { Icon: CalendarDays, label: 'Webinar Day', value: scheduleDetails.day, description: 'Live Masterclass' },
-  { Icon: Clock, label: 'Webinar Time', value: timeRange, description: scheduleDetails.timezoneLabel },
-  { Icon: Timer, label: 'Duration', value: scheduleDetails.duration, description: 'Interactive Session' },
-  { Icon: Video, label: 'Platform', value: scheduleDetails.platform, description: 'Join From Anywhere' },
-  { Icon: Languages, label: 'Language', value: scheduleDetails.languages.join(' · '), description: 'Easy to Understand' },
-  { Icon: Ticket, label: 'Registration Fee', value: webinarConfig.registration.displayPrice, description: 'One-Time Registration' },
+  { Icon: CalendarDays, label: 'Webinar Date', value: webinar.date, description: 'Live Masterclass' },
+  { Icon: Clock, label: 'Webinar Time', value: webinar.time ?? awaitingDetails, description: 'Indian Standard Time' },
+  { Icon: Timer, label: 'Duration', value: webinar.duration ?? awaitingDetails, description: 'Interactive Session' },
+  { Icon: Video, label: 'Platform', value: webinar.platform ?? 'Live online', description: 'Join From Anywhere' },
+  { Icon: Languages, label: 'Languages', value: webinar.language ?? awaitingDetails, description: 'Live Instruction' },
+  { Icon: Ticket, label: 'Registration Fee', value: registration.displayPrice, description: 'One-Time Registration' },
 ]
 
 export default function WebinarSchedule() {
@@ -27,9 +27,6 @@ export default function WebinarSchedule() {
         <h2 className="webinar-schedule-title" id="webinar-schedule-title">
           Take the First Step Towards <span>Better Wellness.</span>
         </h2>
-        {!scheduleDetails.confirmed && (
-          <p className="webinar-schedule-preview">Preview schedule, platform and languages are subject to confirmation.</p>
-        )}
         <dl className="webinar-schedule-grid">
           {details.map(({ Icon, label, value, description }, index) => (
             <motion.div

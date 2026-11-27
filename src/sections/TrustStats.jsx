@@ -1,7 +1,6 @@
-import { showSitePreview } from '../config/sitePreview'
 import { motion, useReducedMotion } from 'framer-motion'
 import { responsiveReveal } from '../utils/premiumMotion'
-import { Award, HeartHandshake, Languages, UsersRound } from 'lucide-react'
+import { Award, CalendarCheck, HeartHandshake, Languages, MessagesSquare, Salad, UsersRound, Video } from 'lucide-react'
 import AnimatedCounter from '../components/common/AnimatedCounter'
 import FeaturedIn from '../components/common/FeaturedIn'
 import webinarConfig from '../config/webinar'
@@ -15,11 +14,16 @@ const icons = {
 }
 
 const { statistics, recognition } = webinarConfig.credibility
-const visibleStats = statistics.filter(({ verified }) => verified || showSitePreview)
-const showPreviewLabel = visibleStats.some(({ verified }) => !verified)
-const showSupportingCopy = ['experience', 'pcod-journey'].every(
-  (id) => visibleStats.some((stat) => stat.id === id),
-)
+const verifiedStats = statistics.filter(({ verified }) => verified)
+const webinarHighlights = [
+  { id: 'live', Icon: Video, value: 'Live', heading: 'Online Masterclass', description: 'Join the scheduled session online.' },
+  { id: 'qa', Icon: MessagesSquare, value: 'Q&A', heading: 'Interactive Discussion', description: 'Bring your questions about PCOS, nutrition and everyday habits.' },
+  { id: 'nutrition', Icon: Salad, value: 'Nutrition', heading: 'Balanced Meals', description: 'Explore meal ideas using familiar Indian foods.' },
+  { id: 'habits', Icon: CalendarCheck, value: 'Habits', heading: 'Everyday Wellness', description: 'Explore practical approaches to sleep, movement and stress.' },
+]
+const visibleStats = verifiedStats.length
+  ? verifiedStats.map((stat) => ({ ...stat, Icon: icons[stat.id] }))
+  : webinarHighlights
 
 function TrustStatGrid() {
   const reducedMotion = useReducedMotion()
@@ -31,55 +35,36 @@ function TrustStatGrid() {
   return (
     <div className="trust-statistics">
       <motion.p className="trust-stats-label" {...entrance()}>
-        Experience That Makes a Difference
+        {verifiedStats.length ? 'Professional Experience' : 'What to Expect'}
       </motion.p>
       <motion.h2 className="trust-stats-title" id="trust-stats-title" {...entrance(0.06, 12)}>
-        Expert Guidance.{' '}
-        <span>Real Understanding.</span>
+        {verifiedStats.length ? 'Professional Experience and Guidance' : 'A Live Session With Practical Guidance'}
       </motion.h2>
-      {showSupportingCopy && (
-        <p className="trust-stats-description">
-          Years of experience, personal understanding and a compassionate approach to women's wellness.
-        </p>
-      )}
-      {showPreviewLabel && (
-        <p className="trust-stats-preview">Development preview · Some credibility details are pending confirmation.</p>
-      )}
       <ul className="trust-stat-grid" data-count={visibleStats.length}>
-        {visibleStats.map(({ id, value, suffix, heading, description }, index) => {
-          const Icon = icons[id]
-
-          return (
-            <motion.li key={id} className="trust-stat" {...entrance(index * 0.07, 10)}>
-              <Icon className="trust-stat-icon" aria-hidden="true" size={28} strokeWidth={1.7} />
-              <p className="trust-stat-value">
-                {typeof value === 'number' ? <AnimatedCounter value={value} suffix={suffix} /> : value}
-              </p>
-              <h3>{heading}</h3>
-              <p className="trust-stat-description">{description}</p>
-            </motion.li>
-          )
-        })}
+        {visibleStats.map(({ id, value, suffix, heading, description, Icon }, index) => (
+          <motion.li key={id} className="trust-stat" {...entrance(index * 0.07, 10)}>
+            <Icon className="trust-stat-icon" aria-hidden="true" size={28} strokeWidth={1.7} />
+            <p className="trust-stat-value">
+              {typeof value === 'number' ? <AnimatedCounter value={value} suffix={suffix} /> : value}
+            </p>
+            <h3>{heading}</h3>
+            <p className="trust-stat-description">{description}</p>
+          </motion.li>
+        ))}
       </ul>
-      {showSupportingCopy && (
-        <p className="trust-stats-footer">Professional Experience. Personal Understanding. Practical Guidance.</p>
-      )}
     </div>
   )
 }
 
 export default function TrustStats() {
-  const hasRecognition = recognition.some(({ verified, name, logo }) => verified && name && logo)
-  if (!visibleStats.length && !hasRecognition) return null
-
   return (
     <section
       className="trust-stats-section"
-      aria-labelledby={visibleStats.length ? 'trust-stats-title' : 'trust-recognition-title'}
+      aria-labelledby="trust-stats-title"
     >
       <div className="trust-stats-content">
         <FeaturedIn entries={recognition} />
-        {visibleStats.length > 0 && <TrustStatGrid />}
+        <TrustStatGrid />
       </div>
     </section>
   )

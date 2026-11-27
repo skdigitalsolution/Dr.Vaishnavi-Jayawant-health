@@ -4,6 +4,8 @@ import { ChevronRight } from 'lucide-react'
 import RegistrationButton from '../components/common/RegistrationButton'
 import RegistrationStepCard from '../components/common/RegistrationStepCard'
 import { registrationIndicators, registrationSteps } from '../config/registrationSteps'
+import { refundPolicySummary } from '../config/legal'
+import webinarConfig from '../config/webinar'
 import './registration-steps.css'
 
 const benefits = ['Secure Registration', 'Simple Process', 'Live Online']
@@ -23,7 +25,7 @@ export default function RegistrationSteps() {
           Your Wellness Journey Begins With{' '}<span>4 Simple Steps.</span>
         </motion.h2>
         <p className="registration-steps-description">
-          From registration to your live masterclass, we've made every step simple and convenient.
+          Live masterclass · {webinarConfig.webinar.summary}
         </p>
         <ol className="registration-step-grid" role="list">
           {registrationSteps.map((step, index) => (
@@ -49,6 +51,7 @@ export default function RegistrationSteps() {
           <p className="registration-steps-description">Join the live PCOS &amp; PCOD masterclass and take a more informed approach to your wellness journey.</p>
         </motion.div>
         <motion.div className="registration-steps-actions" {...entrance(0.06, 8)}>
+          <p className="registration-policy-note">{refundPolicySummary}</p>
           <RegistrationButton className="registration-steps-button" showArrow />
           <ul className="registration-steps-benefits" aria-label="Registration benefits">
             {benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}

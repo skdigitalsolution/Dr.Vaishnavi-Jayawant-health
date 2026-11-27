@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
-import { Quote } from 'lucide-react'
+import { Lightbulb, Quote } from 'lucide-react'
 import { doctor, doctorStatistics } from '../../config/doctor'
 import AnimatedCounter from './AnimatedCounter'
 
 export default function DoctorBiography({ entrance }) {
   const { name, professionalTitle, qualifications, certifications, biography, profileImage,
-    professionalApproach, personalMessage, verificationStatus, approvalStatus } = doctor
+    professionalApproach, personalMessage, webinarTakeaway, verificationStatus, approvalStatus } = doctor
   const credentials = verificationStatus.credentials ? [...qualifications, ...certifications] : []
 
   return (
@@ -34,8 +34,7 @@ export default function DoctorBiography({ entrance }) {
           )}
           {biography && (
             <div className="doctor-biography-journey">
-              {!approvalStatus.biography && <p className="doctor-draft">Draft biography · Pending approval</p>}
-              <h3>I've Been Through This Journey Too.</h3>
+              <h3>{approvalStatus.biography ? "I've Been Through This Journey Too." : 'About Your Webinar Host'}</h3>
               {biography.map((paragraph, index) => (
                 <motion.p key={paragraph} {...entrance(index * 0.05, { y: 6 })}>{paragraph}</motion.p>
               ))}
@@ -52,7 +51,7 @@ export default function DoctorBiography({ entrance }) {
             </ul>
           )}
           <div className="doctor-approach">
-            <h3>My Approach to Women's Wellness</h3>
+            <h3>Topics in Women's Wellness</h3>
             <ul>
               {professionalApproach.map(({ title, icon: Icon }, index) => (
                 <motion.li key={title} {...entrance(index * 0.045, { y: 4 })}>
@@ -63,14 +62,21 @@ export default function DoctorBiography({ entrance }) {
           </div>
         </motion.div>
       </div>
-      {personalMessage && (
-        <motion.figure className="doctor-message" {...entrance(0, { y: 8 })}>
-          <Quote size={32} strokeWidth={1.6} aria-hidden="true" />
-          {!approvalStatus.personalMessage && <p className="doctor-draft">Draft quotation · Pending approval</p>}
-          <blockquote>{personalMessage}</blockquote>
-          <figcaption>{name}</figcaption>
-        </motion.figure>
-      )}
+      <motion.figure className="doctor-message" {...entrance(0, { y: 8 })}>
+        {personalMessage ? (
+          <>
+            <Quote size={32} strokeWidth={1.6} aria-hidden="true" />
+            <blockquote>{personalMessage}</blockquote>
+            <figcaption>{name}</figcaption>
+          </>
+        ) : (
+          <>
+            <Lightbulb size={32} strokeWidth={1.6} aria-hidden="true" />
+            <p className="doctor-message-takeaway">{webinarTakeaway}</p>
+            <figcaption>Webinar Takeaway</figcaption>
+          </>
+        )}
+      </motion.figure>
     </>
   )
 }

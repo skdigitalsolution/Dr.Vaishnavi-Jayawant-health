@@ -1,3 +1,4 @@
+import { bonusBookCount, complimentaryEBooks } from '../../config/bonuses'
 import { Gift } from 'lucide-react'
 import { useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -33,15 +34,15 @@ export default function FloatingOfferButton({ enabled, onOpen }) {
   return createPortal(
     <div className="floating-offer" data-visible={visible} hidden={!visible} inert={!visible}>
       <div className="floating-offer-motion">
-        <button type="button" className="floating-offer-button" aria-label="See the 3 free eBooks"
+        <button type="button" className="floating-offer-button" aria-label={'See the ' + complimentaryEBooks + ' included with paid registration'}
           aria-haspopup="dialog" onClick={onOpen}>
           <span className="floating-offer-face">
             <span className="floating-offer-shine" aria-hidden="true" />
             <Gift className="floating-offer-gift" aria-hidden="true" />
-            <strong>3 FREE</strong>
+            <strong>{bonusBookCount} FREE</strong>
             <small>eBooks</small>
           </span>
-          <span className="floating-offer-tooltip" aria-hidden="true">Get 3 FREE eBooks</span>
+          <span className="floating-offer-tooltip" aria-hidden="true">{complimentaryEBooks} included</span>
         </button>
       </div>
     </div>,

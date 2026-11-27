@@ -48,12 +48,6 @@
   line-height: 1.65;
 }
 
-.trust-stats-preview {
-  margin: 1rem auto 0;
-  color: var(--surface-accent);
-  font-size: 0.8125rem;
-}
-
 .trust-stat-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -1,3 +1,4 @@
+import { bonusBookCount, complimentaryEBooks } from '../../config/bonuses'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import webinarConfig from '../../config/webinar'
@@ -7,7 +8,7 @@ import RegistrationButton from '../common/RegistrationButton'
 import PriceDisplay from '../common/PriceDisplay'
 import './sticky-cta.css'
 
-const { webinarStartAt } = webinarConfig
+const { webinar, webinarStartAt } = webinarConfig
 const ctaSelector = '[data-registration-cta]'
 
 function isInPageCTA(button) {
@@ -171,15 +172,17 @@ function StickyRegistrationBar() {
     >
       <div className="sticky-registration-inner">
         <div className="sticky-registration-offer">
-          <p className="sticky-desktop-label">Get 3 FREE eBooks</p>
-          <p className="sticky-mobile-label">3 FREE eBooks</p>
+          <p className="sticky-desktop-label">{complimentaryEBooks} included</p>
+          <p className="sticky-mobile-label">{bonusBookCount} free eBooks included</p>
           <p className="sticky-registration-amount">
             <PriceDisplay />
           </p>
           <p className="sticky-desktop-label sticky-registration-fee">One-Time Registration</p>
         </div>
         <div className="sticky-registration-timer">
-          <CountdownTimer startAt={webinarStartAt} eventStatus={eventStatus} />
+          <time className="sticky-registration-date" dateTime={webinar.dateISO}>{webinar.date}</time>
+          {webinar.time && <p className="sticky-registration-time">{webinar.time}</p>}
+          {(webinarStartAt || eventStatus) && <CountdownTimer startAt={webinarStartAt} eventStatus={eventStatus} />}
         </div>
         <div className="sticky-registration-actions">
           <RegistrationButton

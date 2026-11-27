@@ -17,11 +17,7 @@ const headlineLines = [
   'Hormonal Health Through',
 ]
 
-const { date, time, duration, recurringSchedule } = webinarConfig.webinar
-const details = [date, time, duration]
-const badgeText = details.every((detail) => detail && detail !== 'To be announced')
-  ? ['LIVE ONLINE', ...details].join(' · ')
-  : 'LIVE PCOS & PCOD MASTERCLASS'
+const { webinar } = webinarConfig
 
 export default function Hero() {
   const reducedMotion = useReducedMotion()
@@ -47,9 +43,9 @@ export default function Hero() {
       <div className="hero-content">
         <motion.p className="hero-badge" {...entrance(0)}>
           <span className="hero-live-dot" aria-hidden="true" />
-          {badgeText}
+          LIVE PCOS &amp; PCOD MASTERCLASS
         </motion.p>
-        <motion.p className="hero-schedule" {...entrance(0.04)}>{recurringSchedule} IST</motion.p>
+        <motion.p className="hero-schedule" {...entrance(0.04)}><time dateTime={webinar.dateISO}>{webinar.date}</time>{webinar.time && (<> · {webinar.time}</>)}</motion.p>
         <motion.h1 id="hero-title" className="hero-title" {...entrance(0.08, { y: 16 })}>
           {headlineLines.map((line) => <span key={line}>{line}{' '}</span>)}
           <span className="hero-title-accent gradient-text-shine">Nutrition &amp; Sustainable Habits</span>

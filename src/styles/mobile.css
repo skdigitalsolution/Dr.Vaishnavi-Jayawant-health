@@ -40,7 +40,7 @@
     .problems-description, .comparison-description, .agenda-description, .audience-description,
     .bonuses-description, .registration-steps-description, .pricing-description, .landing-end-description,
     .problem-card-content p, .limitation-card p, .agenda-module-description, .bonus-card-copy > p,
-    .doctor-biography-journey p:not(.doctor-draft), .registration-step-description, .faq-answer p,
+    .doctor-biography-journey p, .registration-step-description, .faq-answer p,
     .pricing-benefits li, .footer-brand-description) {
     font-size: var(--mobile-copy);
     line-height: 1.6;

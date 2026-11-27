@@ -48,7 +48,9 @@
   line-height: 1.1;
 }
 
-.sticky-registration-timer { text-align: center; }
+.sticky-registration-timer { min-width: 0; text-align: center; }
+.sticky-registration-date { color: #ffad70; font-size: 0.875rem; font-weight: 700; }
+.sticky-registration-time { color: #d6d3d1; font-size: 0.75rem; }
 .sticky-registration-timer .pricing-label { color: #d6d3d1; font-size: 0.625rem; letter-spacing: 0.1em; }
 .sticky-registration-timer .pricing-countdown-status { color: #ffad70; font-size: 0.8125rem; }
 
@@ -75,7 +77,7 @@
 
 @media (max-width: 639px) {
   .sticky-registration-inner {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     gap: 0.5rem;
     padding-inline: max(0.75rem, env(safe-area-inset-left)) max(0.75rem, env(safe-area-inset-right));
   }
@@ -83,8 +85,11 @@
   .sticky-desktop-label { display: none; }
   .sticky-mobile-label { display: inline; }
   .sticky-registration-offer { font-size: 0.75rem; }
+  .sticky-registration-timer { text-align: end; }
+  .sticky-registration-date { font-size: 0.75rem; }
+  .sticky-registration-timer .pricing-countdown dl { justify-content: end; }
+  .sticky-registration-timer .pricing-countdown dl > div { min-width: 0; }
   .sticky-registration-timer .pricing-countdown-status { max-width: 10rem; font-size: 0.75rem; }
-  .sticky-registration-timer .pricing-countdown dl > div { min-width: 2.4rem; }
   .sticky-registration-timer .pricing-countdown dt { font-size: 0.5rem; }
   .sticky-registration-actions { grid-column: 1 / -1; justify-self: stretch; }
   .sticky-registration .sticky-registration-button { width: 100%; }

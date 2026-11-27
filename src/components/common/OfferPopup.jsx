@@ -1,7 +1,9 @@
+import { bonusBookCount, eBookRegistrationNote } from '../../config/bonuses'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Gift, X } from 'lucide-react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import webinarConfig from '../../config/webinar'
 import PriceDisplay from './PriceDisplay'
 import RegistrationButton from './RegistrationButton'
 import '../../styles/animations.css'
@@ -87,18 +89,19 @@ export default function OfferPopup({ onOpen, onClose }) {
                 <X size={22} aria-hidden="true" />
               </button>
               <div className="offer-content">
-                <p className="offer-label"><Gift size={17} aria-hidden="true" /> Exclusive Registration Bonuses</p>
+                <p className="offer-label"><Gift size={17} aria-hidden="true" /> Registration Bonuses</p>
                 <h2 id="offer-heading">
                   Book Your Seat for
                   <span className="offer-price"><PriceDisplay /></span>
-                  <span>&amp; Get <em className="offer-free">3 FREE eBooks</em></span>
+                  <span>&amp; Get <em className="offer-free">{bonusBookCount} FREE eBooks</em></span>
                 </h2>
+                <p className="offer-note">{webinarConfig.webinar.summary}</p>
                 <RegistrationButton
                   className="offer-register"
                   showArrow
                   observeInPage={false}
                 />
-                <p className="offer-note">Receive All 3 eBooks After Successful Registration</p>
+                <p className="offer-note">{eBookRegistrationNote}</p>
               </div>
             </motion.div>
           )}

@@ -1,3 +1,4 @@
+import { complimentaryEBooks } from '../config/bonuses'
 import { motion, useReducedMotion } from 'framer-motion'
 import { responsiveReveal } from '../utils/premiumMotion'
 import AgendaModule from '../components/common/AgendaModule'
@@ -6,7 +7,7 @@ import RegistrationButton from '../components/common/RegistrationButton'
 import { agendaModules, liveQA } from '../config/agenda'
 import './webinar-agenda.css'
 
-const benefits = ['Live Expert Guidance', 'Practical Learning', 'Interactive Q&A', 'Unlock 3 Complimentary eBooks']
+const benefits = ['Live Expert Guidance', 'Practical Learning', 'Interactive Q&A', complimentaryEBooks + ' included']
 
 export default function WebinarAgenda() {
   const reducedMotion = useReducedMotion()

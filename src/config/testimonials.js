@@ -1,21 +1,3 @@
-import { showSitePreview } from './sitePreview'
-const previewVideos = [
-  ['personal-experience', 'Personal Experience'],
-  ['nutrition-journey', 'Nutrition Journey'],
-  ['lifestyle-journey', 'Lifestyle Journey'],
-].map(([id, title]) => ({
-  id,
-  title,
-  clientName: null,
-  location: null,
-  poster: null,
-  videoUrl: null,
-  duration: null,
-  isVerified: false,
-  hasConsent: false,
-  isPlaceholder: true,
-}))
-
 // Supply only approved names, locations, photographs and local media paths.
 // Video and poster files belong in public/videos/testimonials and public/images/testimonials.
 const videos = []
@@ -32,6 +14,4 @@ export const testimonials = {
     entry.isVerified && entry.hasConsent && entry.reviewerName && entry.reviewText &&
     Number.isInteger(entry.rating) && entry.rating >= 1 && entry.rating <= 5,
   ),
-  previewVideos: showSitePreview ? previewVideos : [],
-  previewReviews: showSitePreview ? ['review-1', 'review-2', 'review-3'] : [],
 }

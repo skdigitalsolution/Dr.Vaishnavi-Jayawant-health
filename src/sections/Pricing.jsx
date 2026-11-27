@@ -9,6 +9,7 @@ const policies = [
   ['Terms & Conditions', webinarConfig.termsUrl],
   ['Refund Policy', webinarConfig.refundPolicyUrl],
 ].filter(([, url]) => url)
+const refundGuarantee = webinarConfig.refundGuaranteeEnabled && webinarConfig.refundGuaranteeTerms
 
 export default function Pricing() {
   const reducedMotion = useReducedMotion()
@@ -28,18 +29,16 @@ export default function Pricing() {
           Everything you need to take a more informed approach towards your health, nutrition and everyday wellness.
         </p>
         <PricingCard entrance={entrance} />
-        <div className="pricing-privacy">
-          <h3>Your Privacy Matters</h3>
-          <p>Your registration information will be handled in accordance with our privacy policy.</p>
-          {policies.length > 0 && (
-            <ul aria-label="Registration policies">
-              {policies.map(([label, url]) => <li key={label}><a href={url}>{label}</a></li>)}
-            </ul>
-          )}
-          {webinarConfig.refundGuaranteeEnabled && webinarConfig.refundGuaranteeTerms && (
-            <p>{webinarConfig.refundGuaranteeTerms}</p>
-          )}
-        </div>
+        {(policies.length > 0 || refundGuarantee) && (
+          <div className="pricing-privacy">
+            {policies.length > 0 && (
+              <ul aria-label="Registration policies">
+                {policies.map(([label, url]) => <li key={label}><a href={url}>{label}</a></li>)}
+              </ul>
+            )}
+            {refundGuarantee && <p>{refundGuarantee}</p>}
+          </div>
+        )}
       </div>
     </section>
   )

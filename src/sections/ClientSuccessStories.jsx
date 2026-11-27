@@ -94,7 +94,7 @@ export default function ClientSuccessStories() {
   }, [loops, paused, hovered, focused, touching, inView, reducedMotion, active])
 
   if (!count) {
-    return <p className="client-stories">Community reviews will appear here once permission to republish them is confirmed.</p>
+    return null
   }
 
   return (

@@ -14,15 +14,6 @@ function GoogleMark() {
 }
 
 export default function ReviewCard({ review }) {
-  if (!review) {
-    return (
-      <article className="testimonial-review testimonial-review-preview">
-        <p>Development preview</p>
-        <p>Authorized Google review pending</p>
-      </article>
-    )
-  }
-
   const { reviewerName, profileImage, rating, reviewText, reviewDate, sourceUrl } = review
   const date = reviewDate ? new Date(reviewDate) : null
 

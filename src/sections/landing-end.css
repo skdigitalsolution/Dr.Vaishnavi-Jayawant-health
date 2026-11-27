@@ -216,7 +216,6 @@
 .footer-support { scroll-margin-block-start: 1rem; }
 .footer-support h2 { color: var(--surface-heading); font-size: 1rem; }
 .footer-support address { font-style: normal; }
-.footer-policy-pending { color: var(--ending-orange); font-size: 0.8125rem; }
 
 .footer-disclaimer {
   max-width: 62rem;

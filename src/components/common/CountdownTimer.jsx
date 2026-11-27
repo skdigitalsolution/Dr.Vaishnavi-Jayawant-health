@@ -7,9 +7,7 @@ export default function CountdownTimer({ startAt, eventStatus }) {
   if (eventStatus === 'live' || remaining === 0) {
     return <p className="pricing-countdown-status">The Masterclass Is Now Live</p>
   }
-  if (remaining === null) {
-    return <p className="pricing-countdown-status">Webinar Date To Be Announced</p>
-  }
+  if (remaining === null) return null
 
   const units = [
     ['Days', Math.floor(remaining / 86400)],
