@@ -3,6 +3,6 @@ export const contact = {
   supportAvailable: false,
   phone: null,
   email: null,
-  whatsapp: null,
+  whatsapp: '+917710874111',
   contactUrl: null,
 }

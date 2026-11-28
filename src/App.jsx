@@ -5,7 +5,6 @@ import Hero from './sections/Hero'
 import WebinarSchedule from './sections/WebinarSchedule'
 import IntroVideo from './sections/IntroVideo'
 import TrustStats from './sections/TrustStats'
-import Testimonials from './sections/Testimonials'
 import Problems from './sections/Problems'
 import Comparison from './sections/Comparison'
 import WebinarAgenda from './sections/WebinarAgenda'
@@ -21,6 +20,8 @@ import Footer from './components/layout/Footer'
 import StickyCTA from './components/layout/StickyCTA'
 import OfferPopup from './components/common/OfferPopup'
 import FloatingOfferButton from './components/common/FloatingOfferButton'
+import WhatsAppWidget from './components/common/WhatsAppWidget'
+import { whatsAppSupport } from './config/whatsAppSupport'
 import offer, { hasBlockingOfferOverlay } from './config/offer'
 import useWebinarRegistration from './hooks/useWebinarRegistration'
 
@@ -86,6 +87,7 @@ function RegistrationOverlays({ closed }) {
   return (
     <>
       <StickyCTA />
+      <WhatsAppWidget {...whatsAppSupport} />
       {offer.preview && hasAutoPopupDismissed && (
         <FloatingOfferButton enabled={!closed && !isPopupOpen} onOpen={openOfferPopup} />
       )}
@@ -109,7 +111,6 @@ export default function App() {
       <Hero />
       <IntroVideo />
       <WebinarSchedule />
-      <Testimonials />
       <TrustStats />
       <Problems />
       <DoctorStoryHighlight />
